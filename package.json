@@ -1,0 +1,25 @@
+{
+  "name": "hermes-backend",
+  "version": "1.0.0",
+  "description": "Repositorio para backend del sistema Hermes",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/muramena/Hermes-Backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/muramena/Hermes-Backend/issues"
+  },
+  "homepage": "https://github.com/muramena/Hermes-Backend#readme",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "express": "^4.17.1",
+    "mongoose": "^5.7.3",
+    "mongoose-unique-validator": "^2.0.3"
+  }
+}
