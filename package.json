@@ -4,7 +4,8 @@
   "description": "Repositorio para backend del sistema Hermes",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server/server.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +21,7 @@
     "bcrypt": "^3.0.6",
     "express": "^4.17.1",
     "mongoose": "^5.7.3",
-    "mongoose-unique-validator": "^2.0.3"
+    "mongoose-unique-validator": "^2.0.3",
+    "nodemon": "^1.19.3"
   }
 }
