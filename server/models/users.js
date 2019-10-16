@@ -7,6 +7,7 @@ let userSchema = new Schema({
     username: {
         type: String,
         trim: true,
+        unique: true,
         required: [true, 'El nombre de usuario es necesario']
     },
     password: {
@@ -26,6 +27,7 @@ let userSchema = new Schema({
     dni: { //FALTA CONTROLAR NUMEROS Y LETRAS
         type: Number,
         required: [true, 'El DNI es necesario'],
+        unique: true,
         validate: {
             validator: Number.isInteger,
             message: 'DNI no es un numero'
