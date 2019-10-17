@@ -59,13 +59,8 @@ ticketSchema.methods.toJSON = () => {
         state: ticket.state,
     }
 
-    /* console.log(ticket);
-    console.log(ticketJSON); */
-
     return ticketJSON;
 }
-
-console.log('modelo ticket')
 
 ticketSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' });
 

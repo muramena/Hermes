@@ -29,13 +29,8 @@ specialistSchema.methods.toJSON = () => {
         state: specialist.state,
     }
 
-    /* console.log(specialist);
-    console.log(specialistJSON); */
-
     return specialistJSON;
 }
-
-console.log('modelo specialist')
 
 specialistSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' });
 

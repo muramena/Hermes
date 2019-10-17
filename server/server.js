@@ -30,15 +30,22 @@ app.use(
 
 app.use(express.static(publicPath))
 
-app.use(require('./routes'))
+app.use(require('./routes'));
+app.use(require('./routes/views'));
 
 // BASE DE DATOS, DESACTIVAR SI NO ESTA INSTALADO MONGO
 mongoose.connect(dbURL, { useNewUrlParser: true, useCreateIndex: true }, (err, res) => {
-  if (err) throw err;
-  console.log('Base de datos ONLINE');
+  if (err) {
+    throw err;
+  } else {
+    console.log('Base de datos ONLINE');
+  }
+  
+  server.listen(port, (err) => {
+    if (err) {
+      throw new Error(err);
+    } else {
+      console.log(`Servidor corriendo en puerto ${ port }`);
+    }
+  })
 });
-
-server.listen(port, (err) => {
-  if (err) throw new Error(err);
-  console.log(`Servidor corriendo en puerto ${ port }`);
-})

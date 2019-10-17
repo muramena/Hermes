@@ -58,27 +58,23 @@ let userSchema = new Schema({
     }
 })
 
-userSchema.methods.toJSON = () => {
+userSchema.methods.toJSON = function () {
 
     let user = this;
 
     let userJSON = {
-        name: user.name,
-        lastname: user.lastname,
-        email: user.email,
-        role: user.role,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        dni: user.dni,
+        birthDate: user.birthDate,
         address: user.address,
         phone: user.phone,
-        img: user.img
+        email: user.email,
     }
-
-    /* console.log(user);
-    console.log(userJSON); */
 
     return userJSON;
 }
-
-console.log('modelo user')
 
 userSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' });
 
