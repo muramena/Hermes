@@ -4,8 +4,19 @@ const path = require('path')
 const bcrypt = require('bcrypt');
 const User = require('../models/users');
 
+/**
+ * express module
+ */
 var app = express()
 
+/**
+ * Creates user and saves it in the DB.
+ * @module user
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @return {Object} - Status, user.
+ */
 app.post('/user', function (req, res) {
 
   let body = req.body
@@ -38,6 +49,14 @@ app.post('/user', function (req, res) {
   })
 })
 
+/**
+ * Gets a user by ID form the DB.
+ * @module user
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @return {Object} - Status, user.
+ */
 app.get('/user/:id', function (req, res) {
   res.send('USER')
 })

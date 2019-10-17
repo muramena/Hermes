@@ -1,8 +1,24 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
+/**
+ * moongose Schema module.
+ */
 const Schema = mongoose.Schema
 
+/**
+ * Creates user Schema
+ * username
+ * password
+ * firstName
+ * lastName
+ * dni,
+ * birthDate
+ * address
+ * phone
+ * state
+ * email
+ */
 let userSchema = new Schema({
     username: {
         type: String,
@@ -24,7 +40,7 @@ let userSchema = new Schema({
         trim: true,
         required: [true, 'El apellido es necesario']
     },
-    dni: { //FALTA CONTROLAR NUMEROS Y LETRAS
+    dni: {
         type: Number,
         required: [true, 'El DNI es necesario'],
         unique: true,
@@ -58,6 +74,9 @@ let userSchema = new Schema({
     }
 })
 
+/**
+ * Returns user as a JSON.
+ */
 userSchema.methods.toJSON = function () {
 
     let user = this;
