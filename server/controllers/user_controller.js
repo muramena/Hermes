@@ -75,7 +75,7 @@ let user_create = function (req, res) {
 let user_delete_by_id = function (req, res) {
     User.findById(req.params.id, function (err, user) {
         if (err) return next (err);
-        res.send ('User deleted');
+        res.send('User deleted');
     });    
 };
 
@@ -89,8 +89,16 @@ let user_delete_by_id = function (req, res) {
  */
 let user_details = function (req, res) {
     User.findById(req.params.id, (err, user) => {
-        if (err) return next(err);
-        res.send(user);
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+        res.json({
+            ok: true,
+            user: user.toJSON(),
+          })
     })
 }
 
@@ -103,7 +111,6 @@ let user_details = function (req, res) {
  * @return {Object} - Status, user.
  */
 let user_update_by_id = function (req, res) {
-    connsole.log('req.body', req.body)
     User.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, user) {
         if (err) return next (err);
         res.send({
