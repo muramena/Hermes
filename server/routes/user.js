@@ -57,8 +57,10 @@ app.post('/user', function (req, res) {
  * @param {Object} res - Express response object
  * @return {Object} - Status, user.
  */
-app.get('/user/:id', function (req, res) {
-  res.send('USER')
+app.get('/user', (req, res) => {
+
+  console.log(req)
+  
 })
 
 module.exports = app
