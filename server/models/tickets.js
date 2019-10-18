@@ -64,7 +64,7 @@ let ticketSchema = new Schema({
     }
 })
 
-ticketSchema.methods.toJSON = () => {
+ticketSchema.methods.toJSON = function () {
 
     let ticket = this;
 

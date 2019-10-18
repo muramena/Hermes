@@ -56,9 +56,8 @@ let ticket_create = function (req, res) {
                 err
             })
         }
-        return res.json({
+        res.json({
             ok: true,
-            body,
             ticket: ticket.toJSON(),
           })
     });
