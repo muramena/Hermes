@@ -1,8 +1,7 @@
 const express = require('express')
 const db = require('mongoose');
 const path = require('path')
-const bcrypt = require('bcrypt');
-const User = require('../models/users');
+const user_controller = require('../controllers/user_controller');
 
 /**
  * express module
@@ -13,54 +12,50 @@ var app = express()
  * Creates user and saves it in the DB.
  * @module user
  * @function
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
+ * @param {String} path
+ * @param {Function} callback 
  * @return {Object} - Status, user.
  */
-app.post('/user', function (req, res) {
-
-  let body = req.body
-
-  let user = new User({
-    username: body.username,
-    password: bcrypt.hashSync(body.password, 10),
-    firstName: body.firstName,
-    lastName: body.lastName,
-    dni: body.dni,
-    birthDate: body.birthDate,
-    address: body.address,
-    phone: body.phone,
-    email: body.email,
-  })
-
-  user.save((err, usersDB) => {
-    if (err) {
-      
-      return res.status(400).json({
-        ok: false,
-        err
-      })
-    }
-
-    res.json({
-      ok: true,
-      user: user.toJSON(),
-    })
-  })
-})
+app.post('/user', user_controller.user_create);
 
 /**
- * Gets a user by ID form the DB.
+ * Gets all users from the DB.
  * @module user
  * @function
- * @param {Object} req - Express request object
- * @param {Object} res - Express response object
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, users.
+ */
+app.get('/user', user_controller.user_all);
+
+/**
+ * Get a user from the DB.
+ * @module user
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
  * @return {Object} - Status, user.
  */
-app.get('/user', (req, res) => {
+app.get('/user/:id', user_controller.user_details);
 
-  console.log(req)
-  
-})
+/**
+ * Update a user from the DB by ID.
+ * @module user
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, user.
+ */
+app.put('/user/update/:id', user_controller.user_update_by_id);
+
+/**
+ * Delete a user from the DB by ID.
+ * @module user
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, user.
+ */
+app.put('/user/delete/:id', user_controller.user_delete_by_id);
 
 module.exports = app
