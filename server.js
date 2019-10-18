@@ -1,7 +1,8 @@
 const express = require('express')
+const exphbs = require('express-handlebars')
+const sassMiddleware = require('node-sass-middleware')
 const http = require('http')
 const mongoose = require('mongoose')
-const sassMiddleware = require('node-sass-middleware')
 const path = require('path')
 
 const app = express()
@@ -15,24 +16,38 @@ app.use(bodyParser.json());
 
 let server = http.createServer(app)
 
-const publicPath = path.resolve(__dirname, '../public')
 const port = process.env.PORT || 3000;
 
 // sass config
 app.use(
   sassMiddleware({
-    src: path.resolve(__dirname, '../sass'),
-    dest: publicPath,
-    debug: true
+    src: __dirname + '/sass',
+    dest: __dirname,
+    debug: true,
+    outputStyle: 'compressed'
   })
-);   
+)
 
-app.use(express.static(publicPath))
+// handlebars config
+app.engine('hbs', exphbs({
+  extname: '.hbs',
+  defaultLayout: 'index'
+}))
+app.set('view engine', 'hbs')
 
-app.use(require('./routes'))
+// main view
+app.get('/', function (req, res) {
+  res.render('home');
+});
+
+app.use(require('./server/routes'))
 
 // BASE DE DATOS, DESACTIVAR SI NO ESTA INSTALADO MONGO
-mongoose.connect("mongodb://localhost:27017/Hermes", { useNewUrlParser: true, useCreateIndex: true }, (err, res) => {
+mongoose.connect("mongodb://localhost:27017/Hermes", {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true
+}, (err, res) => {
   if (err) throw err;
   console.log('Base de datos ONLINE');
 });
