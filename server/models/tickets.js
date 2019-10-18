@@ -2,12 +2,33 @@ const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
 const Schema = mongoose.Schema
-
+/**
+ * Creates ticket Schema
+ * user
+ * title
+ * description
+ * category
+ * priority
+ * deadlineDate
+ * parentTicket
+ * Status
+ * assignedSpecialist
+ * state
+ */
 let ticketSchema = new Schema({
+    id: {
+        type: String,
+        unique: [true, 'El id debe ser unico'],
+        required: [true, 'El id es necesario'],
+    },
     user: {
         type: String,
         trim: true,
         required: [true, 'El usuario es necesario']
+    },
+    title: {
+        type: String,
+        required: [true, 'El titulo es necesario']
     },
     description: {
         type: String,
@@ -48,6 +69,7 @@ ticketSchema.methods.toJSON = () => {
     let ticket = this;
 
     let ticketJSON = {
+        id: ticket.id,
         user: ticket.user,
         description: ticket.description,
         category: ticket.category,

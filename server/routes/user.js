@@ -9,16 +9,6 @@ const user_controller = require('../controllers/user_controller');
 var app = express()
 
 /**
- * Creates user and saves it in the DB.
- * @module user
- * @function
- * @param {String} path
- * @param {Function} callback 
- * @return {Object} - Status, user.
- */
-app.post('/user', user_controller.user_create);
-
-/**
  * Gets all users from the DB.
  * @module user
  * @function
@@ -27,6 +17,16 @@ app.post('/user', user_controller.user_create);
  * @return {Object} - Status, users.
  */
 app.get('/user', user_controller.user_all);
+
+/**
+ * Creates user and saves it in the DB.
+ * @module user
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, user.
+ */
+app.post('/user', user_controller.user_create);
 
 /**
  * Get a user from the DB.
@@ -58,4 +58,4 @@ app.put('/user/update/:id', user_controller.user_update_by_id);
  */
 app.put('/user/delete/:id', user_controller.user_delete_by_id);
 
-module.exports = app
+module.exports = app;
