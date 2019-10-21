@@ -1,6 +1,7 @@
 const express = require('express')
 const http = require('http')
 const mongoose = require('mongoose')
+const exphbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware')
 const path = require('path')
 
@@ -12,12 +13,21 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
 let server = http.createServer(app)
 
 const publicPath = path.resolve(__dirname, '../public')
 const port = process.env.PORT || 3000;
+
+// handlebars config
+app.engine('hbs', exphbs({
+  layoutsDir: path.join(publicPath, "views/layouts"),
+  defaultLayout: 'main',
+  extname: '.hbs'
+}));
+
+app.set('view engine', 'hbs');
 
 // sass config
 app.use(
@@ -30,11 +40,15 @@ app.use(
 
 app.use(express.static(publicPath))
 
-app.use(require('./routes'));
-app.use(require('./routes/views'));
+app.use(require('./routes'))
+app.use(require('./routes/views'))
 
 // BASE DE DATOS, DESACTIVAR SI NO ESTA INSTALADO MONGO
-mongoose.connect(dbURL, { useNewUrlParser: true, useCreateIndex: true }, (err, res) => {
+mongoose.connect(dbURL, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true
+}, (err, res) => {
   if (err) {
     throw err;
   } else {
@@ -45,7 +59,7 @@ mongoose.connect(dbURL, { useNewUrlParser: true, useCreateIndex: true }, (err, r
     if (err) {
       throw new Error(err);
     } else {
-      console.log(`Servidor corriendo en puerto ${ port }`);
+      console.log(`Servidor corriendo en pruerto ${ port }`);
     }
   })
 });
