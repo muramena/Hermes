@@ -13,7 +13,7 @@ const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
 let server = http.createServer(app)
 
@@ -40,8 +40,8 @@ app.use(
 
 app.use(express.static(publicPath))
 
-app.use(require('./routes'));
-app.use(require('./routes/views'));
+app.use(require('./routes'))
+app.use(require('./routes/views'))
 
 // BASE DE DATOS, DESACTIVAR SI NO ESTA INSTALADO MONGO
 mongoose.connect(dbURL, {
