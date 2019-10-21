@@ -22,11 +22,11 @@ app.get('/', function (req, res) {
  */
 
 app.get('/login', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/signin/index.html'))
+  res.sendFile(path.resolve(__dirname, '../../public/views/signin/index.html'))
 })
 
 app.get('/registarse', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/signup/index.html'))
+  res.sendFile(path.resolve(__dirname, '../../public/views/signup/index.html'))
 })
 
 /**
@@ -34,7 +34,7 @@ app.get('/registarse', function (req, res) {
  */
 
 app.get('/usuarios', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/user/index.html'));
+  res.sendFile(path.resolve(__dirname, '../../public/views/user/index.html'));
 })
 
 /**
@@ -42,23 +42,23 @@ app.get('/usuarios', function (req, res) {
  */
 
 app.get('/tickets', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/index.html'))
+  res.sendFile(path.resolve(__dirname, '../../public/views/ticket/index.html'))
 })
 
 app.get('/tickets/assignar', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/assign.html'))
+  res.sendFile(path.resolve(__dirname, '../../public/views/ticket/assign.html'))
 })
 
 app.get('/tickets/crear', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/create.html'))
+  res.sendFile(path.resolve(__dirname, '../../public/views/ticket/create.html'))
 })
 
 app.get('/tickets/divide', function (req, res) {
-  res.sendfile(path.resolve( __dirname, '../../../public/views/ticket/divide.html'))
+  res.sendfile(path.resolve( __dirname, '../../public/views/ticket/divide.html'))
 })
 
 app.get('/tickets/seguimiento', function( requ, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/watch.html'))
+  res.sendFile(path.resolve(__dirname, '../../public/views/ticket/watch.html'))
 })
 
 /**
@@ -66,7 +66,7 @@ app.get('/tickets/seguimiento', function( requ, res) {
  */
 
 app.get('/factorDeCarga', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/index.html'))
+  res.sendFile(path.resolve(__dirname, '../../public/views/ticket/index.html'))
 })
 
 /**
@@ -74,16 +74,16 @@ app.get('/factorDeCarga', function (req, res) {
 */
 
 app.get('/reportes', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/reportes.html'))
+  res.sendFile(path.resolve(__dirname, '../../public/views/ticket/reportes.html'))
 })
 
 /**
  * ESPECIALISTAS
  */
 
- app.get('/especialistas', function (req, res) {
-   res.sendFile(path.resolve(__dirname, '../../../public/views/escpecialistas'))
- })
+app.get('/especialistas', function (req, res) {
+  res.sendFile(path.resolve(__dirname, '../../public/views/escpecialistas'))
+})
 
 
 module.exports = app;

@@ -34,7 +34,11 @@ app.use(require('./routes'));
 app.use(require('./routes/views'));
 
 // BASE DE DATOS, DESACTIVAR SI NO ESTA INSTALADO MONGO
-mongoose.connect(dbURL, { useNewUrlParser: true, useCreateIndex: true }, (err, res) => {
+mongoose.connect(dbURL, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true
+}, (err, res) => {
   if (err) {
     throw err;
   } else {
@@ -45,7 +49,7 @@ mongoose.connect(dbURL, { useNewUrlParser: true, useCreateIndex: true }, (err, r
     if (err) {
       throw new Error(err);
     } else {
-      console.log(`Servidor corriendo en puerto ${ port }`);
+      console.log(`Servidor corriendo en pruerto ${ port }`);
     }
   })
 });
