@@ -1,6 +1,9 @@
-const express = require('express')
-var app = express()
+const express = require('express');
+var app = express();
+const user = require('./user');
+const ticket = require('./ticket');
 
-app.use(require('./user'))
+app.use(user);
+app.use(ticket);
 
-module.exports = app
+module.exports = app;

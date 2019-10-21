@@ -1,22 +1,61 @@
 const express = require('express')
-var app = express()
+const db = require('mongoose');
 const path = require('path')
-const User = require('../models/users');
-const bcrypt = require('bcrypt');
+const user_controller = require('../controllers/user_controller');
 
-app.get('/usuarios', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../public/views/user/index.html'));
-})
+/**
+ * express module
+ */
+var app = express()
 
-app.post('/user', function (req, res) {
+/**
+ * Gets all users from the DB.
+ * @module user
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, users.
+ */
+app.get('/user', user_controller.user_all);
 
-  let body = req.body
-  console.log(body)
+/**
+ * Creates user and saves it in the DB.
+ * @module user
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, user.
+ */
+app.post('/user', user_controller.user_create);
 
-  res.json({
-    ok: true
-  });
+/**
+ * Get a user from the DB.
+ * @module user
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, user.
+ */
+app.get('/user/:id', user_controller.user_details);
 
-})
+/**
+ * Update a user from the DB by ID.
+ * @module user
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, user.
+ */
+app.put('/user/update/:id', user_controller.user_update_by_id);
 
-module.exports = app
+/**
+ * Delete a user from the DB by ID.
+ * @module user
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, user.
+ */
+app.put('/user/delete/:id', user_controller.user_delete_by_id);
+
+module.exports = app;

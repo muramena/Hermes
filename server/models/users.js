@@ -1,12 +1,29 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
 
+/**
+ * moongose Schema module.
+ */
 const Schema = mongoose.Schema
 
+/**
+ * Creates user Schema
+ * username
+ * password
+ * firstName
+ * lastName
+ * dni,
+ * birthDate
+ * address
+ * phone
+ * state
+ * email
+ */
 let userSchema = new Schema({
     username: {
         type: String,
         trim: true,
+        unique: true,
         required: [true, 'El nombre de usuario es necesario']
     },
     password: {
@@ -23,9 +40,10 @@ let userSchema = new Schema({
         trim: true,
         required: [true, 'El apellido es necesario']
     },
-    dni: { //FALTA CONTROLAR NUMEROS Y LETRAS
+    dni: {
         type: Number,
         required: [true, 'El DNI es necesario'],
+        unique: true,
         validate: {
             validator: Number.isInteger,
             message: 'DNI no es un numero'
@@ -56,27 +74,26 @@ let userSchema = new Schema({
     }
 })
 
-userSchema.methods.toJSON = () => {
+/**
+ * Returns user as a JSON.
+ */
+userSchema.methods.toJSON = function () {
 
     let user = this;
 
     let userJSON = {
-        name: user.name,
-        lastname: user.lastname,
-        email: user.email,
-        role: user.role,
+        username: user.username,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        dni: user.dni,
+        birthDate: user.birthDate,
         address: user.address,
         phone: user.phone,
-        img: user.img
+        email: user.email,
     }
-
-    /* console.log(user);
-    console.log(userJSON); */
 
     return userJSON;
 }
-
-console.log('modelo user')
 
 userSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' });
 
