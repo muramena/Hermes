@@ -34,7 +34,7 @@ app.get('/registarse', function (req, res) {
  */
 
 app.get('/usuarios', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../public/views/user/index.html'));
+  res.render(path.resolve(__dirname, '../../public/views/user/index'));
 })
 
 /**

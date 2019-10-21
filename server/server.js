@@ -1,6 +1,7 @@
 const express = require('express')
 const http = require('http')
 const mongoose = require('mongoose')
+const exphbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware')
 const path = require('path')
 
@@ -18,6 +19,15 @@ let server = http.createServer(app)
 
 const publicPath = path.resolve(__dirname, '../public')
 const port = process.env.PORT || 3000;
+
+// handlebars config
+app.engine('hbs', exphbs({
+  layoutsDir: path.join(publicPath, "views/layouts"),
+  defaultLayout: 'main',
+  extname: '.hbs'
+}));
+
+app.set('view engine', 'hbs');
 
 // sass config
 app.use(
