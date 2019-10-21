@@ -112,10 +112,15 @@ let user_details = function (req, res) {
  */
 let user_update_by_id = function (req, res) {
     User.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, user) {
-        if (err) return next (err);
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
         res.send({
             ok: true,
-            user: user
+            user: user,
         });
     });    
 };

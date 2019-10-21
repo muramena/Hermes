@@ -16,11 +16,6 @@ const Schema = mongoose.Schema
  * state
  */
 let ticketSchema = new Schema({
-    id: {
-        type: String,
-        unique: [true, 'El id debe ser unico'],
-        required: [true, 'El id es necesario'],
-    },
     user: {
         type: String,
         trim: true,
@@ -69,7 +64,6 @@ ticketSchema.methods.toJSON = function () {
     let ticket = this;
 
     let ticketJSON = {
-        id: ticket.id,
         user: ticket.user,
         description: ticket.description,
         category: ticket.category,
