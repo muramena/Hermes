@@ -73,10 +73,19 @@ let user_create = function (req, res) {
  * @return {Object} - Status, user.
  */
 let user_delete_by_id = function (req, res) {
-    User.findById(req.params.id, function (err, user) {
-        if (err) return next (err);
-        res.send('User deleted');
-    });    
+    User.findByIdAndUpdate(req.params.id, {$set: {state: false}}, function (err, user) {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+        user.state = false;
+        res.send({
+            ok: true,
+            user: user,
+        });
+    });     
 };
 
 /**
