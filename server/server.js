@@ -22,8 +22,9 @@ const port = process.env.PORT || 3000;
 
 // handlebars config
 app.engine('hbs', exphbs({
-  layoutsDir: path.join(publicPath, "views/layouts"),
   defaultLayout: 'main',
+  layoutsDir: path.join(publicPath, "views/layouts"),
+  partialsDir: path.join(publicPath, "views/partials"),
   extname: '.hbs'
 }));
 
