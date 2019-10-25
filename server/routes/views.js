@@ -1,4 +1,5 @@
 const express = require('express')
+const login_controller = require('../controllers/login_controller.js')
 const path = require('path')
 const { check, validationResult } = require('express-validator')
 
@@ -31,18 +32,7 @@ router.get('/', function (req, res) {
 router.post('/login', [
   check('email', 'Invalid Email').isEmail(),
   check('password', 'Invalid Username').isLength({ min: 5 })
-], (req, res) => {
-  var errors = validationResult(req);
-
-  if (!errors.isEmpty()) {
-    req.session.errors = errors.array();
-    req.session.success = false;
-  } else {
-    req.session.success = true;
-  }
-
-  res.redirect('/');
-})
+], login_controller.login);
 
 router.get('/logout', function (req, res) {
   req.session.success = false;
