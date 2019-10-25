@@ -20,6 +20,9 @@
   "dependencies": {
     "bcrypt": "^3.0.6",
     "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "express-session": "^1.17.0",
+    "express-validator": "^6.2.0",
     "mongoose": "^5.7.3",
     "mongoose-unique-validator": "^2.0.3",
     "node-sass": "^4.12.0",

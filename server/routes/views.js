@@ -1,6 +1,8 @@
 const express = require('express')
-var app = express()
 const path = require('path')
+const { check, validationResult } = require('express-validator')
+
+var router = express.Router()
 
 /**
  * Esto deberia estar del lado del Cliente {Creo}
@@ -10,80 +12,60 @@ const path = require('path')
  */
 
 /**
- * HOME
+ * LOGIN - HOME
  */
 
-app.get('/', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/home/index.html'));
+router.get('/', function (req, res) {
+  if (!!req.session.success) {
+    res.render(path.resolve(__dirname, '../../public/views/index'), {
+      session: req.session.success
+    });
+  } else {
+    res.render(path.resolve(__dirname, '../../public/views/login'), {
+      errors: req.session.errors
+    });
+  }
+  req.session.errors = null;
 })
 
-/**
- * AUTENTICATION
- */
+router.post('/login', [
+  check('email', 'Invalid Email').isEmail(),
+  check('password', 'Invalid Username').isLength({ min: 5 })
+], (req, res) => {
+  var errors = validationResult(req);
 
-app.get('/login', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/signin/index.html'))
+  if (!errors.isEmpty()) {
+    req.session.errors = errors.array();
+    req.session.success = false;
+  } else {
+    req.session.success = true;
+  }
+
+  res.redirect('/');
 })
 
-app.get('/registarse', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/signup/index.html'))
+router.get('/logout', function (req, res) {
+  req.session.success = false;
+  res.render(path.resolve(__dirname, '../../public/views/login'));
 })
 
 /**
  * USERS
  */
 
-app.get('/usuarios', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/user/index.html'));
+router.get('/usuarios', function (req, res) {
+  res.render(path.resolve(__dirname, '../../public/views/user'), {
+    session: req.session.success,
+    title: "Usuario"
+  });
 })
 
 /**
  * TICKETS
  */
 
-app.get('/tickets', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/index.html'))
+router.get('/tickets', function (req, res) {
+  res.render(path.resolve(__dirname, '../../public/views/ticket'))
 })
 
-app.get('/tickets/assignar', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/assign.html'))
-})
-
-app.get('/tickets/crear', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/create.html'))
-})
-
-app.get('/tickets/divide', function (req, res) {
-  res.sendfile(path.resolve( __dirname, '../../../public/views/ticket/divide.html'))
-})
-
-app.get('/tickets/seguimiento', function( requ, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/watch.html'))
-})
-
-/**
- * FACTOR CARGA
- */
-
-app.get('/factorDeCarga', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/index.html'))
-})
-
-/**
-* REPORTES
-*/
-
-app.get('/reportes', function (req, res) {
-  res.sendFile(path.resolve(__dirname, '../../../public/views/ticket/reportes.html'))
-})
-
-/**
- * ESPECIALISTAS
- */
-
- app.get('/especialistas', function (req, res) {
-   res.sendFile(path.resolve(__dirname, '../../../public/views/escpecialistas'))
- })
-
-
-module.exports = app;
+module.exports = router;
