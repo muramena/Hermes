@@ -4,21 +4,17 @@ const mongoose = require('mongoose')
 const exphbs = require('express-handlebars')
 const sassMiddleware = require('node-sass-middleware')
 const path = require('path')
-
-const app = express()
 const dbURL = "mongodb://localhost:27017/Hermes";
-
 const bodyParser = require('body-parser')
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-
-// parse application/json
-app.use(bodyParser.json())
-
-let server = http.createServer(app)
-
+const expressSession = require('express-session')
 const publicPath = path.resolve(__dirname, '../public')
 const port = process.env.PORT || 3000;
+
+const app = express()
+
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(expressSession({ secret: 'max', saveUninitialized: false, resave: false }));
 
 // handlebars config
 app.engine('hbs', exphbs({
@@ -43,6 +39,8 @@ app.use(express.static(publicPath))
 
 app.use(require('./routes'))
 app.use(require('./routes/views'))
+
+let server = http.createServer(app)
 
 // BASE DE DATOS, DESACTIVAR SI NO ESTA INSTALADO MONGO
 mongoose.connect(dbURL, {
