@@ -71,10 +71,18 @@ let ticket_create = function (req, res) {
  * @return {Object} - Status, ticket
  */
 let ticket_delete_by_id = function (req, res) {
-    Ticket.findById(req.params.id, function (err, ticket) {
-        if (err) return next (err);
-        res.send('Ticket Deleted');
-    });
+    Ticket.findByIdAndUpdate(req.params.id, {$set: {state: false}}, function (err, ticket) {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+        res.send({
+            ok: true,
+            ticket: ticket,
+        });
+    });  
 };
 
 /**
