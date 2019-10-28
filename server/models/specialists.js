@@ -6,7 +6,11 @@ const Schema = mongoose.Schema
 let specialistSchema = new Schema({
     sector: {
         type: String,
-        required: [true, 'El sector es obligatorio']
+        required: [true, 'El sector es necesario']
+    },
+    user: {
+        type: Object,
+        required: [true, 'El usuario especialista es necesario']
     },
     state: {
         type: Boolean,

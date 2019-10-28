@@ -150,16 +150,14 @@ let user_tickets = function (req, res) {
                 err
             })
         }
-    }).then( function (user, err){
+    }).then( function (req, err){
         if (err) {
             return res.status(400).json({
                 ok: false,
                 err
             })
         }
-        Ticket.find({
-            user: user.username
-        }).then(function (tickets, err) {
+        Ticket.find({ user: req.username }).then(function (tickets, err) {
             if (err) {
                 return res.status(400).json({
                     ok: false,

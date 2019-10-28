@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('mongoose');
 const path = require('path')
 const login_controller = require('../controllers/login_controller');
+const user_controller = require('../controllers/user_controller');
 const { check, validationResult } = require('express-validator')
 
 /**
@@ -32,6 +33,6 @@ app.post('/register', [
   check('address', 'direccion es obligatorio').isEmpty(),
   check('phone', 'telefono es obligatorio').isEmpty(),
   check('email', 'Invalid Email or Password').isEmail()
-], login_controller.register)
+], user_controller.user_create)
 
 module.exports = app;

@@ -147,14 +147,28 @@ let ticket_divide = function (req, res) {
                 err
             })
         }
-        //como hacer los dos nuevos tickets
         ticket.status = 'en espera'
-        ticket_create(req, res)
+    }).then((req, resp) => {
+        let body = req.body;
+        console.log('body', body);
+        //como hacer los dos nuevos tickets
+        let subTicket1 = new Ticket({
+                user: body.user,
+                title: body.title,
+                description: body.description,
+                category: body.category,
+                priority: body.priority,
+                deadlineDate: body.deadlineDate,
+                parentTicket: body.parentTicket,
+                status: body.status,
+                assignedSpecialist: body.assignedSpecialist,
+            }
+        );
         res.send({
             ok: true,
             ticket: ticket,
         });
-    });    
+    })    
 };
 
 module.exports = {
@@ -162,5 +176,6 @@ module.exports = {
     ticket_create: ticket_create,
     ticket_delete_by_id: ticket_delete_by_id,
     ticket_details: ticket_details,
+    ticket_divide: ticket_divide,
     ticket_update_by_id: ticket_update_by_id,
 }

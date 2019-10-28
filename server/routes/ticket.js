@@ -59,5 +59,16 @@ app.put('/ticket/update/:id', ticket_controller.ticket_update_by_id);
 app.put('/ticket/delete/:id', ticket_controller.ticket_delete_by_id);
 
 
+/**
+ * Divide a ticket in two tickets.
+ * @module ticket
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, ticket.
+ */
+app.post('/ticket/divide/:id', ticket_controller.ticket_delete_by_id);
+
+
 
 module.exports = app;
