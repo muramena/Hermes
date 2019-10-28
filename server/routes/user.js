@@ -58,4 +58,14 @@ app.put('/user/update/:id', user_controller.user_update_by_id);
  */
 app.put('/user/delete/:id', user_controller.user_delete_by_id);
 
+/**
+ * Get all tickets from a user.
+ * @module user
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, user.
+ */
+app.get('/user/tickets/:id', user_controller.user_tickets);
+
 module.exports = app;

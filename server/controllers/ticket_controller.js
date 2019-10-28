@@ -131,6 +131,32 @@ let ticket_update_by_id = function (req, res) {
     });    
 };
 
+/**
+ * Divide a ticket from the DB into two tickets.
+ * @module ticket
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @return {Object} - Status, ticket.
+ */
+let ticket_divide = function (req, res) {
+    Ticket.findById(req.params.id, function (err, ticket) {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                err
+            })
+        }
+        //como hacer los dos nuevos tickets
+        ticket.status = 'en espera'
+        ticket_create(req, res)
+        res.send({
+            ok: true,
+            ticket: ticket,
+        });
+    });    
+};
+
 module.exports = {
     ticket_all: ticket_all,
     ticket_create: ticket_create,

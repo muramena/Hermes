@@ -30,6 +30,14 @@ router.get('/logout', function (req, res) {
 })
 
 /**
+ * REGISTER
+ */
+
+router.get('/register', function (req, res) {
+  res.render(path.resolve(__dirname, '../../public/views/register'));
+})
+
+/**
  * USERS
  */
 

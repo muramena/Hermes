@@ -16,26 +16,30 @@ let login = function (req, res) {
     var errors = validationResult(req);
     
     if (!errors.isEmpty()) {
+        console.log('error 1', errors)
         req.session.errors = errors.array();
         req.session.success = false;
     } else {
-        console.log('req', req)
+        console.log('req.params', req.params);
         //Esto no esta funcionando, no se como pasar el id. 
-        User.findById(req.params.id, (err, user) => {
-            if (err) {
-                console.log('error')
-                req.session.success = false;
-                return res.status(400).json({
-                    ok: false,
-                    err
-                })
-            }
-            console.log('success')
-            res.json({
-                ok: true,
-                user: user.toJSON(),
-            })
-        })
+        // User.findById(req.params.id, (err, user) => {
+        //     if (err) {
+        //         console.log('error', err)
+        //         req.session.success = false;
+        //         return res.status(400).json({
+        //             ok: false,
+        //             err
+        //         })
+        //     } else {
+        //         if (user.email === req.params.email && user.password === req.params.password){
+        //             console.log('success')
+        //             res.json({
+        //                 ok: true,
+        //                 user: user.toJSON(),
+        //             })
+        //         }
+        //     }
+        // })
         req.session.success = true;
     }
     
@@ -64,4 +68,5 @@ let register = function (req, res) {
 
 module.exports = {
     login: login,
+    register: register,
 }
