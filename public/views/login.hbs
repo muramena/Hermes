@@ -1,20 +1,33 @@
-<h1>Welcome to Hermes!</h1>
-<h3>Login:</h3>
-<form action="/login" method="post">
-  <div>
-    <label for="email">Email</label>
-    <input type="email" id="email" name="email">
+<div class="row justify-content-md-center">
+  <div class="col-lg-6 col-md-9 col-sm-12 align-self-center">
+    <h1>Welcome to Hermes!</h1>
   </div>
-  <div>
-    <label for="password">Password</label>
-    <input type="password" id="password" name="password">
+</div>
+
+<div class="row justify-content-md-center">
+  <div class="col-lg-6 col-md-9 col-sm-12">
+    <form action="/login" method="post">
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary">Login</button>
+      </div>
+
+      {{#if errors }}
+        <div class="form-group">
+          {{#each errors }}
+            <div class="alert alert-danger" role="alert">
+              {{ this.msg }}
+            </div>
+          {{/each}}
+        </div>
+      {{/if}}
+    </form>
   </div>
-  <button type="submit">Login</button>
-  {{#if errors }}
-    <ul>
-      {{#each errors }}
-        <li>{{ this.msg }}</li>
-      {{/each}}
-    </ul>
-  {{/if}}
-</form>
+</div>
