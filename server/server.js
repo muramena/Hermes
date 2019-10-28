@@ -49,16 +49,18 @@ mongoose.connect(dbURL, {
   useUnifiedTopology: true
 }, (err, res) => {
   if (err) {
+    console.log('Base de datos SIN CONEXION');
     throw err;
   } else {
     console.log('Base de datos ONLINE');
   }
   
-  server.listen(port, (err) => {
-    if (err) {
-      throw new Error(err);
-    } else {
-      console.log(`Servidor corriendo en pruerto ${ port }`);
-    }
-  })
 });
+
+server.listen(port, (err) => {
+  if (err) {
+    throw new Error(err);
+  } else {
+    console.log(`Servidor corriendo en pruerto ${ port }`);
+  }
+})
