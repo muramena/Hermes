@@ -43,7 +43,7 @@ router.get('/logout', function (req, res) {
  * USERS
  */
 
-router.get('/usuarios', function (req, res) {
+router.get('/usuario', function (req, res) {
   res.render(path.resolve(__dirname, '../../public/views/user'), {
     session: req.session.success,
     title: "Usuario"
