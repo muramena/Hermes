@@ -8,8 +8,8 @@ let specialistSchema = new Schema({
         type: String,
         required: [true, 'El sector es necesario']
     },
-    user: {
-        type: Object,
+    username: {
+        type: String,
         required: [true, 'El usuario especialista es necesario']
     },
     state: {
@@ -17,18 +17,6 @@ let specialistSchema = new Schema({
         default: true
     }
 })
-
-specialistSchema.methods.toJSON = () => {
-
-    let specialist = this;
-
-    let specialistJSON = {
-        sector: specialist.sector,
-        state: specialist.state,
-    }
-
-    return specialistJSON;
-}
 
 specialistSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' });
 
