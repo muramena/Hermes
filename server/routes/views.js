@@ -1,23 +1,14 @@
 const express = require('express')
-const login_controller = require('../controllers/login_controller.js')
 const path = require('path')
-const { check, validationResult } = require('express-validator')
 
 var router = express.Router()
-
-/**
- * Esto deberia estar del lado del Cliente {Creo}
- * 
- * Redirects to corresponding view.
- * @param {String} path 
- */
 
 /**
  * LOGIN - HOME
  */
 
 router.get('/', function (req, res) {
-  if (!!req.session.success) {
+  if (req.session.success) {
     res.render(path.resolve(__dirname, '../../public/views/index'), {
       session: req.session.success
     });
@@ -29,10 +20,9 @@ router.get('/', function (req, res) {
   req.session.errors = null;
 })
 
-router.post('/login', [
-  check('email', 'Invalid Email').isEmail(),
-  check('password', 'Invalid Username').isLength({ min: 5 })
-], login_controller.login);
+/**
+ * LOGOUT
+ */
 
 router.get('/logout', function (req, res) {
   req.session.success = false;

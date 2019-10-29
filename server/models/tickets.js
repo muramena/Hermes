@@ -38,8 +38,8 @@ let ticketSchema = new Schema({
         trim: true,
         required: [true, 'El nivel de prioridad es necesario']
     },
-    deadlineDate: { //FALTA CONTROLAR QUE SEA UNA FECHA
-        type: Object,
+    deadlineDate: {
+        type: Date,
     },
     parentTicket: { //FALTA CONTROLAR QUE SEA UN TICKET
         type: Object,

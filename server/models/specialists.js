@@ -4,14 +4,13 @@ const uniqueValidator = require('mongoose-unique-validator')
 const Schema = mongoose.Schema
 
 let specialistSchema = new Schema({
-    userID: {
-        type: String,
-        trim: true,
-        required: [true, 'El Id del usuario es necesario']
-    },
     sector: {
         type: String,
-        required: [true, 'El sector es obligatorio']
+        required: [true, 'El sector es necesario']
+    },
+    user: {
+        type: Object,
+        required: [true, 'El usuario especialista es necesario']
     },
     state: {
         type: Boolean,
@@ -24,7 +23,6 @@ specialistSchema.methods.toJSON = () => {
     let specialist = this;
 
     let specialistJSON = {
-        userID: specialist.userID,
         sector: specialist.sector,
         state: specialist.state,
     }
