@@ -1,5 +1,7 @@
 <header class="bd-navbar flex-row navbar navbar-dark navbar-expand">
-  <a href="./">Logo</a>
+  <a href="./">
+    <img src="img/logo.png" alt="Hermes">
+  </a>
 
   {{#if session}}
     <ul class="d-flex flex-row ml-auto navbar-nav">
@@ -20,9 +22,15 @@
         <a class="nav-link" href="/logout">Logout</a>
       </li>
 
-      <li class="nav-item ml-3">
-        <a class="nav-link" href="/usuario">Mi Nombre</a>
-      </li>
+      <a class="ml-3 user nav-link" href="/usuario">
+        <img src="/img/usuario.jpg" alt="My Profile">
+        <div class="user__info">
+          <span class="user__name">My Name</span>
+          <span class="user__role">My Role</span>
+        </div>
+      </a>
     </ul>
+  {{else}}
+    <a href="/signin" class="btn btn-secondary ml-auto">Sign in</a>
   {{/if}}
 </header>

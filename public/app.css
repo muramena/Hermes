@@ -1,6 +1,24 @@
 header {
   min-height: 56px;
   background: #18608C; }
+  header img {
+    height: 40px; }
+  header .user {
+    display: flex;
+    align-items: center;
+    padding: 0; }
+    header .user > img {
+      border-radius: 50%; }
+    header .user__info {
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px; }
+    header .user__name {
+      font-size: 18px;
+      line-height: 20px; }
+    header .user__role {
+      font-size: 14px;
+      line-height: 20px; }
 
 main {
   margin: 5rem 15px; }

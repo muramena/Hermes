@@ -40,6 +40,23 @@ router.get('/logout', function (req, res) {
 })
 
 /**
+ * SIGNIN
+ */
+
+router.get('/signin', function (req, res) {
+  if (!!req.session.success) {
+    res.render(path.resolve(__dirname, '../../public/views/index'), {
+      session: req.session.success
+    });
+  } else {
+    res.render(path.resolve(__dirname, '../../public/views/signin'), {
+      errors: req.session.errors
+    });
+  }
+  req.session.errors = null;
+})
+
+/**
  * USERS
  */
 
