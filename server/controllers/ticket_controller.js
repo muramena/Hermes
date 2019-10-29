@@ -143,6 +143,13 @@ let ticket_update_by_id = function (req, res) {
  */
 let ticket_cancel_by_id = function (req, res) {
     Ticket.findOne({ _id: req.params.id}, function (err, ticket) {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                message: 'ticket no existe',
+                err
+            })
+        }
         if (!(ticket.user === req.body.username)) {
             return res.status(400).json({
                 ok: false,
