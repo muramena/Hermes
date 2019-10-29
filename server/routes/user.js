@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('mongoose');
 const path = require('path')
 const user_controller = require('../controllers/user_controller');
+const { check, validationResult } = require('express-validator')
 
 /**
  * express module
@@ -26,7 +27,18 @@ app.get('/user', user_controller.user_all);
  * @param {Function} callback 
  * @return {Object} - Status, user.
  */
-app.post('/user', user_controller.user_create);
+app.post('/user', [
+    check('username', 'usuario debe contener al menos 4 caracteres').isEmpty().isLength({ min: 4 }),
+    check('password', 'contraseña debe contener al menos 8 caracteres').isEmpty().isLength({ min: 8 }),
+    check('confirmPassword', 'contraseña debe contener al menos 8 caracteres').isEmpty().isLength({ min: 8 }), //Verificar que sea igual a la password
+    check('firstName', 'nombre es obligatorio').isEmpty(),
+    check('lastName', 'apellido es obligatorio').isEmpty(),
+    check('dni', 'dni debe contener al menos 7 caracteres').isEmpty().isLength({ min: 7 }),
+    check('birthDate', 'fecha de nacimiento es obligatorio').isEmpty(),
+    check('address', 'direccion es obligatorio').isEmpty(),
+    check('phone', 'telefono es obligatorio').isEmpty(),
+    check('email', 'Invalid Email or Password').isEmail()
+  ], user_controller.user_create)
 
 /**
  * Get a user from the DB.
