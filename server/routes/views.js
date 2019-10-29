@@ -30,18 +30,27 @@ router.get('/logout', function (req, res) {
 })
 
 /**
- * REGISTER
+ * SIGNIN
  */
 
-router.get('/register', function (req, res) {
-  res.render(path.resolve(__dirname, '../../public/views/register'));
+router.get('/signin', function (req, res) {
+  if (!!req.session.success) {
+    res.render(path.resolve(__dirname, '../../public/views/index'), {
+      session: req.session.success
+    });
+  } else {
+    res.render(path.resolve(__dirname, '../../public/views/signin'), {
+      errors: req.session.errors
+    });
+  }
+  req.session.errors = null;
 })
 
 /**
  * USERS
  */
 
-router.get('/usuarios', function (req, res) {
+router.get('/usuario', function (req, res) {
   res.render(path.resolve(__dirname, '../../public/views/user'), {
     session: req.session.success,
     title: "Usuario"

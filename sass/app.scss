@@ -1,1 +1,11 @@
-@import "./libs/_normalize";
+$dark: #0D0D0D;
+$light: #F2F2F2;
+$gray: #737373;
+$blue: #18608C;
+$blue-dark: #18568C;
+
+@import "./_header";
+
+main {
+  margin: 5rem 15px;
+}
