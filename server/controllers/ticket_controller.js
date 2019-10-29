@@ -133,6 +133,39 @@ let ticket_update_by_id = function (req, res) {
 };
 
 /**
+ * Update a ticket from the DB by ID.
+ * @module ticket
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Object} req.body
+ * @return {Object} - Status, ticket.
+ */
+let ticket_cancel_by_id = function (req, res) {
+    Ticket.findOne({ _id: req.params.id}, function (err, ticket) {
+        if (!(ticket.user === req.body.username)) {
+            return res.status(400).json({
+                ok: false,
+                message: 'el ticket no fue creado por este usuario'
+            })
+        }
+        ticket.state = false
+        ticket.save((err) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+        });
+        res.send({
+            ok: true,
+            ticket: ticket,
+        });
+    });    
+};
+
+/**
  * Assign ticket to specialist by ticket id and user username.
  * @module ticket
  * @function
@@ -193,7 +226,7 @@ let ticket_divide = function (req, res) {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Ticket no existe'
+                    message: 'ticket no existe'
                 }
             })
         }
@@ -268,4 +301,5 @@ module.exports = {
     ticket_divide: ticket_divide,
     ticket_update_by_id: ticket_update_by_id,
     ticket_assign_to_specialist: ticket_assign_to_specialist,
+    ticket_cancel_by_id: ticket_cancel_by_id,
 }

@@ -56,7 +56,7 @@ app.put('/ticket/update/:id', ticket_controller.ticket_update_by_id);
  * @param {Function} callback 
  * @return {Object} - Status, ticket.
  */
-app.put('/ticket/update/:id', ticket_controller.ticket_update_by_id);
+app.put('/ticket/cancel/:id', ticket_controller.ticket_cancel_by_id);
 
 /**
  * Assign ticket to specialist by ticket id and specialist username.
