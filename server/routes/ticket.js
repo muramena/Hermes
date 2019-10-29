@@ -67,8 +67,6 @@ app.put('/ticket/delete/:id', ticket_controller.ticket_delete_by_id);
  * @param {Function} callback 
  * @return {Object} - Status, ticket.
  */
-app.post('/ticket/divide/:id', ticket_controller.ticket_delete_by_id);
-
-
+app.post('/ticket/divide/:id', ticket_controller.ticket_divide);
 
 module.exports = app;

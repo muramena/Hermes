@@ -36,34 +36,45 @@ let user_all = function (req, res) {
  * @return {Object} - Status, user.
  */
 let user_create = function (req, res) {
-    let body = req.body
+    var errors = validationResult(req);
 
-    let user = new User(
-        {
-            username: body.username,
-            password: body.password, //bcrypt.hashSync(body.password, 10)
-            firstName: body.firstName,
-            lastName: body.lastName,
-            dni: body.dni,
-            birthDate: body.birthDate,
-            address: body.address,
-            phone: body.phone,
-            email: body.email,
-        }
-    );
+    if (!errors.isEmpty()) {
+        req.session.errors = errors.array();
+        req.session.success = false;
+        return res.status(400).json({
+            ok: false,
+            errors
+        })
+    } else {
+        let body = req.body
 
-    user.save((err) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
+        let user = new User(
+            {
+                username: body.username,
+                password: body.password, //bcrypt.hashSync(body.password, 10)
+                firstName: body.firstName,
+                lastName: body.lastName,
+                dni: body.dni,
+                birthDate: body.birthDate,
+                address: body.address,
+                phone: body.phone,
+                email: body.email,
+            }
+        );
+
+        user.save((err) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+            res.json({
+                ok: true,
+                user: user.toJSON(),
             })
-        }
-        res.json({
-            ok: true,
-            user: user.toJSON(),
-          })
-    });
+        });
+    }
 }
 
 /**
@@ -187,8 +198,11 @@ let login = function (req, res) {
     if (!errors.isEmpty()) {
         req.session.errors = errors.array();
         req.session.success = false;
+        return res.status(400).json({
+            ok: false,
+            errors
+        })
     } else {
-        //Esto no esta funcionando, no se como pasar el id. 
         User.findOne({username: req.body.username}, (err, user) => { // chequear User = null
             if (err) {
                 req.session.success = false;
