@@ -1,4 +1,5 @@
 const Ticket = require('../models/tickets');
+const Specialist = require('../models/specialists');
 
 /**
  * Gets all tickets from the DB.
@@ -132,6 +133,81 @@ let ticket_update_by_id = function (req, res) {
 };
 
 /**
+ * Update a ticket from the DB by ID.
+ * @module ticket
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Object} req.body
+ * @return {Object} - Status, ticket.
+ */
+let ticket_cancel_by_id = function (req, res) {
+    Ticket.findOne({ _id: req.params.id}, function (err, ticket) {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                message: 'ticket no existe',
+                err
+            })
+        }
+        if (!(ticket.user === req.body.username)) {
+            return res.status(400).json({
+                ok: false,
+                message: 'el ticket no fue creado por este usuario'
+            })
+        }
+        ticket.state = false
+        ticket.save((err) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+        });
+        res.send({
+            ok: true,
+            ticket: ticket,
+        });
+    });    
+};
+
+/**
+ * Assign ticket to specialist by ticket id and user username.
+ * @module ticket
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Object} req.params.id - Ticket ID
+ * @param {Object} req.body.username - user username
+ * @return {Object} - Status, ticket.
+ */
+let ticket_assign_to_specialist = function (req, res) {
+    Specialist.findOne({username: req.body.username}, (err, specialist) => {
+        if (err || !specialist) {
+            return res.status(400).json({
+                ok: false,
+                message: 'specialist no existe',
+                err
+            })
+        }
+        Ticket.findByIdAndUpdate(req.params.id, {$set: {assignedSpecialist: req.body.username}}, (err, ticket) => {
+            if (err || !ticket) {
+                return res.status(400).json({
+                    ok: false,
+                    message: 'ticket no existe',
+                    err
+                })
+            }
+            res.send({
+                ok: true,
+                ticket: ticket,
+            });
+        });    
+    });
+};
+
+/**
  * Divide a ticket from the DB into two tickets.
  * @module ticket
  * @function
@@ -157,7 +233,7 @@ let ticket_divide = function (req, res) {
             return res.status(400).json({
                 ok: false,
                 err: {
-                    message: 'Ticket no existe'
+                    message: 'ticket no existe'
                 }
             })
         }
@@ -231,4 +307,6 @@ module.exports = {
     ticket_details: ticket_details,
     ticket_divide: ticket_divide,
     ticket_update_by_id: ticket_update_by_id,
+    ticket_assign_to_specialist: ticket_assign_to_specialist,
+    ticket_cancel_by_id: ticket_cancel_by_id,
 }

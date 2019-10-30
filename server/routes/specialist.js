@@ -17,6 +17,16 @@ const specialist_controller = require('../controllers/specialist_controller');
  */
 app.get('/specialist', specialist_controller.specialist_all);
 
+/**
+ * Creates specialist and saves it in the DB.
+ * @module specialist
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, specialist.
+ */
+app.post('/specialist', specialist_controller.specialist_create);
+
 
 /**
  * Update a specialist from the DB by ID.

@@ -49,6 +49,26 @@ app.get('/ticket/:id', ticket_controller.ticket_details);
 app.put('/ticket/update/:id', ticket_controller.ticket_update_by_id);
 
 /**
+ * Cancel a ticket from the DB by ID. Verifies if user that cancels it is ticket owner.
+ * @module ticket
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, ticket.
+ */
+app.put('/ticket/cancel/:id', ticket_controller.ticket_cancel_by_id);
+
+/**
+ * Assign ticket to specialist by ticket id and specialist username.
+ * @module ticket
+ * @function
+ * @param {String} path
+ * @param {Function} callback 
+ * @return {Object} - Status, ticket.
+ */
+app.put('/ticket/assign/:id', ticket_controller.ticket_assign_to_specialist);
+
+/**
  * Delete a ticket from the DB by ID.
  * @module ticket
  * @function

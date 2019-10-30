@@ -37,7 +37,7 @@ let specialist_create = function (req, res) {
 
     let specialist = new Specialist(
         {
-            user: body.userID,
+            username: body.username,
             sector: body.sector,
         }
     );
