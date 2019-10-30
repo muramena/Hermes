@@ -40,9 +40,11 @@ let ticketSchema = new Schema({
     },
     deadlineDate: {
         type: Date,
+        default: new Date(+new Date() + 7*24*60*60*1000)
     },
     parentTicket: { //FALTA CONTROLAR QUE SEA UN TICKET
         type: Object,
+        default: undefined,
     },
     status: {
         type: String,

@@ -137,6 +137,11 @@ let ticket_update_by_id = function (req, res) {
  * @function
  * @param {Object} req - Express request object
  * @param {Object} res - Express response object
+ * @param {String} subTicket1Title - subTicket1Title
+ * @param {String} subTicket2Title - subTicket2Title
+ * @param {String} subTicket1Description - subTicket1Description
+ * @param {String} subTicket2Description - subTicket2Description
+ * @param {String} subTicket2Category - subTicket2Category
  * @return {Object} - Status, ticket.
  */
 let ticket_divide = function (req, res) {
@@ -147,26 +152,74 @@ let ticket_divide = function (req, res) {
                 err
             })
         }
-        ticket.status = 'en espera'
-    }).then((req, resp) => {
-        let body = req.body;
-        console.log('body', body);
+
+        if (!ticket) {
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'Ticket no existe'
+                }
+            })
+        }
+
         //como hacer los dos nuevos tickets
         let subTicket1 = new Ticket({
-                user: body.user,
-                title: body.title,
-                description: body.description,
-                category: body.category,
-                priority: body.priority,
-                deadlineDate: body.deadlineDate,
-                parentTicket: body.parentTicket,
-                status: body.status,
-                assignedSpecialist: body.assignedSpecialist,
+                user: req.params.user || ticket.user,
+                title: req.params.subTicket1Title || ticket.title,
+                description: req.params.subTicket1Description || ticket.description,
+                category: ticket.category,
+                priority: ticket.priority,
+                deadlineDate: ticket.deadlineDate,
+                parentTicket: ticket._id,
+                status: ticket.status,
+                assignedSpecialist: ticket.assignedSpecialist,
+        });
+        let subTicket2 = new Ticket({
+                user: req.params.user || ticket.user,
+                title: req.params.subTicket2Title || ticket.title,
+                description: req.params.subTicket2Description || ticket.description,
+                category: req.params.subTicket2Category || ticket.category,
+                priority: ticket.priority,
+                deadlineDate: ticket.deadlineDate,
+                parentTicket: ticket._id,
+                status: ticket.status,
+                assignedSpecialist: ticket.assignedSpecialist,
+        });
+
+        subTicket1.save((err) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
             }
-        );
+        });
+
+        subTicket2.save((err) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+        });
+
+        ticket.status = 'en espera'
+
+        ticket.save((err) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+        });
+
         res.send({
             ok: true,
             ticket: ticket,
+            subTicket1: subTicket1,
+            subTicket2: subTicket2
         });
     })    
 };
