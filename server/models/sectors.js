@@ -1,7 +1,7 @@
-const mongoose = require('moongose');
+const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
-const Schema = moongose.Schema
+const Schema = mongoose.Schema
 /**
  * Creates sector Schema
  * ID - assigned by mongoDB
@@ -12,6 +12,7 @@ const Schema = moongose.Schema
  let sectorSchema = new Schema ({
      description: {
          type: String,
+         unique: true,
          required: [true, 'La descripcion es necesaria']
      },
      jefe: {

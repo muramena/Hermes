@@ -38,4 +38,15 @@ app.post('/specialist', specialist_controller.specialist_create);
  */
 app.put('/specialist/update/:id', specialist_controller.specialist_update_by_id);
 
+/**
+ * Update a specialist sector from the DB by ID
+ * @module specialists
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Object} id - req.params.id specialist id
+ * @return {Object} - Status, specialists.
+ */
+app.put('/specialist/updatesector/:id', specialist_controller.specialist_assign_to_sector_by_id);
+
 module.exports = app;

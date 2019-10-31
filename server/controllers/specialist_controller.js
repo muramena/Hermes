@@ -1,4 +1,5 @@
 const Specialist = require('../models/specialists');
+const Sector = require('../models/sectors');
 
 /**
  * Gets all specialist from the DB.
@@ -79,8 +80,61 @@ let specialist_update_by_id = function (req, res) {
     }); 
 };
 
+/**
+ * Update a specialist sector from the DB by ID
+ * @module specialists
+ * @function
+ * @param {Object} req - Express request object
+ * @param {Object} res - Express response object
+ * @param {Object} id - req.params.id specialist id
+ * @return {Object} - Status, specialists.
+ */
+let specialist_assign_to_sector_by_id = function (req, res) {
+    if (!(req.body.user === '1' || req.body.user === '2')) {
+        return res.status(403).json({
+            ok: false,
+            message: 'usuario sin acceso'
+        })
+    }
+    Sector.findOne( { _id: req.body.sector }, function (err, sector) {
+        if (err) {
+            return res.status(400).json({
+                ok: false,
+                message: 'sector no existe',
+                err
+            })
+        }
+
+        Specialist.findOne({ _id: req.params.id}, function (err, specialist) {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    message: 'especialista no existe',
+                    err
+                })
+            }
+
+            specialist.sector = sector._id
+            
+            specialist.save((err) => {
+                if (err) {
+                    return res.status(400).json({
+                        ok: false,
+                        err
+                    })
+                }
+            });
+            res.send({
+                ok: true,
+                specialist: specialist,
+            });
+        });   
+    });
+};
+
 module.exports = {
     specialist_all: specialist_all,
     specialist_create: specialist_create,
     specialist_update_by_id: specialist_update_by_id,
+    specialist_assign_to_sector_by_id: specialist_assign_to_sector_by_id,
 }
