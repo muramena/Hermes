@@ -30,17 +30,18 @@ router.get('/logout', function (req, res) {
 })
 
 /**
- * SIGNIN
+ * SIGNUP
  */
 
-router.get('/signin', function (req, res) {
+router.get('/signup', function (req, res) {
   if (!!req.session.success) {
     res.render(path.resolve(__dirname, '../../public/views/index'), {
       session: req.session.success
     });
   } else {
-    res.render(path.resolve(__dirname, '../../public/views/signin'), {
-      errors: req.session.errors
+    res.render(path.resolve(__dirname, '../../public/views/signup'), {
+      errors: req.session.errors,
+      signup: true
     });
   }
   req.session.errors = null;
@@ -53,7 +54,7 @@ router.get('/signin', function (req, res) {
 router.get('/usuario', function (req, res) {
   res.render(path.resolve(__dirname, '../../public/views/user'), {
     session: req.session.success,
-    title: "Usuario"
+    title: 'Usuario'
   });
 })
 

@@ -1,21 +1,22 @@
 <div class="row justify-content-md-center">
   <div class="col-lg-6 col-md-9 col-sm-12 align-self-center">
-    <h1>Sign in</h1>
+    <h2>Sign up</h2>
   </div>
 </div>
 
 <div class="row justify-content-md-center">
   <div class="col-lg-6 col-md-9 col-sm-12">
-    <form action="/login" method="post">
+
+    <form action="/user" method="post">
       <div class="form-group">
         <div class="row">
           <div class="col">
-            <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="First name">
+            <label for="firstName">Name</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" placeholder="First name">
           </div>
           <div class="col">
-            <label for="lastname">Last name</label>
-            <input type="text" class="form-control" id="lastname" name="lastname" placeholder="Last name">
+            <label for="lastName">Last name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" placeholder="Last name">
           </div>
         </div>
       </div>
@@ -26,8 +27,8 @@
             <input type="number" class="form-control" id="dni" name="dni" placeholder="Enter DNI">
           </div>
           <div class="col">
-            <label for="date">Birth Date</label>
-            <input type="date" class="form-control" id="date" name="date">
+            <label for="birthDate">Birth Date</label>
+            <input type="date" class="form-control" id="birthDate" name="birthDate">
           </div>
         </div>
       </div>
@@ -45,19 +46,19 @@
       </div>
       <div class="form-group">
         <label for="email">Email</label>
-        <input type="text" class="form-control" id="email" name="email" placeholder="Enter email">
+        <input type="email" class="form-control" id="email" name="email" placeholder="Enter email">
       </div>
       <div class="form-group">
-        <label for="user">User</label>
-        <input type="text" class="form-control" id="user" name="user" placeholder="Enter user">
+        <label for="username">User</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="Enter user">
       </div>
       <div class="form-group">
-        <label for="password1">Password</label>
-        <input type="password" class="form-control" id="password1" name="password1" placeholder="Password">
+        <label for="password">Password</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Password">
       </div>
       <div class="form-group">
-        <label for="password2">Confirm Password</label>
-        <input type="password" class="form-control" id="password2" name="password2" placeholder="Password">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Password">
       </div>
       <div class="form-group">
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -73,5 +74,6 @@
       </div>
       {{/if}}
     </form>
+
   </div>
 </div>

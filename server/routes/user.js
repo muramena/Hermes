@@ -28,17 +28,17 @@ app.get('/user', user_controller.user_all);
  * @return {Object} - Status, user.
  */
 app.post('/user', [
-    check('username', 'usuario debe contener al menos 4 caracteres').isLength({ min: 4 }),
-    check('password', 'contraseña debe contener al menos 8 caracteres').isLength({ min: 8 }),
-    check('confirmPassword', 'contraseña debe contener al menos 8 caracteres').isLength({ min: 8 }), //Verificar que sea igual a la password
-    check('firstName', 'nombre es obligatorio').not().isEmpty(),
-    check('lastName', 'apellido es obligatorio').not().isEmpty(),
-    check('dni', 'dni debe contener al menos 7 caracteres').isLength({ min: 7 }),
-    check('birthDate', 'fecha de nacimiento es obligatorio').not().isEmpty(),
-    check('address', 'direccion es obligatorio').not().isEmpty(),
-    check('phone', 'telefono es obligatorio').not().isEmpty(),
-    check('email', 'Invalid Email or Password').isEmail()
-  ], user_controller.user_create)
+  check('firstName', 'nombre es obligatorio').not().isEmpty(),
+  check('lastName', 'apellido es obligatorio').not().isEmpty(),
+  check('dni', 'dni debe contener al menos 7 caracteres').isLength({ min: 7 }),
+  check('birthDate', 'fecha de nacimiento es obligatorio').not().isEmpty(),
+  check('address', 'direccion es obligatorio').not().isEmpty(),
+  check('phone', 'telefono es obligatorio').not().isEmpty(),
+  check('email', 'Invalid Email or Password').isEmail(),
+  check('username', 'usuario debe contener al menos 4 caracteres').isLength({ min: 4 }),
+  check('password', 'contraseña debe contener al menos 8 caracteres').isLength({ min: 8 }),
+  check('confirmPassword', 'contraseña debe contener al menos 8 caracteres').isLength({ min: 8 }) //Verificar que sea igual a la password
+], user_controller.user_create)
 
 /**
  * Get a user from the DB.

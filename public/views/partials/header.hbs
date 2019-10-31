@@ -31,6 +31,8 @@
       </a>
     </ul>
   {{else}}
-    <a href="/signin" class="btn btn-secondary ml-auto">Sign in</a>
+    {{#unless signup}}
+    <a href="/signup" class="btn btn-secondary ml-auto">Sign up</a>
+    {{/unless}}
   {{/if}}
 </header>
