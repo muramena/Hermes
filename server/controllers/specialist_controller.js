@@ -35,25 +35,30 @@ let specialist_all = function (req, res) {
  */
 let specialist_create = function (req, res) {
     let body = req.body
-
-    let specialist = new Specialist(
-        {
-            username: body.username,
-            sector: body.sector,
-        }
-    );
-
-    specialist.save((err) => {
+    Sector.findOne( { _id: req.body.sector }, function (err, sector) {
         if (err) {
             return res.status(400).json({
                 ok: false,
+                message: 'sector no existe',
                 err
             })
         }
-        res.json({
-            ok: true,
-            specialist: specialist,
-          })
+        let specialist = new Specialist({
+                username: body.username,
+                sector: body.sector,
+        });
+        specialist.save((err) => {
+            if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+            res.json({
+                ok: true,
+                specialist: specialist,
+            })
+        })
     });
 }
 
@@ -104,9 +109,14 @@ let specialist_assign_to_sector_by_id = function (req, res) {
                 err
             })
         }
-
         Specialist.findOne({ _id: req.params.id}, function (err, specialist) {
             if (err) {
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+            if (!specialist) {
                 return res.status(400).json({
                     ok: false,
                     message: 'especialista no existe',

@@ -95,6 +95,8 @@ userSchema.methods.toJSON = function () {
         address: user.address,
         phone: user.phone,
         email: user.email,
+        type: user.type,
+        state: user.state,
     }
 
     return userJSON;
