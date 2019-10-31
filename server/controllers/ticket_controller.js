@@ -1,5 +1,6 @@
 const Ticket = require('../models/tickets');
 const Specialist = require('../models/specialists');
+const User = require('../models/users');
 
 /**
  * Gets all tickets from the DB.
@@ -35,31 +36,68 @@ let ticket_all = function (req, res) {
  */
 let ticket_create = function (req, res) {
     let body = req.body;
-    let ticket = new Ticket(
-        {
-            user: body.user,
-            title: body.title,
-            description: body.description,
-            category: body.category,
-            priority: body.priority,
-            deadlineDate: body.deadlineDate,
-            parentTicket: body.parentTicket,
-            status: body.status,
-            assignedSpecialist: body.assignedSpecialist,
-        }
-    );
-        
-    ticket.save((err) => {
+    //busca si el usario existe
+    User.findOne({username: body.user}, (err, user) => { // chequear User = null
         if (err) {
+            req.session.success = false;
             return res.status(400).json({
                 ok: false,
                 err
             })
         }
-        res.json({
-            ok: true,
-            ticket: ticket.toJSON(),
-          })
+        if (!user) {
+            req.session.success = false;
+            return res.status(400).json({
+                ok: false,
+                err: {
+                    message: 'usuario no existe' // Usuario en este caso
+                }
+            });
+        }
+        //busca si el especialista existe
+        Specialist.findOne({username: body.assignedSpecialist}, (err, specialist) => { // chequear User = null
+            if (err) {
+                req.session.success = false;
+                return res.status(400).json({
+                    ok: false,
+                    err
+                })
+            }
+            if (!specialist) {
+                req.session.success = false;
+                return res.status(400).json({
+                    ok: false,
+                    err: {
+                        message: 'especialista no existe' // Usuario en este caso
+                    }
+                });
+            }
+
+            let ticket = new Ticket({
+                user: body.user,
+                title: body.title,
+                description: body.description,
+                category: body.category,
+                priority: body.priority,
+                deadlineDate: body.deadlineDate,
+                parentTicket: body.parentTicket,
+                status: body.status,
+                assignedSpecialist: body.assignedSpecialist,
+            });
+            
+            ticket.save((err) => {
+                if (err) {
+                    return res.status(400).json({
+                        ok: false,
+                        err
+                    })
+                }
+                res.json({
+                    ok: true,
+                    ticket: ticket.toJSON(),
+                })
+            });
+        });
     });
 }
 
@@ -77,6 +115,12 @@ let ticket_delete_by_id = function (req, res) {
             return res.status(400).json({
                 ok: false,
                 err
+            })
+        }
+        if (!ticket) {
+            return res.status(400).json({
+                ok: false,
+                message: 'ticket no existe'
             })
         }
         res.send({
@@ -102,9 +146,15 @@ let ticket_details = function (req, res) {
                 err
             })
         }
+        if (!ticket) {
+            return res.status(400).json({
+                ok: false,
+                message: 'ticket no existe'
+            })
+        }
         res.json({
             ok: true,
-            ticket: ticket.toJSON(),
+            ticket: ticket,
         })
     })
 }
