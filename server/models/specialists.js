@@ -10,6 +10,7 @@ let specialistSchema = new Schema({
     },
     username: {
         type: String,
+        unique: true,
         required: [true, 'El usuario especialista es necesario']
     },
     state: {

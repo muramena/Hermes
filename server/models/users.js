@@ -18,6 +18,7 @@ const Schema = mongoose.Schema
  * phone
  * state
  * email
+ * tipe of user
  */
 let userSchema = new Schema({
     username: {
@@ -71,6 +72,10 @@ let userSchema = new Schema({
         trim: true,
         unique: true,
         required: [true, 'El email es necesario']
+    },
+    type: {
+        type: Number,
+        default: 4
     }
 })
 
