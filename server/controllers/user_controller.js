@@ -42,12 +42,22 @@ let user_create = function (req, res) {
   if (!errors.isEmpty()) {
     req.session.errors = errors.array();
     req.session.success = false;
-    return res.status(400).json({
+    res.render(path.resolve(__dirname, '../../public/views/signup'), {
       ok: false,
-      errors
+      errors: errors.errors
     })
+    return req.session.errors = null;
   } else {
     let body = req.body
+
+    if (req.body.password != req.body.confirmPassword){
+      req.session.success = false;
+      return res.render(path.resolve(__dirname, '../../public/views/signup'), {
+        errors: [{
+          msg: 'Contraseñas distintas'
+        }]
+      })
+    }
 
     let user = new User(
       {
@@ -198,42 +208,32 @@ let login = function (req, res) {
   req.session.success = false;
 
   if (!errors.isEmpty()) {
-    res.session.errors = errors.array();
-    res.session.success = false;
-    return req.status(400).json({
+    req.session.errors = errors.array();
+    req.session.success = false;
+    res.render(path.resolve(__dirname, '../../public/views/login'), {
       ok: false,
-      errors
+      errors: errors.errors
     })
+    return req.session.errors = null;
   } else {
     User.findOne({ username: req.body.username }, (err, user) => {
       if (err) {
         req.session.success = false;
-        res.render(path.resolve(__dirname, '../../public/views/login'), {
+        return res.render(path.resolve(__dirname, '../../public/views/login'), {
           errors: [{
             msg: '400'
           }]
-        })
-        return res.status(400).json({
-          ok: false,
-          err
         })
       }
 
       // chequear User = null
       if (!user) {
         req.session.success = false;
-        res.render(path.resolve(__dirname, '../../public/views/login'), {
+        return res.render(path.resolve(__dirname, '../../public/views/login'), {
           errors: [{
-            msg: 'Usuario'
+            msg: 'Usuario y/o contraseña incorrectos'
           }]
         })
-
-        return {
-          ok: false,
-          err: {
-            message: 'Usuario o contraseña incorrectos' // Usuario en este caso
-          }
-        }
       }
 
       if (user.password === req.body.password) { //bcrypt.hashSync(req.params.password, 10)
@@ -241,26 +241,17 @@ let login = function (req, res) {
         req.session.user = user
         req.session.success = true
 
-        res.render(path.resolve(__dirname, '../../public/views/index'), {
+        return res.render(path.resolve(__dirname, '../../public/views/index'), {
           session: req.session.success,
           user: req.session.user
         })
-        return {
-          ok: true,
-          user: user.toJSON()
-        }
       } else {
         req.session.success = false;
-        res.render(path.resolve(__dirname, '../../public/views/login'), {
+        return res.render(path.resolve(__dirname, '../../public/views/login'), {
           errors: [{
-            msg: 'Usuario'
+            msg: 'Usuario y/o contraseña incorrectos'
           }]
         })
-
-        return {
-          ok: false,
-          error: 'Usuario o contraseña incorrectos'
-        }
       }
     })
   }
