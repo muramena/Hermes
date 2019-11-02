@@ -15,6 +15,6 @@ var app = express()
 app.post('/login', [
   check('username', 'Username too short').isLength({ min: 4 }),
   check('password', 'Password too short').isLength({ min: 8 }) 
-], user_controller.login);
+], user_controller.login)
 
 module.exports = app;

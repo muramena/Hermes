@@ -1,7 +1,7 @@
 const express = require('express')
-const db = require('mongoose');
+const db = require('mongoose')
 const path = require('path')
-const user_controller = require('../controllers/user_controller');
+const user_controller = require('../controllers/user_controller')
 const { check, validationResult } = require('express-validator')
 
 /**

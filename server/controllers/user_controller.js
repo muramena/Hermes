@@ -1,6 +1,7 @@
-const User = require('../models/users');
-const Ticket = require('../models/tickets');
-const bcrypt = require('bcrypt');
+const path = require('path')
+const User = require('../models/users')
+const Ticket = require('../models/tickets')
+const bcrypt = require('bcrypt')
 const { check, validationResult } = require('express-validator')
 
 /**
@@ -12,19 +13,19 @@ const { check, validationResult } = require('express-validator')
  * @return {Object} - Status, users.
  */
 let user_all = function (req, res) {
-    User.find({
-        //Empty to get all documents in collection
-    }).then(function (users, err) {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-            })
-        }
-        res.send({
-            ok: true,
-            users: users
-        });
+  User.find({
+    //Empty to get all documents in collection
+  }).then(function (users, err) {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+      })
+    }
+    res.send({
+      ok: true,
+      users: users
     });
+  });
 }
 
 /**
@@ -36,45 +37,45 @@ let user_all = function (req, res) {
  * @return {Object} - Status, user.
  */
 let user_create = function (req, res) {
-    var errors = validationResult(req);
+  var errors = validationResult(req);
 
-    if (!errors.isEmpty()) {
-        req.session.errors = errors.array();
-        req.session.success = false;
+  if (!errors.isEmpty()) {
+    req.session.errors = errors.array();
+    req.session.success = false;
+    return res.status(400).json({
+      ok: false,
+      errors
+    })
+  } else {
+    let body = req.body
+
+    let user = new User(
+      {
+        username: body.username,
+        password: body.password, //bcrypt.hashSync(body.password, 10)
+        firstName: body.firstName,
+        lastName: body.lastName,
+        dni: body.dni,
+        birthDate: body.birthDate,
+        address: body.address,
+        phone: body.phone,
+        email: body.email
+      }
+    );
+
+    user.save((err) => {
+      if (err) {
         return res.status(400).json({
-            ok: false,
-            errors
+          ok: false,
+          err
         })
-    } else {
-        let body = req.body
-
-        let user = new User(
-            {
-                username: body.username,
-                password: body.password, //bcrypt.hashSync(body.password, 10)
-                firstName: body.firstName,
-                lastName: body.lastName,
-                dni: body.dni,
-                birthDate: body.birthDate,
-                address: body.address,
-                phone: body.phone,
-                email: body.email,
-            }
-        );
-
-        user.save((err) => {
-            if (err) {
-                return res.status(400).json({
-                    ok: false,
-                    err
-                })
-            }
-            res.json({
-                ok: true,
-                user: user.toJSON(),
-            })
-        });
-    }
+      }
+      res.json({
+        ok: true,
+        user: user.toJSON(),
+      })
+    });
+  }
 }
 
 /**
@@ -86,19 +87,19 @@ let user_create = function (req, res) {
  * @return {Object} - Status, user.
  */
 let user_delete_by_id = function (req, res) {
-    User.findByIdAndUpdate(req.params.id, {$set: {state: false}}, function (err, user) {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            })
-        }
-        user.state = false;
-        res.send({
-            ok: true,
-            user: user,
-        });
-    });     
+  User.findByIdAndUpdate(req.params.id, { $set: { state: false } }, function (err, user) {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        err
+      })
+    }
+    user.state = false;
+    res.send({
+      ok: true,
+      user: user,
+    });
+  });
 };
 
 /**
@@ -110,18 +111,18 @@ let user_delete_by_id = function (req, res) {
  * @return {Object} - Status, user.
  */
 let user_details = function (req, res) {
-    User.findById(req.params.id, (err, user) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            })
-        }
-        res.json({
-            ok: true,
-            user: user.toJSON(),
-        })
+  User.findById(req.params.id, (err, user) => {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        err
+      })
+    }
+    res.json({
+      ok: true,
+      user: user.toJSON(),
     })
+  })
 }
 
 /**
@@ -133,18 +134,18 @@ let user_details = function (req, res) {
  * @return {Object} - Status, user.
  */
 let user_update_by_id = function (req, res) {
-    User.findByIdAndUpdate(req.params.id, {$set: req.body}, function (err, user) {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            })
-        }
-        res.send({
-            ok: true,
-            user: user,
-        });
-    });    
+  User.findByIdAndUpdate(req.params.id, { $set: req.body }, function (err, user) {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        err
+      })
+    }
+    res.send({
+      ok: true,
+      user: user,
+    });
+  });
 };
 
 /**
@@ -155,33 +156,33 @@ let user_update_by_id = function (req, res) {
  * @returns {Object} List of tickets
  */
 let user_tickets = function (req, res) {
-    User.findById(req.params.id, (err, user) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            })
-        }
-    }).then( function (req, err){
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            })
-        }
-        Ticket.find({ user: req.username }).then(function (tickets, err) {
-            if (err) {
-                return res.status(400).json({
-                    ok: false,
-                    err
-                })
-            }
-            res.send({
-                ok: true,
-                tickets: tickets
-            });
-        });
-    })
+  User.findById(req.params.id, (err, user) => {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        err
+      })
+    }
+  }).then(function (req, err) {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        err
+      })
+    }
+    Ticket.find({ user: req.username }).then(function (tickets, err) {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err
+        })
+      }
+      res.send({
+        ok: true,
+        tickets: tickets
+      });
+    });
+  })
 }
 
 /**
@@ -193,59 +194,81 @@ let user_tickets = function (req, res) {
  * @return {Object} res .
  */
 let login = function (req, res) {
-    var errors = validationResult(req);
+  var errors = validationResult(req);
+  req.session.success = false;
 
-    if (!errors.isEmpty()) {
-        req.session.errors = errors.array();
+  if (!errors.isEmpty()) {
+    res.session.errors = errors.array();
+    res.session.success = false;
+    return req.status(400).json({
+      ok: false,
+      errors
+    })
+  } else {
+    User.findOne({ username: req.body.username }, (err, user) => {
+      if (err) {
         req.session.success = false;
+        res.render(path.resolve(__dirname, '../../public/views/login'), {
+          errors: [{
+            msg: '400'
+          }]
+        })
         return res.status(400).json({
-            ok: false,
-            errors
+          ok: false,
+          err
         })
-    } else {
-        User.findOne({username: req.body.username}, (err, user) => { // chequear User = null
-            if (err) {
-                req.session.success = false;
-                return res.status(400).json({
-                    ok: false,
-                    err
-                })
-            }
+      }
 
-            if (!user) {
-                req.session.success = false;
-                return res.status(400).json({
-                    ok: false,
-                    err: {
-                        message: 'Usuario o contraseña incorrectos' // Usuario en este caso
-                    }
-                });
-            }
-
-            if (user.password === req.body.password){ //bcrypt.hashSync(req.params.password, 10)
-                req.session.success = true;
-                return res.status(200).json({
-                    ok: true,
-                    user: user.toJSON(),
-                })
-            } else {
-                req.session.success = false;
-                return res.status(401).json({
-                    ok: false,
-                    error: 'Usuario o contraseña incorrectos'
-                })
-            }  
+      // chequear User = null
+      if (!user) {
+        req.session.success = false;
+        res.render(path.resolve(__dirname, '../../public/views/login'), {
+          errors: [{
+            msg: 'Usuario'
+          }]
         })
-    }
+
+        return {
+          ok: false,
+          err: {
+            message: 'Usuario o contraseña incorrectos' // Usuario en este caso
+          }
+        }
+      }
+
+      if (user.password === req.body.password) { //bcrypt.hashSync(req.params.password, 10)
+        req.session.success = true;
+        res.render(path.resolve(__dirname, '../../public/views/index'), {
+          session: req.session.success
+        });
+        return {
+          ok: true,
+          user: user.toJSON()
+        }
+      } else {
+        req.session.success = false;
+        res.render(path.resolve(__dirname, '../../public/views/login'), {
+          errors: [{
+            msg: 'Usuario'
+          }]
+        })
+
+        return {
+          ok: false,
+          error: 'Usuario o contraseña incorrectos'
+        }
+      }
+    })
+  }
 }
 
 
 module.exports = {
-    user_all: user_all,
-    user_create: user_create,
-    user_details: user_details,
-    user_delete_by_id: user_delete_by_id,
-    user_update_by_id: user_update_by_id,
-    user_tickets: user_tickets,
-    login: login
+  user_all: user_all,
+  user_create: user_create,
+  user_details: user_details,
+  user_delete_by_id: user_delete_by_id,
+  user_update_by_id: user_update_by_id,
+  user_tickets: user_tickets,
+  login: login
 }
