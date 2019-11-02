@@ -237,8 +237,9 @@ let login = function (req, res) {
       }
 
       if (user.password === req.body.password) { //bcrypt.hashSync(req.params.password, 10)
-        req.session.success = true
+        // Set session & user
         req.session.user = user
+        req.session.success = true
 
         res.render(path.resolve(__dirname, '../../public/views/index'), {
           session: req.session.success,
