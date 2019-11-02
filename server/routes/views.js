@@ -10,7 +10,8 @@ var router = express.Router()
 router.get('/', function (req, res) {
   if (req.session.success) {
     res.render(path.resolve(__dirname, '../../public/views/index'), {
-      session: req.session.success
+      session: req.session.success,
+      user: req.session.user
     });
   } else {
     res.render(path.resolve(__dirname, '../../public/views/login'), {
@@ -54,6 +55,7 @@ router.get('/signup', function (req, res) {
 router.get('/usuario', function (req, res) {
   res.render(path.resolve(__dirname, '../../public/views/user'), {
     session: req.session.success,
+    user: req.session.user,
     title: 'Usuario'
   });
 })

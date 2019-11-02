@@ -237,10 +237,13 @@ let login = function (req, res) {
       }
 
       if (user.password === req.body.password) { //bcrypt.hashSync(req.params.password, 10)
-        req.session.success = true;
+        req.session.success = true
+        req.session.user = user
+
         res.render(path.resolve(__dirname, '../../public/views/index'), {
-          session: req.session.success
-        });
+          session: req.session.success,
+          user: req.session.user
+        })
         return {
           ok: true,
           user: user.toJSON()

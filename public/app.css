@@ -15,7 +15,8 @@ header {
       margin-left: 10px; }
     header .user__name {
       font-size: 18px;
-      line-height: 20px; }
+      line-height: 20px;
+      text-transform: capitalize; }
     header .user__role {
       font-size: 14px;
       line-height: 20px; }
