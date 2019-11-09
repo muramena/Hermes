@@ -1,16 +1,18 @@
-{{#if tickets }}
-<ul class="ticket-list">
-  {{#each tickets }}
-  <li onclick="showDetail(this, '{{ this._id }}')">
-    <h1>{{ this.title }}</h1>
-    <small>ID: {{ this._id }}</small>
-    <span>{{ this.status }}</span>
-  </li>
-  {{/each}}
-</ul>
+<div class="tickets">
+  {{#if tickets }}
+  <ul class="tickets__list">
+    {{#each tickets }}
+    <li onclick="showDetail(this)" data-detail="{{ this }}">
+      <h1>{{ this.title }}</h1>
+      <small>ID: {{ this._id }}</small>
+      <span>{{ this.status }}</span>
+    </li>
+    {{/each}}
+  </ul>
 
-<div id="ticket-detail">
+  <div id="ticket-detail" class="tickets__detail">
+  </div>
+  {{else}}
+  <h1>No hay tickets</h1>
+  {{/if}}
 </div>
-{{else}}
-<h1>No hay tickets</h1>
-{{/if}}

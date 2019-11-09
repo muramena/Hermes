@@ -1,44 +1,48 @@
-.ticket-list {
-  height: calc(100vh - #{$headerHeight});
-  width: 300px;
-  display: inline-flex;
-  flex-direction: column;
-  background: $gray;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  overflow-y: auto;
+.tickets {
+  display: flex;
 
-  > li {
-    display: flex;
+  &__list {
+    height: calc(100vh - #{$headerHeight});
+    width: 300px;
+    display: inline-flex;
     flex-direction: column;
-    background: $grayLight;
-    border-bottom: 1px solid $gray;
-    padding: .5rem;
-    cursor: pointer;
+    background: $gray;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
 
-    &:hover {
-      background: lighten( $grayLight, 5% );
+    > li {
+      display: flex;
+      flex-direction: column;
+      background: $grayLight;
+      border-bottom: 1px solid $gray;
+      padding: .5rem;
+      cursor: pointer;
+
+      &:hover {
+        background: lighten( $grayLight, 5% );
+      }
+
+      &.active {
+        background: $light;
+      }
+
+      > h1 {
+        font-size: 18px;
+        text-transform: uppercase;
+        margin: 0;
+      }
+
+      > small {
+        margin: 5px 0 20px;
+      }
+
+      > span {}
     }
-
-    &.active {
-      background: $light;
-    }
-
-    > h1 {
-      font-size: 18px;
-      text-transform: uppercase;
-      margin: 0;
-    }
-
-    > small {
-      margin: 5px 0 20px;
-    }
-
-    > span {}
   }
-}
-
-#ticket-detail {
-  display: inline-flex;
+  
+  &__detail {
+    flex: 1;
+  }
 }

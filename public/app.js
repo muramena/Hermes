@@ -38,11 +38,13 @@ $(function () {
   })
 })
 
-function showDetail(el, ticket) {
+function showDetail(el) {
   var $el = $(el),
-    $ticketDetailContainer = $('#ticket-detail')
+    $ticketDetailContainer = $('#ticket-detail'),
+    str = JSON.stringify($el.attr('data-detail')),
+    obj = JSON.parse(str.replace(/[\u0000-\u001F]+/g, ""))
 
   $el.siblings('.active').removeClass('active');
   $el.addClass('active');
-  $ticketDetailContainer.html(ticket)
+  $ticketDetailContainer.html(obj)
 }
