@@ -81,7 +81,6 @@ app.put('/ticket/assign/:id', ticket_controller.ticket_assign_to_specialist);
  */
 app.put('/ticket/delete/:id', ticket_controller.ticket_delete_by_id);
 
-
 /**
  * Divide a ticket in two tickets.
  * @module ticket

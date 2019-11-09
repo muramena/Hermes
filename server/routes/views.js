@@ -27,7 +27,7 @@ router.get('/', function (req, res) {
 
 router.get('/logout', function (req, res) {
   req.session.success = false;
-  res.render(path.resolve(__dirname, '../../public/views/login'));
+  res.redirect('/');
 })
 
 /**
