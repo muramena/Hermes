@@ -37,3 +37,12 @@ $(function () {
     }
   })
 })
+
+function showDetail(el, ticket) {
+  var $el = $(el),
+    $ticketDetailContainer = $('#ticket-detail')
+
+  $el.siblings('.active').removeClass('active');
+  $el.addClass('active');
+  $ticketDetailContainer.html(ticket)
+}

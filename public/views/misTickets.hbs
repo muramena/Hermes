@@ -1,15 +1,16 @@
 {{#if tickets }}
 <ul class="ticket-list">
   {{#each tickets }}
-  <li>
-    <a href="/mistickets/{{ this._id }}">
-      <h1>{{ this.title }}</h1>
-      <span>{{ this._id }}</span>
-      <span>{{ this.status }}</span>
-    </a>
+  <li onclick="showDetail(this, '{{ this._id }}')">
+    <h1>{{ this.title }}</h1>
+    <small>ID: {{ this._id }}</small>
+    <span>{{ this.status }}</span>
   </li>
   {{/each}}
 </ul>
+
+<div id="ticket-detail">
+</div>
 {{else}}
 <h1>No hay tickets</h1>
 {{/if}}
