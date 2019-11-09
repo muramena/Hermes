@@ -107,11 +107,11 @@ ticketSchema.method.getPriority = function () {
     let ticket = this;
     switch (ticket.priority){
         case 0:
-            return 'Urgente'
+            return 'Baja'
         case 1:
             return 'Media'
         case 2:
-            return 'Baja'
+            return 'Urgente'
     }
     return 'Error';
 

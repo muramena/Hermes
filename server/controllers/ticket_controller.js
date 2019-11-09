@@ -1,6 +1,8 @@
 const Ticket = require('../models/tickets');
 const Specialist = require('../models/specialists');
 const User = require('../models/users');
+const path = require('path')
+const { check, validationResult } = require('express-validator')
 
 /**
  * Gets all tickets from the DB.
@@ -35,11 +37,22 @@ let ticket_all = function (req, res) {
  * @return {Object} - Status, ticket.
  */
 let ticket_create = function (req, res) {
+    var errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        // ALGUN ERROR EN LA PRIMERA VERIFICACION (DESDE EXPRESS)
+        req.session.errors = errors.array();
+        res.render(path.resolve(__dirname, '../../public/views/ticket'), {
+            session: req.session.success,
+            user: req.session.user,
+            errors: errors.errors
+        })
+        return req.session.errors = null;
+    }
+
     let body = req.body;
-    let username = req.session.user.username
-    if (!username){
+    if (!req.session.success){
         // REDIRECCIONA A LOGIN POR NO ESTAR LOGUEADO
-        req.session.success = false;
         res.render(path.resolve(__dirname, '../../public/views/login'), {
             errors: [{
                 msg: 'Debe estar logueado para crear un ticket'
@@ -47,6 +60,7 @@ let ticket_create = function (req, res) {
         })
         return req.session.errors = null;
     }
+    let username = req.session.user.username
     User.findOne({username}, (err, user) => { 
         if (err) {
             // NO CONECTA CON DB
@@ -61,36 +75,33 @@ let ticket_create = function (req, res) {
         if (!user) {
             // ESTA LOGUEADO PERO SIN EXISTIR EN LA BASE DE DATOS
             req.session.success = false;
-            res.render(path.resolve(__dirname, '../../public/views/login'), {
+            res.render(path.resolve(__dirname, '../../public/views/ticket'), {
                 errors: [{
                     msg: 'Usted no existe en la Base de Datos'
                 }]
             })
             return req.session.errors = null;
         }
-
-        if (!body.priority){
-            deadlineDate = body.deadlineDate
-        } else {
-            deadlineDate = null
-        }
+        console.log(body.priority)
 
         let ticket = new Ticket({
             user: username,
             title: body.title,
             description: body.description,
-            category: body.category,
-            priority: body.priority,
-            deadlineDate,
-            parentTicket: null,
-            status: 0,
-            assignedSpecialist: null,
+            category: body.category
         });
+        if (body.switchPrioDate === 'date'){
+            ticket.deadlineDate = new Date(body.deadline);
+        } else {
+            ticket.priority = body.priority
+        }
         
         ticket.save((err) => {
             if (err) {
                 // ERROR AL CREAR EL TICKET
-                res.render(path.resolve(__dirname, '../../public/views/index'), {
+                res.render(path.resolve(__dirname, '../../public/views/ticket'), {
+                    session: req.session.success,
+                    user: req.session.user,
                     errors: [{
                         msg: 'Error al crear el ticket'
                     }]
@@ -98,8 +109,9 @@ let ticket_create = function (req, res) {
                 return req.session.errors = null;
             }
             // TICKET CREADO
-            req.session.success = false;
             res.render(path.resolve(__dirname, '../../public/views/index'), {
+                session: req.session.success,
+                user: req.session.user,
             })
             return req.session.errors = null;
         });

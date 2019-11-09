@@ -1,5 +1,5 @@
 $(function () {
-  var $switchPrioDate = $('input[type=radio][name=switch-prio-date]'),
+  var $switchPrioDate = $('input[type=radio][name=switchPrioDate]'),
     $switchPrio = $('#switch-prio'),
     $switchDate = $('#switch-date'),
     $rangePrio = $('#range-prio')
