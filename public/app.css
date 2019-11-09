@@ -7,7 +7,8 @@ header {
   justify-content: space-between;
   background: #18608C;
   padding: .5rem 1rem;
-  top: 0; }
+  top: 0;
+  z-index: 10; }
   header img {
     height: 40px; }
 
@@ -28,6 +29,8 @@ header {
     align-items: center;
     margin: 1rem auto 0 0;
     padding: 0; }
+    .sidebar .user:hover {
+      text-decoration: none; }
     .sidebar .user > img {
       height: 40px;
       border-radius: 50%; }
