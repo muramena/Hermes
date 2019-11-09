@@ -1,0 +1,54 @@
+$sidebarWidth: 200px;
+
+.sidebar {
+  position: fixed;
+  height: calc(100vh - 56px);
+  width: $sidebarWidth;
+  display: flex;
+  top: 56px;
+  left: 0;
+  background: $dark;
+  flex-direction: column;
+  padding: .5rem 1rem;
+
+  + main {
+    margin-left: calc(#{$sidebarWidth} + 15px);
+  }
+
+  .user {
+    display: flex;
+    align-items: center;
+    margin: 1rem auto 0 0;
+    padding: 0;
+    
+    > img {
+      height: 40px;
+      border-radius: 50%;
+    }
+
+    &__info {
+      display: flex;
+      flex-direction: column;
+      margin-left: 10px;
+    }
+
+    &__name {
+      font-size: 18px;
+      line-height: 20px;
+      text-transform: capitalize;
+    }
+    
+    &__role {
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid $gray;
+    margin-top: 1rem;
+    padding: 1rem 0;
+  }
+}

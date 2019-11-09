@@ -1,0 +1,17 @@
+{{#if session}}
+  <nav class="sidebar">
+    <a class="user" href="/usuario">
+      <img src="/img/usuario.jpg" alt="My Profile">
+      <div class="user__info">
+        <span class="user__name">{{user.firstName}}</span>
+        <span class="user__role">Rol</span>
+      </div>
+    </a>
+    <div class="actions">
+      <a href="/ticket">Crear Ticket</a>
+      <a href="">Mis Tickets</a>
+      <a href="">Tickets Asignados</a>
+      <a href="">Seguimiento de Tickets</a>
+    </div>
+  </nav>
+{{/if}}

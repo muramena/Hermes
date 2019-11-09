@@ -3,23 +3,44 @@ header {
   background: #18608C; }
   header img {
     height: 40px; }
-  header .user {
+
+.sidebar {
+  position: fixed;
+  height: calc(100vh - 56px);
+  width: 200px;
+  display: flex;
+  top: 56px;
+  left: 0;
+  background: #0D0D0D;
+  flex-direction: column;
+  padding: .5rem 1rem; }
+  .sidebar + main {
+    margin-left: calc(200px + 15px); }
+  .sidebar .user {
     display: flex;
     align-items: center;
+    margin: 1rem auto 0 0;
     padding: 0; }
-    header .user > img {
+    .sidebar .user > img {
+      height: 40px;
       border-radius: 50%; }
-    header .user__info {
+    .sidebar .user__info {
       display: flex;
       flex-direction: column;
       margin-left: 10px; }
-    header .user__name {
+    .sidebar .user__name {
       font-size: 18px;
       line-height: 20px;
       text-transform: capitalize; }
-    header .user__role {
+    .sidebar .user__role {
       font-size: 14px;
       line-height: 20px; }
+  .sidebar .actions {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #737373;
+    margin-top: 1rem;
+    padding: 1rem 0; }
 
 form .range-value {
   display: block;

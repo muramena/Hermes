@@ -5,31 +5,4 @@ header {
   img {
     height: 40px;
   }
-
-  .user {
-    display: flex;
-    align-items: center;
-    padding: 0;
-
-    > img {
-      border-radius: 50%;
-    }
-
-    &__info {
-      display: flex;
-      flex-direction: column;
-      margin-left: 10px;
-    }
-
-    &__name {
-      font-size: 18px;
-      line-height: 20px;
-      text-transform: capitalize;
-    }
-    
-    &__role {
-      font-size: 14px;
-      line-height: 20px;
-    }
-  }
 }
