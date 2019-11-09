@@ -1,8 +1,6 @@
 const express = require('express')
-const db = require('mongoose')
-const path = require('path')
 const user_controller = require('../controllers/user_controller')
-const { check, validationResult } = require('express-validator')
+const { check } = require('express-validator')
 
 /**
  * express module
@@ -31,13 +29,12 @@ app.post('/user', [
   check('firstName', 'Nombre es obligatorio').not().isEmpty(),
   check('lastName', 'Apellido es obligatorio').not().isEmpty(),
   check('dni', 'DNI debe contener al menos 7 caracteres').isLength({ min: 7 }),
-  check('birthDate', 'Fecha de nacimiento es obligatorio').not().isEmpty(),
+  check('birthDate', 'Fecha de nacimiento es obligatorio').not().isEmpty(), //no hay control
   check('address', 'Direccion es obligatorio').not().isEmpty(),
-  check('phone', 'Telefono es obligatorio').not().isEmpty(),
+  check('phone', 'Telefono es obligatorio').not().isEmpty(),  //no hay control
   check('email', 'Email no valido').isEmail(),
   check('username', 'Usuario debe contener al menos 4 caracteres').isLength({ min: 4 }),
-  check('password', 'Contraseña debe contener al menos 8 caracteres').isLength({ min: 8 }),
-  check('confirmPassword', 'Contraseñas distintas').equals('password')
+  check('password', 'Contraseña debe contener al menos 8 caracteres').isLength({ min: 8 })
 ], user_controller.user_create)
 
 /**

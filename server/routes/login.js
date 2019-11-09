@@ -13,8 +13,8 @@ var app = express()
  * Authenticates user, verifying if email and password requirements are accomplished.
  */
 app.post('/login', [
-  check('username', 'Usuario demasiado corto').isLength({ min: 4 }),
-  check('password', 'Contraseña demasiado corta').isLength({ min: 8 }) 
+  check('username', 'Usuario demasiado corto o incompleto').isLength({ min: 4 }),
+  check('password', 'Contraseña demasiado corta o incompleta').isLength({ min: 8 }) 
 ], user_controller.login)
 
 module.exports = app;

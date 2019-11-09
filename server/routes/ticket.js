@@ -1,7 +1,6 @@
 const express = require('express')
-const db = require('mongoose');
-const path = require('path')
 const ticket_controller = require('../controllers/ticket_controller');
+const { check } = require('express-validator')
 
 /**
  * express module
@@ -26,7 +25,11 @@ app.get('/ticket', ticket_controller.ticket_all);
  * @param {Function} callback 
  * @return {Object} - Status, ticket.
  */
-app.post('/ticket', ticket_controller.ticket_create);
+app.post('/ticket', [
+    check('title', 'Es necesario un título para el ticket').not().isEmpty(),
+    check('description', 'Es necesaria una descripción para el ticket').not().isEmpty(),
+    check('category', 'Es necesaria una categoría para el ticket').not().isEmpty()
+], ticket_controller.ticket_create);
 
 /**
  * Get a ticket from the DB.

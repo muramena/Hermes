@@ -40,6 +40,7 @@ let user_create = function (req, res) {
   var errors = validationResult(req);
 
   if (!errors.isEmpty()) {
+    // ALGUN ERROR EN LA PRIMERA VERIFICACION (DESDE EXPRESS)
     req.session.errors = errors.array();
     req.session.success = false;
     res.render(path.resolve(__dirname, '../../public/views/signup'), {
@@ -51,12 +52,14 @@ let user_create = function (req, res) {
     let body = req.body
 
     if (req.body.password != req.body.confirmPassword){
+      // VUELVE A SIGNUP POR CONTRASEÑAS DISTINTAS
       req.session.success = false;
-      return res.render(path.resolve(__dirname, '../../public/views/signup'), {
+      res.render(path.resolve(__dirname, '../../public/views/signup'), {
         errors: [{
           msg: 'Contraseñas distintas'
         }]
       })
+      return req.session.errors = null;
     }
 
     let user = new User(
@@ -75,15 +78,23 @@ let user_create = function (req, res) {
 
     user.save((err) => {
       if (err) {
-        return res.status(400).json({
+        // VUELVE A SIGNUP POR USUARIO DUPLICADO
+        req.session.success = false;
+        res.render(path.resolve(__dirname, '../../public/views/signup'), {
           ok: false,
-          err
+          errors: [{
+            msg: 'Ya hay algún usuario registrado con el mismo mail, DNI y/o nombre de usuario'
+          }]
         })
+        return req.session.errors = null;
       }
-      res.json({
-        ok: true,
-        user: user.toJSON(),
+      // REDIRECCION A LOGIN DESPUES DE CREAR USUARIO EN BASE DE DATOS
+      req.session.success = false;
+      res.render(path.resolve(__dirname, '../../public/views/login'), {
+        ok: false,
+        errors: errors.errors
       })
+      return req.session.errors = null;
     });
   }
 }
@@ -219,21 +230,23 @@ let login = function (req, res) {
     User.findOne({ username: req.body.username }, (err, user) => {
       if (err) {
         req.session.success = false;
-        return res.render(path.resolve(__dirname, '../../public/views/login'), {
+         res.render(path.resolve(__dirname, '../../public/views/login'), {
           errors: [{
             msg: '400'
           }]
         })
+        return req.session.errors = null;
       }
 
       // chequear User = null
       if (!user) {
         req.session.success = false;
-        return res.render(path.resolve(__dirname, '../../public/views/login'), {
+        res.render(path.resolve(__dirname, '../../public/views/login'), {
           errors: [{
-            msg: 'Usuario y/o contraseña incorrectos'
+            msg: 'Usuario y/o contraseña no válidos'
           }]
         })
+        return req.session.errors = null;
       }
 
       if (user.password === req.body.password) { //bcrypt.hashSync(req.params.password, 10)
@@ -243,15 +256,16 @@ let login = function (req, res) {
 
         return res.render(path.resolve(__dirname, '../../public/views/index'), {
           session: req.session.success,
-          user: req.session.user
+          user: req.session.user.toJSON()
         })
       } else {
         req.session.success = false;
-        return res.render(path.resolve(__dirname, '../../public/views/login'), {
+        res.render(path.resolve(__dirname, '../../public/views/login'), {
           errors: [{
             msg: 'Usuario y/o contraseña incorrectos'
           }]
         })
+        return req.session.errors = null;
       }
     })
   }

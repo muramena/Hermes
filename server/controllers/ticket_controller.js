@@ -36,67 +36,72 @@ let ticket_all = function (req, res) {
  */
 let ticket_create = function (req, res) {
     let body = req.body;
-    //busca si el usario existe
-    User.findOne({username: body.user}, (err, user) => { // chequear User = null
+    let username = req.session.user.username
+    if (!username){
+        // REDIRECCIONA A LOGIN POR NO ESTAR LOGUEADO
+        req.session.success = false;
+        res.render(path.resolve(__dirname, '../../public/views/login'), {
+            errors: [{
+                msg: 'Debe estar logueado para crear un ticket'
+            }]
+        })
+        return req.session.errors = null;
+    }
+    User.findOne({username}, (err, user) => { 
         if (err) {
+            // NO CONECTA CON DB
             req.session.success = false;
-            return res.status(400).json({
-                ok: false,
-                err
+            res.render(path.resolve(__dirname, '../../public/views/login'), {
+                errors: [{
+                    msg: '400'
+                }]
             })
+            return req.session.errors = null;
         }
         if (!user) {
+            // ESTA LOGUEADO PERO SIN EXISTIR EN LA BASE DE DATOS
             req.session.success = false;
-            return res.status(400).json({
-                ok: false,
-                err: {
-                    message: 'usuario no existe' // Usuario en este caso
-                }
-            });
+            res.render(path.resolve(__dirname, '../../public/views/login'), {
+                errors: [{
+                    msg: 'Usted no existe en la Base de Datos'
+                }]
+            })
+            return req.session.errors = null;
         }
-        //busca si el especialista existe
-        Specialist.findOne({username: body.assignedSpecialist}, (err, specialist) => { // chequear User = null
-            if (err) {
-                req.session.success = false;
-                return res.status(400).json({
-                    ok: false,
-                    err
-                })
-            }
-            if (!specialist) {
-                req.session.success = false;
-                return res.status(400).json({
-                    ok: false,
-                    err: {
-                        message: 'especialista no existe' // Usuario en este caso
-                    }
-                });
-            }
 
-            let ticket = new Ticket({
-                user: body.user,
-                title: body.title,
-                description: body.description,
-                category: body.category,
-                priority: body.priority,
-                deadlineDate: body.deadlineDate,
-                parentTicket: body.parentTicket,
-                status: body.status,
-                assignedSpecialist: body.assignedSpecialist,
-            });
-            
-            ticket.save((err) => {
-                if (err) {
-                    return res.status(400).json({
-                        ok: false,
-                        err
-                    })
-                }
-                res.json({
-                    ok: true,
-                    ticket: ticket.toJSON(),
+        if (!body.priority){
+            deadlineDate = body.deadlineDate
+        } else {
+            deadlineDate = null
+        }
+
+        let ticket = new Ticket({
+            user: username,
+            title: body.title,
+            description: body.description,
+            category: body.category,
+            priority: body.priority,
+            deadlineDate,
+            parentTicket: null,
+            status: 0,
+            assignedSpecialist: null,
+        });
+        
+        ticket.save((err) => {
+            if (err) {
+                // ERROR AL CREAR EL TICKET
+                res.render(path.resolve(__dirname, '../../public/views/index'), {
+                    errors: [{
+                        msg: 'Error al crear el ticket'
+                    }]
                 })
-            });
+                return req.session.errors = null;
+            }
+            // TICKET CREADO
+            req.session.success = false;
+            res.render(path.resolve(__dirname, '../../public/views/index'), {
+            })
+            return req.session.errors = null;
         });
     });
 }
