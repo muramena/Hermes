@@ -15,7 +15,7 @@ var app = express()
  * @param {Function} callback 
  * @return {Object} - Status, ticket.
  */
-app.get('/ticket', ticket_controller.ticket_all);
+app.get('/tickets', ticket_controller.ticket_all);
 
 /**
  * Creates ticket and saves it in the DB.
