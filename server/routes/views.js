@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+const ticket = require('../controllers/ticket_controller')
 
 var router = express.Router()
 
@@ -76,12 +77,12 @@ router.get('/ticket', function (req, res) {
  * MIS TICKETS
  */
 
-router.get('/mistickets', function (req, res) {
+router.get('/mistickets', ticket.ticket_my_tickets) /*function (req, res) {
   res.render(path.resolve(__dirname, '../../public/views/misTickets'), {
     session: req.session.success,
     user: req.session.user,
     title: 'Mis Ticket'
   });
-})
+}) */
 
 module.exports = router;
