@@ -1,6 +1,13 @@
 header {
-  min-height: 56px;
-  background: #18608C; }
+  position: fixed;
+  height: 56px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #18608C;
+  padding: .5rem 1rem;
+  top: 0; }
   header img {
     height: 40px; }
 
@@ -47,4 +54,4 @@ form .range-value {
   opacity: .8; }
 
 main {
-  margin: 5rem 15px; }
+  margin: calc(5rem + 56px) 15px 5rem; }
