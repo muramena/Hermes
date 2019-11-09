@@ -72,4 +72,16 @@ router.get('/ticket', function (req, res) {
   });
 })
 
+/**
+ * MIS TICKETS
+ */
+
+router.get('/mistickets', function (req, res) {
+  res.render(path.resolve(__dirname, '../../public/views/misTickets'), {
+    session: req.session.success,
+    user: req.session.user,
+    title: 'Mis Ticket'
+  });
+})
+
 module.exports = router;
