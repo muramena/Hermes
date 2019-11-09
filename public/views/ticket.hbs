@@ -1,89 +1,91 @@
-<div class="row justify-content-md-center">
-  <div class="col-lg-6 col-md-9 col-sm-12 align-self-center">
-    <h2>Crear Ticket</h2>
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-lg-6 col-md-9 col-sm-12 align-self-center">
+      <h2>Crear Ticket</h2>
+    </div>
   </div>
-</div>
 
-<div class="row justify-content-md-center">
-  <div class="col-lg-6 col-md-9 col-sm-12">
+  <div class="row justify-content-md-center">
+    <div class="col-lg-6 col-md-9 col-sm-12">
 
-    <form action="/ticket" method="post">
-      <div class="form-group">
-        <div class="row">
-          <div class="col">
-            <label for="title">Titulo</label>
-            <input type="text" class="form-control" id="title" name="title" placeholder="Titulo">
+      <form action="/ticket" method="post">
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label for="title">Titulo</label>
+              <input type="text" class="form-control" id="title" name="title" placeholder="Titulo">
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <div class="row">
-          <div class="col">
-            <label for="description">Descripcion</label>
-            <textarea type="text" class="form-control" id="description" name="description" placeholder="Descripcion"></textarea>
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label for="description">Descripcion</label>
+              <textarea type="text" class="form-control" id="description" name="description" placeholder="Descripcion"></textarea>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="form-group">
-        <div class="row">
-          <div class="col">
-            <label for="category">Categoria</label>
-            <select class="form-control" id="category" name="category">
-              <option selected disabled hidden>Seleccione Categoria</option>
-              <option value="0">Desarrollo</option>
-              <option value="1">Modificacion</option>
-              <option value="2">Correccion del error</option>
-              <option value="3">Problema con internet</option>
-              <option value="4">Problema con red interna</option>
-              <option value="5">Problema de servicio</option>
-              <option value="6">Ayuda para operar sistema</option>
-              <option value="7">Ayuda para operar hardware</option>
-            </select>
-          </div>
+        <div class="form-group">
+          <div class="row">
+            <div class="col">
+              <label for="category">Categoria</label>
+              <select class="form-control" id="category" name="category">
+                <option selected disabled hidden>Seleccione Categoria</option>
+                <option value="0">Desarrollo</option>
+                <option value="1">Modificacion</option>
+                <option value="2">Correccion del error</option>
+                <option value="3">Problema con internet</option>
+                <option value="4">Problema con red interna</option>
+                <option value="5">Problema de servicio</option>
+                <option value="6">Ayuda para operar sistema</option>
+                <option value="7">Ayuda para operar hardware</option>
+              </select>
+            </div>
 
-          <div class="col">
-            <div class="mb-2">
-              <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="switch-priority-1" name="switchPrioDate" value="prio" class="custom-control-input" checked>
-                <label class="custom-control-label" for="switch-priority-1">Prioridad</label>
+            <div class="col">
+              <div class="mb-2">
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" id="switch-priority-1" name="switchPrioDate" value="prio" class="custom-control-input" checked>
+                  <label class="custom-control-label" for="switch-priority-1">Prioridad</label>
+                </div>
+                <div class="custom-control custom-radio custom-control-inline">
+                  <input type="radio" id="switch-priority-2" name="switchPrioDate" value="date" class="custom-control-input">
+                  <label class="custom-control-label" for="switch-priority-2">Fecha</label>
+                </div>
               </div>
-              <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="switch-priority-2" name="switchPrioDate" value="date" class="custom-control-input">
-                <label class="custom-control-label" for="switch-priority-2">Fecha</label>
-              </div>
-            </div>
 
-            <div id="switch-prio">
-              <input type="range" class="form-control-range" id="range-prio" name="priority" value="0" min="0" max="2" step="1">
-              <span id="label-prio" class="range-value">Baja</span>
-            </div>
-            <div id="switch-date">
-              <input type="date" class="form-control" id="deadline" name="deadline">
+              <div id="switch-prio">
+                <input type="range" class="form-control-range" id="range-prio" name="priority" value="0" min="0" max="2" step="1">
+                <span id="label-prio" class="range-value">Baja</span>
+              </div>
+              <div id="switch-date">
+                <input type="date" class="form-control" id="deadline" name="deadline">
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div hidden>
-        <input type="text" name="user" value="{{user.username}}">
-      </div>
-
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary">Enviar</button>
-      </div>
-
-      {{#if errors }}
-      <div class="form-group">
-        {{#each errors }}
-        <div class="alert alert-danger" role="alert">
-          {{ this.msg }}
+        <div hidden>
+          <input type="text" name="user" value="{{user.username}}">
         </div>
-        {{/each}}
-      </div>
-      {{/if}}
-    </form>
 
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </div>
+
+        {{#if errors }}
+        <div class="form-group">
+          {{#each errors }}
+          <div class="alert alert-danger" role="alert">
+            {{ this.msg }}
+          </div>
+          {{/each}}
+        </div>
+        {{/if}}
+      </form>
+
+    </div>
   </div>
 </div>

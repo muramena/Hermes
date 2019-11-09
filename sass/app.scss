@@ -8,8 +8,13 @@ $sidebarWidth: 200px;
 
 @import "./_header";
 @import "./_sidebar";
+@import "./_ticket-list";
 @import "./_forms";
 
 main {
-  margin: calc(5rem + #{$headerHeight}) 15px 5rem;
+  margin: $headerHeight 0 0;
+
+  .container {
+    margin-top: calc(#{$headerHeight} + 1rem);
+  }
 }

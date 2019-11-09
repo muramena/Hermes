@@ -1,33 +1,35 @@
-<div class="row justify-content-md-center">
-  <div class="col-lg-6 col-md-9 col-sm-12 align-self-center">
-    <h1>Bienvenido a Hermes!</h1>
+<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-lg-6 col-md-9 col-sm-12 align-self-center">
+      <h1>Bienvenido a Hermes!</h1>
+    </div>
   </div>
-</div>
 
-<div class="row justify-content-md-center">
-  <div class="col-lg-6 col-md-9 col-sm-12">
-    <form action="/login" method="post">
-      <div class="form-group">
-        <label for="username">Usuario</label>
-        <input type="text" class="form-control" id="username" name="username" placeholder="usuario">
-      </div>
-      <div class="form-group">
-        <label for="password">Contraseña</label>
-        <input type="password" class="form-control" id="password" name="password" placeholder="********">
-      </div>
-      <div class="form-group">
-        <button type="submit" class="btn btn-primary">Ingresar</button>
-      </div>
-
-      {{#if errors }}
+  <div class="row justify-content-md-center">
+    <div class="col-lg-6 col-md-9 col-sm-12">
+      <form action="/login" method="post">
         <div class="form-group">
-          {{#each errors }}
-            <div class="alert alert-danger" role="alert">
-              {{ this.msg }}
-            </div>
-          {{/each}}
+          <label for="username">Usuario</label>
+          <input type="text" class="form-control" id="username" name="username" placeholder="usuario">
         </div>
-      {{/if}}
-    </form>
+        <div class="form-group">
+          <label for="password">Contraseña</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="********">
+        </div>
+        <div class="form-group">
+          <button type="submit" class="btn btn-primary">Ingresar</button>
+        </div>
+
+        {{#if errors }}
+          <div class="form-group">
+            {{#each errors }}
+              <div class="alert alert-danger" role="alert">
+                {{ this.msg }}
+              </div>
+            {{/each}}
+          </div>
+        {{/if}}
+      </form>
+    </div>
   </div>
 </div>

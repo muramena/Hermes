@@ -12,7 +12,7 @@ $sidebarWidth: 200px;
   padding: .5rem 1rem;
 
   + main {
-    margin-left: calc(#{$sidebarWidth} + 15px);
+    margin-left: $sidebarWidth;
   }
 
   .user {
