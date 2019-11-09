@@ -21,5 +21,9 @@ header {
       font-size: 14px;
       line-height: 20px; }
 
+form .range-value {
+  display: block;
+  opacity: .8; }
+
 main {
   margin: 5rem 15px; }

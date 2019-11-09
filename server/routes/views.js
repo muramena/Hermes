@@ -64,8 +64,12 @@ router.get('/usuario', function (req, res) {
  * TICKETS
  */
 
-router.get('/tickets', function (req, res) {
-  res.render(path.resolve(__dirname, '../../public/views/ticket'))
+router.get('/ticket', function (req, res) {
+  res.render(path.resolve(__dirname, '../../public/views/ticket'), {
+    session: req.session.success,
+    user: req.session.user,
+    title: 'Crear Ticket'
+  });
 })
 
 module.exports = router;
