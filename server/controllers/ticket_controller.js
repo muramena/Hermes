@@ -28,6 +28,34 @@ let ticket_all = function (req, res) {
     });
 }
 
+let ticket_my_tickets = function (req, res) {
+    if (!req.session.success){
+        // REDIRECCIONA A LOGIN POR NO ESTAR LOGUEADO
+        res.render(path.resolve(__dirname, '../../public/views/login'), {
+            errors: [{
+                msg: 'Debe estar logueado para ver sus tickets'
+            }]
+        })
+        return req.session.errors = null;
+    }
+    
+    Ticket.find({user: req.session.user.username}, (err, ticketsDB) => {
+        if (err) {
+            // NO CONECTA CON DB
+            req.session.success = false;
+            res.render(path.resolve(__dirname, '../../public/views/login'), {
+                errors: [{
+                    msg: '400'
+                }]
+            })
+            return req.session.errors = null;
+        }
+        return res.render(path.resolve(__dirname, '../../public/views/mytickets'), {
+            tickets: ticketsDB
+        })
+    })
+}
+
 /**
  * Creates ticket and saves it in the DB.
  * @module ticket
@@ -369,6 +397,7 @@ let ticket_divide = function (req, res) {
 
 module.exports = {
     ticket_all: ticket_all,
+    ticket_my_tickets: ticket_my_tickets,
     ticket_create: ticket_create,
     ticket_delete_by_id: ticket_delete_by_id,
     ticket_details: ticket_details,

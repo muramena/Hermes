@@ -254,10 +254,7 @@ let login = function (req, res) {
         req.session.user = user
         req.session.success = true
 
-        return res.render(path.resolve(__dirname, '../../public/views/index'), {
-          session: req.session.success,
-          user: req.session.user.toJSON()
-        })
+        return res.redirect('/')
       } else {
         req.session.success = false;
         res.render(path.resolve(__dirname, '../../public/views/login'), {
