@@ -1,5 +1,6 @@
 const express = require('express')
 const path = require('path')
+const ticket_controller = require('../controllers/ticket_controller')
 
 var router = express.Router()
 
@@ -71,5 +72,23 @@ router.get('/ticket', function (req, res) {
     title: 'Crear Ticket'
   });
 })
+
+/**
+ * MIS TICKETS CREADOS
+ */
+
+router.get('/mistickets', ticket_controller.ticket_my_tickets) /*function (req, res) {
+  res.render(path.resolve(__dirname, '../../public/views/misTickets'), {
+    session: req.session.success,
+    user: req.session.user,
+    title: 'Mis Ticket'
+  });
+}) */
+
+/**
+ * MIS TICKETS ASIGNADOS
+ */
+
+ router.get('/misticketsasignados', ticket_controller.ticket_my_assigned_tickets)
 
 module.exports = router;

@@ -1,0 +1,15 @@
+{{#if tickets }}
+<ul>
+  {{#each tickets }}
+  <li>
+    <a href="/mistickets/{{ this._id }}">
+      <h1>{{ this.title }}</h1>
+      <span>{{ this._id }}</span>
+      <span>{{ this.status }}</span>
+    </a>
+  </li>
+  {{/each}}
+</ul>
+{{else}}
+<h1>No hay tickets</h1>
+{{/if}}
