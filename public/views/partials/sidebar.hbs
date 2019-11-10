@@ -5,7 +5,14 @@
         <img src="/img/usuario.jpg" alt="My Profile">
         <div class="user__info nav-link">
           <span class="user__name">{{user.firstName}}</span>
-          <span class="user__role">Rol</span>
+          <span class="user__role">
+          {{#switch user.type}}
+            {{#case '-1'}}Empleado{{/case}}
+            {{#case '0'}}Especialista>{{/case}}
+            {{#case '1'}}Jefe de sector{{/case}}
+            {{#case '2'}}Jefe de area{{/case}}
+          {{/switch}}
+          </span>
         </div>
       </a>
 
