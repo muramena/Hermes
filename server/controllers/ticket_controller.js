@@ -35,7 +35,8 @@ let ticket_all = function (req, res) {
       })
       return req.session.errors = null;
     }
-    return res.render(path.resolve(__dirname, '../../public/views/seguimiento'), {
+
+    return res.render(path.resolve(__dirname, '../../public/views/ticket-detail'), {
       session: req.session.success,
       user: req.session.user,
       title: 'Seguimiento Tickets',
@@ -66,7 +67,7 @@ let ticket_my_tickets = function (req, res) {
       })
       return req.session.errors = null;
     }
-    return res.render(path.resolve(__dirname, '../../public/views/misTickets'), {
+    return res.render(path.resolve(__dirname, '../../public/views/ticket-detail'), {
       session: req.session.success,
       user: req.session.user,
       title: 'Mis Tickets',
@@ -97,7 +98,7 @@ let ticket_my_assigned_tickets = function (req, res) {
       })
       return req.session.errors = null;
     }
-    return res.render(path.resolve(__dirname, '../../public/views/asignados'), {
+    return res.render(path.resolve(__dirname, '../../public/views/ticket-detail'), {
       session: req.session.success,
       user: req.session.user,
       title: 'Mis Tickets Asignados',

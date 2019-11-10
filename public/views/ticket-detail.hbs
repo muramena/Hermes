@@ -1,0 +1,38 @@
+<div class="tickets">
+  {{#if tickets }}
+  <ul class="tickets__list">
+    {{#each tickets }}
+    <li onclick="showDetail(this)" data-detail="{{ this }}">
+      <h1>{{ this.title }}</h1>
+      <small>ID: {{ this._id }}</small>
+      {{#switch this.status}}
+        {{#case '0'}}<span class="">Sin asignar</span>{{/case}}
+        {{#case '1'}}<span class="">Por realizar</span>{{/case}}
+        {{#case '2'}}<span class="">En proceso</span>{{/case}}
+        {{#case '3'}}<span class="">Finalizado</span>{{/case}}
+        {{#case '4'}}<span class="">Cancelado</span>{{/case}}
+        {{#case '5'}}<span class="">En espera</span>{{/case}}
+      {{/switch}}
+    </li>
+    {{/each}}
+  </ul>
+
+  <div id="ticket-detail" class="tickets__detail">
+    <div class="wrapper">
+      <header>
+        <h1 id="ticketId"></h1>
+        <select name="status" id="ticketStatus">
+          <option value="">Sin asignar</option>
+          <option value="">Por realizar</option>
+          <option value="">En proceso</option>
+          <option value="">Finalizado</option>
+          <option value="">Cancelado</option>
+          <option value="">En espera</option>
+        </select>
+      </header>
+    </div>
+  </div>
+  {{else}}
+  <h1>No hay tickets</h1>
+  {{/if}}
+</div>

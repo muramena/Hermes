@@ -141,7 +141,7 @@ let user_details = function (req, res) {
     }
     res.json({
       ok: true,
-      user: user.toJSON(),
+      user: user.toJSON()
     })
   })
 }
