@@ -69,7 +69,10 @@ router.get('/ticket', function (req, res) {
   res.render(path.resolve(__dirname, '../../public/views/ticket'), {
     session: req.session.success,
     user: req.session.user,
-    title: 'Crear Ticket'
+    title: 'Crear Ticket',
+    active: {
+      ticket: true
+    }
   });
 })
 
@@ -83,12 +86,12 @@ router.get('/mistickets', ticket_controller.ticket_my_tickets)
  * MIS TICKETS ASIGNADOS
  */
 
- router.get('/asignados', ticket_controller.ticket_my_assigned_tickets)
+router.get('/asignados', ticket_controller.ticket_my_assigned_tickets)
 
 /**
  * SEGUIMIENTO DE TICKETS
  */
 
- router.get('/seguimiento', ticket_controller.ticket_all)
+router.get('/seguimiento', ticket_controller.ticket_all)
 
 module.exports = router;

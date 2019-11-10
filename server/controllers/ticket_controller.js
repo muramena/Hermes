@@ -56,7 +56,10 @@ let ticket_all = function (req, res) {
       session: req.session.success,
       user: req.session.user,
       title: 'Seguimiento Tickets',
-      tickets: filteredTickets
+      tickets: filteredTickets,
+      active: {
+        seguimiento: true
+      }
     })
   })
 }
@@ -87,7 +90,10 @@ let ticket_my_tickets = function (req, res) {
       session: req.session.success,
       user: req.session.user,
       title: 'Mis Tickets',
-      tickets: ticketsDB
+      tickets: ticketsDB,
+      active: {
+        mistickets: true
+      }
     })
   })
 }
@@ -118,7 +124,10 @@ let ticket_my_assigned_tickets = function (req, res) {
       session: req.session.success,
       user: req.session.user,
       title: 'Mis Tickets Asignados',
-      tickets: ticketsDB
+      tickets: ticketsDB,
+      active: {
+        asignados: true
+      }
     })
   })
 }
