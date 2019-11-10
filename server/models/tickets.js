@@ -138,14 +138,16 @@ ticketSchema.method.getStatus = function () {
 
 }
 
-ticketSchema.pre('findOneAndUpdate', async () => {
+ticketSchema.pre('findOneAndUpdate', async function() {
 
     console.log('CANCELANDO/ELIMINANDO')
     if (this._update.state === false){
+        console.log('1')
         const cascade = await Ticket.updateMany({parentTicket: this._conditions._id}, { $set: { state: false } });
         console.log('Tickets eliminados: ' + cascade.nModified);
     } else {
-        if (this._update.status === false){
+        if (this._update.status === 4){
+            console.log('2')
             const cascade = await Room.updateMany({parentTicket: this._conditions._id}, { $set: { status: 4 } });
             console.log('Tickets cancelados: ' + cascade.nModified);
         }

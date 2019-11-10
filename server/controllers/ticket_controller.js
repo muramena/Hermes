@@ -87,10 +87,11 @@ let ticket_all = function (req, res) {
         }
       }
 
-      Specialist.find({sector: specialist.rol}, (err, specialists) => {
+      Specialist.find({}, (err, specialists) => {
         if (err) {
           return res.redirect('/')
         }
+        specialists = specialists.filter(e => e.sector === specialist.sector)
         return res.render(path.resolve(__dirname, '../../public/views/ticket-detail'), {
           session: req.session.success,
           user: req.session.user,
