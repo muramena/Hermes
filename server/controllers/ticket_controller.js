@@ -72,7 +72,7 @@ let ticket_my_tickets = function (req, res) {
     return req.session.errors = null;
   }
 
-  Ticket.find({ user: req.session.user.username }, (err, ticketsDB) => {
+  Ticket.find({ user: req.session.user.username, state: true }, (err, ticketsDB) => {
     if (err) {
       // NO CONECTA CON DB
       req.session.success = false;
@@ -497,6 +497,7 @@ module.exports = {
   ticket_all: ticket_all,
   ticket_my_tickets: ticket_my_tickets,
   ticket_my_assigned_tickets: ticket_my_assigned_tickets,
+  ticket_setStatus_inProgress_by_id: ticket_setStatus_inProgress_by_id,
   ticket_create: ticket_create,
   ticket_delete_by_id: ticket_delete_by_id,
   ticket_details: ticket_details,
