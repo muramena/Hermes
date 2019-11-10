@@ -1,5 +1,6 @@
 const path = require('path')
 const User = require('../models/users')
+const Specialist = require('../models/specialists');
 const Ticket = require('../models/tickets')
 const bcrypt = require('bcrypt')
 const { check, validationResult } = require('express-validator')
@@ -214,10 +215,27 @@ let login = function (req, res) {
 
       if (user.password === req.body.password) { //bcrypt.hashSync(req.params.password, 10)
         // Set session & user
-        req.session.user = user
-        req.session.success = true
+        Specialist.findOne({username: req.body.username}, (err, specialist) => {
+          if (err) {
+            // NO CONECTA CON DB
+            req.session.success = false;
+            res.render(path.resolve(__dirname, '../../public/views/login'), {
+              errors: [{
+                msg: '400'
+              }]
+            })
+            return req.session.errors = null;
+          }
+          if (!specialist) {
+            user.type = -1
+          } else {
+            user.type = specialist.rol 
+          }
+          req.session.user = user
+          req.session.success = true
 
-        return res.redirect('/')
+          return res.redirect('/')
+        })
       } else {
         req.session.success = false;
         res.render(path.resolve(__dirname, '../../public/views/login'), {
