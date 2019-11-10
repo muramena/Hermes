@@ -227,6 +227,15 @@ let ticket_create = function (req, res) {
  * @return {Object} - Status, ticket
  */
 let ticket_delete_by_id = function (req, res) {
+  if (!req.session.success) {
+    // REDIRECCIONA A LOGIN POR NO ESTAR LOGUEADO
+    res.render(path.resolve(__dirname, '../../public/views/login'), {
+      errors: [{
+        msg: 'Debe estar logueado para eliminar un ticket'
+      }]
+    })
+    return req.session.errors = null;
+  }
   Ticket.findByIdAndUpdate(req.params.id, { $set: { state: false } }, function (err, ticket) {
     if (err) {
       return res.status(400).json({
@@ -235,7 +244,9 @@ let ticket_delete_by_id = function (req, res) {
       })
     }
     if (!ticket) {
-      return res.redirect('/')
+      return res.json({
+        ok: false
+      })
     }
     return res.json({
       ok: true
@@ -305,6 +316,15 @@ let ticket_update_by_id = function (req, res) {
  * @return {Object} - Status, ticket.
  */
 let ticket_cancel_by_id = function (req, res) {
+  if (!req.session.success) {
+    // REDIRECCIONA A LOGIN POR NO ESTAR LOGUEADO
+    res.render(path.resolve(__dirname, '../../public/views/login'), {
+      errors: [{
+        msg: 'Debe estar logueado para cancelar un ticket'
+      }]
+    })
+    return req.session.errors = null;
+  }
   Ticket.findOne({ _id: req.params.id }, function (err, ticket) {
     if (err) {
       return res.status(400).json({
@@ -325,18 +345,23 @@ let ticket_cancel_by_id = function (req, res) {
         message: 'el ticket no fue creado por este usuario'
       })
     }
-    ticket.state = false
-    ticket.save((err) => {
+    Ticket.findByIdAndUpdate(req.params.id, { $set: { status: 4 } }, function (err, ticket) {
       if (err) {
         return res.status(400).json({
           ok: false,
           err
         })
       }
-    });
-    res.send({
-      ok: true,
-      ticket: ticket,
+      if (!ticket) {
+        return res.json({
+          ok: false,
+          message: 'El ticket no existe'
+        })
+      }
+      return res.json({
+        ok: true,
+        ticket
+      })
     });
   });
 };
