@@ -10,10 +10,10 @@
       </a>
 
       <div class="actions">
-        <a class="nav-link" href="/ticket">Crear Ticket</a>
-        <a class="nav-link" href="/mistickets">Mis Tickets</a>
-        <a class="nav-link" href="/asignados">Tickets Asignados</a>
-        <a class="nav-link" href="/seguimiento">Seguimiento de Tickets</a>
+        <a class="{{#if active.ticket}}active {{/if}}nav-link" href="/ticket">Crear Ticket</a>
+        <a class="{{#if active.mistickets}}active {{/if}}nav-link" href="/mistickets">Mis Tickets</a>
+        <a class="{{#if active.asignados}}active {{/if}}nav-link" href="/asignados">Tickets Asignados</a>
+        <a class="{{#if active.seguimiento}}active {{/if}}nav-link" href="/seguimiento">Seguimiento de Tickets</a>
       </div>
     </div>
   </nav>
