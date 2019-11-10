@@ -485,47 +485,42 @@ let ticket_assign_to_specialist = function (req, res) {
  * @return {Object} - Status, ticket.
  */
 let ticket_divide = function (req, res) {
-  Ticket.findById(req.params.id, function (err, ticket) {
+  Ticket.findByIdAndUpdate(req.params.id, { $set: { status: 5 } }, function (err, ticket) {
     if (err) {
       return res.status(400).json({
         ok: false,
         err
       })
     }
-
     if (!ticket) {
-      return res.status(400).json({
+      return res.json({
         ok: false,
-        err: {
-          message: 'ticket no existe'
-        }
+        message: 'El ticket no existe'
       })
     }
-
-    //como hacer los dos nuevos tickets
+    console.log(req)
     let subTicket1 = new Ticket({
-      user: req.params.user || ticket.user,
-      title: req.params.subTicket1Title || ticket.title,
-      description: req.params.subTicket1Description || ticket.description,
+      user: ticket.user,
+      title: req.body.title1, 
+      description: req.body.description1, 
       category: ticket.category,
       priority: ticket.priority,
       deadlineDate: ticket.deadlineDate,
       parentTicket: ticket._id,
-      status: ticket.status,
+      status: 1,
       assignedSpecialist: ticket.assignedSpecialist,
     });
     let subTicket2 = new Ticket({
-      user: req.params.user || ticket.user,
-      title: req.params.subTicket2Title || ticket.title,
-      description: req.params.subTicket2Description || ticket.description,
-      category: req.params.subTicket2Category || ticket.category,
+      user: ticket.user,
+      title: req.body.title2, 
+      description: req.body.description2, 
+      category: req.body.category2, 
       priority: ticket.priority,
       deadlineDate: ticket.deadlineDate,
       parentTicket: ticket._id,
-      status: ticket.status,
-      assignedSpecialist: ticket.assignedSpecialist,
+      status: 0
     });
-
+  
     subTicket1.save((err) => {
       if (err) {
         return res.status(400).json({
@@ -534,7 +529,7 @@ let ticket_divide = function (req, res) {
         })
       }
     });
-
+  
     subTicket2.save((err) => {
       if (err) {
         return res.status(400).json({
@@ -544,23 +539,7 @@ let ticket_divide = function (req, res) {
       }
     });
 
-    ticket.status = 'en espera'
-
-    ticket.save((err) => {
-      if (err) {
-        return res.status(400).json({
-          ok: false,
-          err
-        })
-      }
-    });
-
-    res.send({
-      ok: true,
-      ticket: ticket,
-      subTicket1: subTicket1,
-      subTicket2: subTicket2
-    });
+    return res.redirect('/asignados')
   })
 };
 
