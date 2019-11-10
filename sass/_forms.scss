@@ -4,3 +4,9 @@ form {
     opacity: .8;
   }
 }
+
+textarea {
+  max-height: 220px;
+  margin-bottom: 1rem;
+  resize: none;
+}

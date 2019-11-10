@@ -97,6 +97,11 @@ form .range-value {
   display: block;
   opacity: .8; }
 
+textarea {
+  max-height: 220px;
+  margin-bottom: 1rem;
+  resize: none; }
+
 main {
   margin: 56px 0 0; }
   main .container {
