@@ -212,7 +212,9 @@ let ticket_delete_by_id = function (req, res) {
     if (!ticket) {
       return res.redirect('/')
     }
-    return res.redirect('/mistickets')
+    return res.json({
+      ok: true
+    })
   });
 };
 

@@ -103,6 +103,7 @@ function showDetail(el) {
     id = $el.attr('data-id'),
     $ticketDetail = $('#ticket-detail'),
     $id = $ticketDetail.find('#ticketId'),
+    $deleteButton = $('#deleteModal .idButton'),
     $status = $ticketDetail.find('#ticketStatus'),
     $user = $ticketDetail.find('#ticketUser'),
     $category = $ticketDetail.find('#ticketCategory'),
@@ -123,6 +124,7 @@ function showDetail(el) {
 
       $ticketDetail.addClass('active')
       $id.html(ticket._id)
+      $deleteButton.data('id', ticket._id)
       $status.html(getStatus(ticket.status))
       $user.html(ticket.user)
       $category.html(getCategory(ticket.category))
@@ -131,6 +133,19 @@ function showDetail(el) {
       $sector.html(getSector(ticket.category))
       $title.html(ticket.title)
       $description.html(ticket.description)
+    }
+  })
+}
+
+function deleteTicket(button) {
+  var id = $(button).data('id')
+
+  $.ajax({
+    type: 'PUT',
+    url: '/ticket/delete/' + id,
+    success: function () {
+      $('#deleteModal').modal('hide')
+      location.reload()
     }
   })
 }
