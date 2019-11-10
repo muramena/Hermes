@@ -203,6 +203,23 @@ function resolveTicket(button) {
   })
 }
 
+function assignTicket(button) {
+  var id = $(button).data('id'),
+    specialist = $('#assignModal #specialist').val()
+
+  $.ajax({
+    type: 'PUT',
+    url: '/ticket/assign/' + id,
+    data: {
+      specialist: specialist
+    },
+    success: function () {
+      $('#assignModal').modal('hide')
+      location.reload()
+    }
+  })
+}
+
 function divideTicket(button) {
   var id = $(button).data('id'),
     data = $('#formDivide').serializeFormJSON()
