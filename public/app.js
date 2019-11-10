@@ -103,7 +103,6 @@ function showDetail(el) {
     id = $el.attr('data-id'),
     $ticketDetail = $('#ticket-detail'),
     $id = $ticketDetail.find('#ticketId'),
-    $deleteButton = $('#deleteModal .idButton'),
     $status = $ticketDetail.find('#ticketStatus'),
     $user = $ticketDetail.find('#ticketUser'),
     $category = $ticketDetail.find('#ticketCategory'),
@@ -111,7 +110,12 @@ function showDetail(el) {
     $date = $ticketDetail.find('#ticketDate'),
     $sector = $ticketDetail.find('#ticketSector'),
     $title = $ticketDetail.find('#ticketTitle'),
-    $description = $ticketDetail.find('#ticketDescription')
+    $description = $ticketDetail.find('#ticketDescription'),
+    // Botones Modal
+    $deleteButton = $('#deleteModal .idButton'),
+    $cancelButton = $('#cancelModal .idButton'),
+    $resolveButton = $('#resolveModal .idButton'),
+    $divideButton = $('#divideModal .idButton')
 
   $el.siblings('.active').removeClass('active');
   $el.addClass('active');
@@ -121,10 +125,9 @@ function showDetail(el) {
     url: '/ticket/' + id,
     success: function(data) {
       var ticket = data.ticket
-
+      
       $ticketDetail.addClass('active')
       $id.html(ticket._id)
-      $deleteButton.data('id', ticket._id)
       $status.html(getStatus(ticket.status))
       $user.html(ticket.user)
       $category.html(getCategory(ticket.category))
@@ -133,6 +136,12 @@ function showDetail(el) {
       $sector.html(getSector(ticket.category))
       $title.html(ticket.title)
       $description.html(ticket.description)
+
+      // Botones Modal
+      $deleteButton.data('id', ticket._id)
+      $cancelButton.data('id', ticket._id)
+      $resolveButton.data('id', ticket._id)
+      $divideButton.data('id', ticket._id)
     }
   })
 }
@@ -145,6 +154,32 @@ function deleteTicket(button) {
     url: '/ticket/delete/' + id,
     success: function () {
       $('#deleteModal').modal('hide')
+      location.reload()
+    }
+  })
+}
+
+function cancelTicket(button) {
+  var id = $(button).data('id')
+
+  $.ajax({
+    type: 'PUT',
+    url: '/ticket/cancel/' + id,
+    success: function () {
+      $('#cancelModal').modal('hide')
+      location.reload()
+    }
+  })
+}
+
+function resolveTicket(button) {
+  var id = $(button).data('id')
+
+  $.ajax({
+    type: 'PUT',
+    url: '/ticket/resolve/' + id,
+    success: function () {
+      $('#resolveModal').modal('hide')
       location.reload()
     }
   })

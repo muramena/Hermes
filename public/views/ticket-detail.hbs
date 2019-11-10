@@ -39,7 +39,10 @@
           <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
             Eliminar
           </button>
-          <button type="button" class="btn btn-info" data-toggle="modal" data-target="#divideModal">
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cancelModal">
+            Cancelar
+          </button>
+          <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#divideModal">
             Dividir
           </button>
           <button type="button" class="btn btn-success" data-toggle="modal" data-target="#resolveModal">
@@ -55,8 +58,7 @@
 </div>
 
 <!-- Modals -->
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -69,15 +71,34 @@
         <p>Estas seguro que quieres eliminar el ticket?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
         <button type="button" class="btn btn-primary idButton" onclick="deleteTicket(this)">Eliminar</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="resolveModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade" id="cancelModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Cancelar Ticket</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Estas seguro que quieres cancelar el ticket?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-primary idButton" onclick="cancelTicket(this)">Cancelar Ticket</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="resolveModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -90,15 +111,14 @@
         <p>Estas seguro que quieres resolver el ticket?</p>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
         <button type="button" class="btn btn-primary">Resolver</button>
       </div>
     </div>
   </div>
 </div>
 
-<div class="modal fade" id="divideModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
+<div class="modal fade" id="divideModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -110,7 +130,7 @@
       <div class="modal-body">
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
         <button type="button" class="btn btn-primary">Dividir</button>
       </div>
     </div>
