@@ -83,6 +83,15 @@ header {
         margin: 5px 0 20px; }
   .tickets__detail {
     flex: 1; }
+    .tickets__detail .wrapper {
+      display: none;
+      flex-direction: column; }
+      .tickets__detail .wrapper > section {
+        padding: 20px; }
+        .tickets__detail .wrapper > section + section {
+          border-top: 1px solid #737373; }
+    .tickets__detail.active .wrapper {
+      display: flex; }
 
 form .range-value {
   display: block;

@@ -38,13 +38,90 @@ $(function () {
   })
 })
 
+function getPriority(priority) {
+  switch (priority) {
+    case 0:
+      return 'Baja'
+    case 1:
+      return 'Media'
+    case 2:
+      return 'Urgente'
+  }
+}
+
+function getCategory(category) {
+  switch (category) {
+    case 0:
+      return 'Pedido de desarrollo'
+    case 1:
+      return 'Pedido de modificación'
+    case 2:
+      return 'Corrección de error'
+    case 3:
+      return 'Problema con internet'
+    case 4:
+      return 'Problema de red interna'
+    case 5:
+      return 'Problema de servicio'
+    case 6:
+      return 'Ayuda para operar sistema'
+    case 7:
+      return 'Ayuda para operar un hardware'
+  }
+}
+
+function getStatus(status) {
+  switch (status) {
+    case 0:
+      return 'Sin asignar'
+    case 1:
+      return 'Por realizar'
+    case 2:
+      return 'En proceso'
+    case 3:
+      return 'Finalizado'
+    case 4:
+      return 'Cancelado'
+    case 5:
+      return 'En espera'
+  }
+}
+
 function showDetail(el) {
   var $el = $(el),
-    $ticketDetailContainer = $('#ticket-detail'),
-    str = JSON.stringify($el.attr('data-detail')),
-    obj = JSON.parse(str.replace(/[\u0000-\u001F]+/g, ""))
+    id = $el.attr('data-id'),
+    $ticketDetail = $('#ticket-detail'),
+    $id = $ticketDetail.find('#ticketId'),
+    $status = $ticketDetail.find('#ticketStatus'),
+    $user = $ticketDetail.find('#ticketUser'),
+    $category = $ticketDetail.find('#ticketCategory'),
+    $priority = $ticketDetail.find('#ticketPriority'),
+    $date = $ticketDetail.find('#ticketDate'),
+    $sector = $ticketDetail.find('#ticketSector'),
+    $title = $ticketDetail.find('#ticketTitle'),
+    $description = $ticketDetail.find('#ticketDescription')
 
   $el.siblings('.active').removeClass('active');
   $el.addClass('active');
-  $ticketDetailContainer.html(obj)
+
+  $.ajax({
+    type: 'GET',
+    url: '/ticket/' + id,
+    success: function(data) {
+      var ticket = data.ticket
+
+      console.log(data)
+
+      $ticketDetail.addClass('active')
+      $id.html(ticket._id)
+      $status.html(getStatus(ticket.status))
+      $user.html(ticket.user)
+      $category.html(getCategory(ticket.category))
+      $priority.html(getPriority(ticket.priority))
+      $date.html(ticket.date)
+      //$sector
+      $title.html(ticket.title)
+      $description.html(ticket.description)
+    }
+  })
 }

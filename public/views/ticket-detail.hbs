@@ -2,7 +2,7 @@
   {{#if tickets }}
   <ul class="tickets__list">
     {{#each tickets }}
-    <li onclick="showDetail(this)" data-detail="{{ this }}">
+    <li onclick="showDetail(this)" data-id="{{ this._id }}">
       <h1>{{ this.title }}</h1>
       <small>ID: {{ this._id }}</small>
       {{#switch this.status}}
@@ -19,17 +19,23 @@
 
   <div id="ticket-detail" class="tickets__detail">
     <div class="wrapper">
-      <header>
-        <h1 id="ticketId"></h1>
-        <select name="status" id="ticketStatus">
-          <option value="">Sin asignar</option>
-          <option value="">Por realizar</option>
-          <option value="">En proceso</option>
-          <option value="">Finalizado</option>
-          <option value="">Cancelado</option>
-          <option value="">En espera</option>
-        </select>
-      </header>
+      <section>
+        <div>
+          <h1 id="ticketId"></h1>
+          <span id="ticketStatus"></span>
+        </div>
+        <div>
+          <label>Solicitante:</label><span id="ticketUser"></span>
+          <label>Categoria:</label><span id="ticketCategory"></span>
+          <label>Prioridad:</label><span id="ticketPriority"></span>
+          <label>Fecha:</label><span id="ticketDate"></span>
+          <label>Sector:</label><span id="ticketSector"></span>
+        </div>
+      </section>
+      <section>
+        <h1 id="ticketTitle">Titulo Ticket</h1>
+        <textarea name="" id="ticketDescription" cols="30" rows="10"></textarea>
+      </section>
     </div>
   </div>
   {{else}}
