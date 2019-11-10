@@ -12,20 +12,36 @@ const { check, validationResult } = require('express-validator')
  * @param {Object} res - Express response object
  * @return {Object} - Status, ticket.
  */
+
 let ticket_all = function (req, res) {
-  Ticket.find({
-    //Empty to get all documents in collection
-  }).then(function (tickets, err) {
+  if (!req.session.success) {
+    // REDIRECCIONA A LOGIN POR NO ESTAR LOGUEADO
+    res.render(path.resolve(__dirname, '../../public/views/login'), {
+      errors: [{
+        msg: 'Debe estar logueado para ver sus tickets'
+      }]
+    })
+    return req.session.errors = null;
+  }
+
+  Ticket.find({}, (err, ticketsDB) => {
     if (err) {
-      return res.status(400).json({
-        ok: false,
+      // NO CONECTA CON DB
+      req.session.success = false;
+      res.render(path.resolve(__dirname, '../../public/views/login'), {
+        errors: [{
+          msg: '400'
+        }]
       })
+      return req.session.errors = null;
     }
-    res.send({
-      ok: true,
-      tickets: tickets,
-    });
-  });
+    return res.render(path.resolve(__dirname, '../../public/views/seguimiento'), {
+      session: req.session.success,
+      user: req.session.user,
+      title: 'Seguimiento Tickets',
+      tickets: ticketsDB
+    })
+  })
 }
 
 let ticket_my_tickets = function (req, res) {
@@ -53,38 +69,41 @@ let ticket_my_tickets = function (req, res) {
     return res.render(path.resolve(__dirname, '../../public/views/misTickets'), {
       session: req.session.success,
       user: req.session.user,
-      title: 'Mis Ticket',
+      title: 'Mis Tickets',
       tickets: ticketsDB
     })
   })
 }
 
-let ticket_my_assigned_tickets = function(req, res) {
-    if (!req.session.success){
-        // REDIRECCIONA A LOGIN POR NO ESTAR LOGUEADO
-        res.render(path.resolve(__dirname, '../../public/views/login'), {
-            errors: [{
-                msg: 'Debe estar logueado para ver sus tickets'
-            }]
-        })
-        return req.session.errors = null;
-    }
-    
-    Ticket.find({assignedSpecialist: req.session.user.username}, (err, ticketsDB) => {
-        if (err) {
-            // NO CONECTA CON DB
-            req.session.success = false;
-            res.render(path.resolve(__dirname, '../../public/views/login'), {
-                errors: [{
-                    msg: '400'
-                }]
-            })
-            return req.session.errors = null;
-        }
-        return res.render(path.resolve(__dirname, '../../public/views/mytickets'), {
-            tickets: ticketsDB
-        })
+let ticket_my_assigned_tickets = function (req, res) {
+  if (!req.session.success) {
+    // REDIRECCIONA A LOGIN POR NO ESTAR LOGUEADO
+    res.render(path.resolve(__dirname, '../../public/views/login'), {
+      errors: [{
+        msg: 'Debe estar logueado para ver sus tickets'
+      }]
     })
+    return req.session.errors = null;
+  }
+
+  Ticket.find({ assignedSpecialist: req.session.user.username }, (err, ticketsDB) => {
+    if (err) {
+      // NO CONECTA CON DB
+      req.session.success = false;
+      res.render(path.resolve(__dirname, '../../public/views/login'), {
+        errors: [{
+          msg: '400'
+        }]
+      })
+      return req.session.errors = null;
+    }
+    return res.render(path.resolve(__dirname, '../../public/views/asignados'), {
+      session: req.session.success,
+      user: req.session.user,
+      title: 'Mis Tickets Asignados',
+      tickets: ticketsDB
+    })
+  })
 }
 
 /**
