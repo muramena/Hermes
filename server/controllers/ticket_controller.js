@@ -38,8 +38,7 @@ let ticket_all = function (req, res) {
     })
     return req.session.errors = null;
   }
-
-  Ticket.find({}, (err, ticketsDB) => {
+  Specialist.findOne({username: req.session.user.username}, (err, specialist) => {
     if (err) {
       // NO CONECTA CON DB
       req.session.success = false;
@@ -50,15 +49,53 @@ let ticket_all = function (req, res) {
       })
       return req.session.errors = null;
     }
-    let filteredTickets = ticketsDB.filter(e => e.state != false)
+    if (!specialist || specialist.rol === 0) {
+      // NO CONECTA CON DB
+      req.session.success = false;
+      res.render(path.resolve(__dirname, '../../public/views/login'), {
+        session : req.session.succes,
+        errors: [{
+          msg: 'No tiene acceso a esta zona del sitio'
+        }]
+      })
+      return req.session.errors = null;
+    }
+    Ticket.find({state: true}, (err, ticketsDB) => {
+      if (err) {
+        // NO CONECTA CON DB
+        req.session.success = false;
+        res.render(path.resolve(__dirname, '../../public/views/login'), {
+          errors: [{
+            msg: '400'
+          }]
+        })
+        return req.session.errors = null;
+      }  
 
-    return res.render(path.resolve(__dirname, '../../public/views/ticket-detail'), {
-      session: req.session.success,
-      user: req.session.user,
-      title: 'Seguimiento Tickets',
-      tickets: filteredTickets
+      console.log(specialist)
+
+      filteredTickets = ticketsDB.filter(e => e.status != 3 || e.status !=4)
+      if (specialist.rol === 1){
+        if (specialist.sector === 0){
+          filteredTickets = filteredTickets.filter(e => e.category === 0 || e.category === 1 || e.category === 2)
+        }
+        if (specialist.sector === 1){
+          filteredTickets = filteredTickets.filter(e => e.category === 3 || e.category === 4 || e.category === 5)
+        }
+        if (specialist.sector === 2){
+          filteredTickets = filteredTickets.filter(e => e.category === 6 || e.category === 7)
+        }
+      }
+
+      return res.render(path.resolve(__dirname, '../../public/views/ticket-detail'), {
+        session: req.session.success,
+        user: req.session.user,
+        title: 'Seguimiento Tickets',
+        tickets: filteredTickets
+      })
     })
   })
+
 }
 
 let ticket_my_tickets = function (req, res) {
