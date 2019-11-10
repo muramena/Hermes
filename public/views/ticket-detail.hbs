@@ -34,7 +34,7 @@
       </section>
       <section>
         <h1 id="ticketTitle">Titulo Ticket</h1>
-        <textarea name="" id="ticketDescription" cols="30" rows="10"></textarea>
+        <textarea name="description" class="form-control" id="ticketDescription" cols="30" rows="10"></textarea>
         <div>
           <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
             Eliminar
@@ -119,7 +119,7 @@
 </div>
 
 <div class="modal fade" id="divideModal" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">Dividir Ticket</h5>
@@ -128,9 +128,105 @@
         </button>
       </div>
       <div class="modal-body">
+
+        <form action="/ticket" method="post">
+          <div class="row">
+            <div class="col">
+              <h4>Ticket 1</h4>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="title">Titulo</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Titulo">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="description">Descripcion</label>
+                    <textarea type="text" class="form-control" id="description" name="description"
+                      placeholder="Descripcion"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="category">Categoria</label>
+                    <select class="form-control" id="category" name="category">
+                      <option selected disabled hidden>Seleccione Categoria</option>
+                      <option value="0">Desarrollo</option>
+                      <option value="1">Modificacion</option>
+                      <option value="2">Correccion del error</option>
+                      <option value="3">Problema con internet</option>
+                      <option value="4">Problema con red interna</option>
+                      <option value="5">Problema de servicio</option>
+                      <option value="6">Ayuda para operar sistema</option>
+                      <option value="7">Ayuda para operar hardware</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col">
+              <h4>Ticket 2</h4>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="title">Titulo</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Titulo">
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="description">Descripcion</label>
+                    <textarea type="text" class="form-control" id="description" name="description"
+                      placeholder="Descripcion"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row">
+                  <div class="col">
+                    <label for="category">Categoria</label>
+                    <select class="form-control" id="category" name="category">
+                      <option selected disabled hidden>Seleccione Categoria</option>
+                      <option value="0">Desarrollo</option>
+                      <option value="1">Modificacion</option>
+                      <option value="2">Correccion del error</option>
+                      <option value="3">Problema con internet</option>
+                      <option value="4">Problema con red interna</option>
+                      <option value="5">Problema de servicio</option>
+                      <option value="6">Ayuda para operar sistema</option>
+                      <option value="7">Ayuda para operar hardware</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div hidden>
+            <input type="text" name="user" value="{{user.username}}">
+          </div>
+        
+          {{#if errors }}
+          <div class="form-group">
+            {{#each errors }}
+            <div class="alert alert-danger" role="alert">
+              {{ this.msg }}
+            </div>
+            {{/each}}
+          </div>
+          {{/if}}
+        </form>
+
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
         <button type="button" class="btn btn-primary">Dividir</button>
       </div>
     </div>
