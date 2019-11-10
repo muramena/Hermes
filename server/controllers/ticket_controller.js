@@ -87,14 +87,20 @@ let ticket_all = function (req, res) {
         }
       }
 
-      return res.render(path.resolve(__dirname, '../../public/views/ticket-detail'), {
-        session: req.session.success,
-        user: req.session.user,
-        title: 'Seguimiento Tickets',
-        tickets: filteredTickets,
-        active: {
-          seguimiento: true
+      Specialist.find({sector: specialist.rol}, (err, specialists) => {
+        if (err) {
+          return res.redirect('/')
         }
+        return res.render(path.resolve(__dirname, '../../public/views/ticket-detail'), {
+          session: req.session.success,
+          user: req.session.user,
+          title: 'Seguimiento Tickets',
+          tickets: filteredTickets,
+          specialists,
+          active: {
+            seguimiento: true
+          }
+        })
       })
     })
   })

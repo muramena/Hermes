@@ -138,6 +138,21 @@ ticketSchema.method.getStatus = function () {
 
 }
 
+ticketSchema.pre('findOneAndUpdate', async () => {
+
+    console.log('CANCELANDO/ELIMINANDO')
+    if (this._update.state === false){
+        const cascade = await Ticket.updateMany({parentTicket: this._conditions._id}, { $set: { state: false } });
+        console.log('Tickets eliminados: ' + cascade.nModified);
+    } else {
+        if (this._update.status === false){
+            const cascade = await Room.updateMany({parentTicket: this._conditions._id}, { $set: { status: 4 } });
+            console.log('Tickets cancelados: ' + cascade.nModified);
+        }
+    }
+    console.log('FIN')
+});
+
 ticketSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' });
 
 module.exports = mongoose.model('Ticket', ticketSchema);
