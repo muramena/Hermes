@@ -38,6 +38,9 @@
         <div>
           {{#if active.seguimiento}}
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Eliminar</button>
+            {{#ifEquals user.type 1}}
+              <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#asignModal">Asignar</button>
+            {{/ifEquals}}
           {{/if}}
           {{#if active.mistickets}}
             <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#cancelModal">Cancelar</button>
@@ -91,6 +94,33 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
         <button type="button" class="btn btn-primary idButton" onclick="cancelTicket(this)">Cancelar Ticket</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="asignModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Asignar Ticket</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{#if specialists}}
+        <select class="form-control" id="specialist" name="specialist">
+          <option selected disabled hidden>Seleccione Especialista</option>
+          {{#each specialists}}
+            <option value="{{ this._id}}">{{ this.username }}</option>
+          {{/each}}
+        </select>
+        {{/if}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="btn btn-primary idButton">Asignar</button>
       </div>
     </div>
   </div>
