@@ -49,6 +49,17 @@ function getPriority(priority) {
   }
 }
 
+function getSector(category) {
+  switch (category) {
+    case 0: case 1: case 2:
+      return 'Desarrollo'
+    case 3: case 4: case 5:
+      return 'Comunicaciones'
+    case 6: case 7:
+      return 'Soporte'
+  }
+}
+
 function getCategory(category) {
   switch (category) {
     case 0:
@@ -110,8 +121,6 @@ function showDetail(el) {
     success: function(data) {
       var ticket = data.ticket
 
-      console.log(data)
-
       $ticketDetail.addClass('active')
       $id.html(ticket._id)
       $status.html(getStatus(ticket.status))
@@ -119,7 +128,7 @@ function showDetail(el) {
       $category.html(getCategory(ticket.category))
       $priority.html(getPriority(ticket.priority))
       $date.html(ticket.date)
-      //$sector
+      $sector.html(getSector(ticket.category))
       $title.html(ticket.title)
       $description.html(ticket.description)
     }

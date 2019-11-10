@@ -188,11 +188,7 @@ let ticket_create = function (req, res) {
         return req.session.errors = null;
       }
       // TICKET CREADO
-      res.render(path.resolve(__dirname, '../../public/views/index'), {
-        session: req.session.success,
-        user: req.session.user,
-      })
-      return req.session.errors = null;
+      return res.redirect('/mistickets')
     });
   });
 }
