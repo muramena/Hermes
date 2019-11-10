@@ -210,15 +210,9 @@ let ticket_delete_by_id = function (req, res) {
       })
     }
     if (!ticket) {
-      return res.status(400).json({
-        ok: false,
-        message: 'ticket no existe'
-      })
+      return res.redirect('/')
     }
-    res.send({
-      ok: true,
-      ticket: ticket,
-    });
+    return res.redirect('/mistickets')
   });
 };
 
