@@ -5,6 +5,21 @@ const path = require('path')
 const { check, validationResult } = require('express-validator')
 
 /**
+ * ticket_all: Gets all tickets from the DB
+ * ticket_my_tickets
+ * ticket_my_assigned_tickets
+ * ticket_create
+ * ticket_delete_by_id
+ * ticket_details
+ * ticket_update_by_id
+ * ticket_cancel_by_id
+ * ticket_status_inProgress_by_id
+ * ticket_assign_to_specialist
+ * ticket_divide
+ * 
+ */
+
+/**
  * Gets all tickets from the DB.
  * @module ticket
  * @function
@@ -35,12 +50,13 @@ let ticket_all = function (req, res) {
       })
       return req.session.errors = null;
     }
+    let filteredTickets = ticketsDB.filter(e => e.state != false)
 
     return res.render(path.resolve(__dirname, '../../public/views/ticket-detail'), {
       session: req.session.success,
       user: req.session.user,
       title: 'Seguimiento Tickets',
-      tickets: ticketsDB
+      tickets: filteredTickets
     })
   })
 }
@@ -284,11 +300,17 @@ let ticket_cancel_by_id = function (req, res) {
     if (err) {
       return res.status(400).json({
         ok: false,
-        message: 'ticket no existe',
+        message: 'No conecta con DB',
         err
       })
     }
-    if (!(ticket.user === req.body.username)) {
+    if (!ticket) {
+      return res.status(400).json({
+        ok: false,
+        message: 'el ticket no existe'
+      })
+    }
+    if (ticket.user != req.session.user.username){
       return res.status(400).json({
         ok: false,
         message: 'el ticket no fue creado por este usuario'
@@ -309,6 +331,39 @@ let ticket_cancel_by_id = function (req, res) {
     });
   });
 };
+
+/**
+ * Set ticket status to in progress
+ */
+let ticket_setStatus_inProgress_by_id = function (req, res) {
+  Ticket.find({ assignedSpecialist: req.session.user.username, status: 2}, function (err, ticket) {
+    if (err) {
+      return res.status(400).json({
+        ok: false,
+        message: 'No conecta con DB',
+        err
+      })
+    }
+    if (ticket) {
+      return res.status(400).json({
+        ok: false,
+        message: 'usuario ya tiene un ticket en progreso'
+      })
+    }
+    Ticket.findByIdAndUpdate(req.params.id, { status: 2 }, function (err, ticket) {
+      if (err) {
+        return res.status(400).json({
+          ok: false,
+          err
+        })
+      }
+      res.send({
+        ok: true,
+        ticket: ticket,
+      });
+    });
+  });
+}
 
 /**
  * Assign ticket to specialist by ticket id and user username.
