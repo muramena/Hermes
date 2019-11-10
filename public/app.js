@@ -36,6 +36,24 @@ $(function () {
         break
     }
   })
+
+  $.fn.serializeFormJSON = function () {
+    var o = {},
+      a = this.serializeArray()
+
+    $.each(a, function () {
+      if (o[this.name]) {
+        if (!o[this.name].push) {
+          o[this.name] = [o[this.name]]
+        }
+        o[this.name].push(this.value || '')
+      } else {
+        o[this.name] = this.value || ''
+      }
+    })
+
+    return o;
+  }
 })
 
 function getPriority(priority) {
@@ -180,6 +198,21 @@ function resolveTicket(button) {
     url: '/ticket/resolve/' + id,
     success: function () {
       $('#resolveModal').modal('hide')
+      location.reload()
+    }
+  })
+}
+
+function divideTicket(button) {
+  var id = $(button).data('id'),
+    data = $('#formDivide').serializeFormJSON()
+
+  $.ajax({
+    type: 'POST',
+    url: '/ticket/divide/' + id,
+    data: data,
+    success: function () {
+      $('#divideModal').modal('hide')
       location.reload()
     }
   })

@@ -112,7 +112,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-        <button type="button" class="btn btn-primary">Resolver</button>
+        <button type="button" class="btn btn-primary idButton">Resolver</button>
       </div>
     </div>
   </div>
@@ -129,7 +129,7 @@
       </div>
       <div class="modal-body">
 
-        <form action="/ticket" method="post">
+        <form id="formDivide">
           <div class="row">
             <div class="col">
               <h4>Ticket 1</h4>
@@ -137,7 +137,7 @@
                 <div class="row">
                   <div class="col">
                     <label for="title">Titulo</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Titulo">
+                    <input type="text" class="form-control" id="title1" name="title1" placeholder="Titulo">
                   </div>
                 </div>
               </div>
@@ -145,8 +145,7 @@
                 <div class="row">
                   <div class="col">
                     <label for="description">Descripcion</label>
-                    <textarea type="text" class="form-control" id="description" name="description"
-                      placeholder="Descripcion"></textarea>
+                    <textarea type="text" class="form-control" id="description1" name="description1" placeholder="Descripcion"></textarea>
                   </div>
                 </div>
               </div>
@@ -158,7 +157,7 @@
                 <div class="row">
                   <div class="col">
                     <label for="title">Titulo</label>
-                    <input type="text" class="form-control" id="title" name="title" placeholder="Titulo">
+                    <input type="text" class="form-control" id="title2" name="title2" placeholder="Titulo">
                   </div>
                 </div>
               </div>
@@ -166,8 +165,7 @@
                 <div class="row">
                   <div class="col">
                     <label for="description">Descripcion</label>
-                    <textarea type="text" class="form-control" id="description" name="description"
-                      placeholder="Descripcion"></textarea>
+                    <textarea type="text" class="form-control" id="description2" name="description2" placeholder="Descripcion"></textarea>
                   </div>
                 </div>
               </div>
@@ -175,7 +173,7 @@
                 <div class="row">
                   <div class="col">
                     <label for="category">Categoria</label>
-                    <select class="form-control" id="category" name="category">
+                    <select class="form-control" id="category2" name="category2">
                       <option selected disabled hidden>Seleccione Categoria</option>
                       <option value="0">Desarrollo</option>
                       <option value="1">Modificacion</option>
@@ -190,9 +188,6 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div hidden>
-            <input type="text" name="user" value="{{user.username}}">
           </div>
         
           {{#if errors }}
@@ -209,7 +204,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-        <button type="button" class="btn btn-primary">Dividir</button>
+        <button type="button" class="btn btn-primary idButton" onclick="divideTicket(this)">Dividir</button>
       </div>
     </div>
   </div>
