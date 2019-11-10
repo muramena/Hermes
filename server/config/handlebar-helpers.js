@@ -7,5 +7,12 @@ module.exports = {
     if (value == this.switch_value) {
       return options.fn(this);
     }
+  },
+  ifEquals: function(a, b, options) {
+    if (a === b) {
+      return options.fn(this);
+    }
+
+    return options.inverse(this);
   }
 }
