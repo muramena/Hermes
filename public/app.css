@@ -122,6 +122,8 @@ header {
         margin-right: 4px; }
       .tickets .detail__info > div > p > span {
         margin-right: 14px; }
+  .tickets .detail__actions {
+    text-align: right; }
   .tickets .status {
     font-weight: 500;
     text-transform: capitalize; }
@@ -151,3 +153,21 @@ main {
   margin: 56px 0 0; }
   main .container {
     margin-top: calc(56px + 1rem); }
+
+.home {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  align-items: center;
+  flex-direction: column; }
+  .home > h1 {
+    margin: 2rem 0 1rem; }
+  .home p {
+    margin-bottom: 2rem; }
+  .home > img {
+    height: 200px; }
+
+.ticket-create {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center; }

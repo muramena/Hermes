@@ -19,3 +19,29 @@ main {
     margin-top: calc(#{$headerHeight} + 1rem);
   }
 }
+
+.home {
+  min-height: calc(100vh - #{$headerHeight});
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  > h1 {
+    margin: 2rem 0 1rem;
+  }
+
+  p {
+    margin-bottom: 2rem;
+  }
+
+  > img {
+    height: 200px;
+  }
+}
+
+.ticket-create {
+  min-height: calc(100vh - #{$headerHeight});
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

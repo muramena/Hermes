@@ -54,8 +54,8 @@
       </section>
       <section>
         <h1 id="ticketTitle">Titulo Ticket</h1>
-        <p name="description" class="form-control" id="ticketDescription" cols="30" rows="10"></p>
-        <div>
+        <p class="form-control" id="ticketDescription"></p>
+        <div class="detail__actions">
           {{#if active.seguimiento}}
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Eliminar</button>
             {{#ifEquals user.type 1}}

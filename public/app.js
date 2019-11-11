@@ -149,6 +149,7 @@ function showDetail(el) {
     $title = $ticketDetail.find('#ticketTitle'),
     $description = $ticketDetail.find('#ticketDescription'),
     // Botones Modal
+    $actions = $('.detail__actions'),
     $deleteButton = $('#deleteModal .idButton'),
     $cancelButton = $('#cancelModal .idButton'),
     $resolveButton = $('#resolveModal .idButton'),
@@ -196,11 +197,16 @@ function showDetail(el) {
       $description.html(ticket.description)
 
       // Botones Modal
-      $deleteButton.data('id', ticket._id)
-      $cancelButton.data('id', ticket._id)
-      $resolveButton.data('id', ticket._id)
-      $divideButton.data('id', ticket._id)
-      $assignButton.data('id', ticket._id)
+      if (ticket.status === 3 || ticket.status === 4) {
+        $actions.hide()
+      } else {
+        $actions.show()
+        $deleteButton.data('id', ticket._id)
+        $cancelButton.data('id', ticket._id)
+        $resolveButton.data('id', ticket._id)
+        $divideButton.data('id', ticket._id)
+        $assignButton.data('id', ticket._id)
+      }
     }
   })
 }
