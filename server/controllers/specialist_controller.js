@@ -10,18 +10,14 @@ const Sector = require('../models/sectors');
  * @return {Object} - Status, specialist.
  */
 let specialist_all = function (req, res) {
-    Specialist.find({
-        //Empty to get all documents in collection
-    }).then(function (specialist, err) {
+    Specialist.find({state: true, rol: 0}, (err, specialists) => {
         if (err) {
-            return res.status(400).json({
-                ok: false,
-            })
+            return res.redirect('/')
         }
-        res.send({
-            ok: true,
-            specialist: specialist
-        });
+        return res.render(path.resolve(__dirname, '../../public/views/specialists'), {
+            title: 'Especialistas',
+            specialists
+          })
     });
 }
 
