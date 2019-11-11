@@ -95,51 +95,32 @@ let specialist_update_by_id = function (req, res) {
  * @return {Object} - Status, specialists.
  */
 let specialist_assign_to_sector_by_id = function (req, res) {
-    if (!(req.body.user === '1' || req.body.user === '2')) {
-        return res.status(403).json({
+    if (req.body.sector > 2 || req.body.sector < 0){
+        return res.json({
             ok: false,
-            message: 'usuario sin acceso'
+            message: 'Sector no valido'
         })
     }
-    Sector.findOne( { _id: req.body.sector }, function (err, sector) {
-        if (err) {
-            return res.status(400).json({
+    Specialist.findById({username: req.session.user.username}, (err, activeUser) => {
+        if (err || !activeUser || activeUser.rol != 1){
+            return res.json({
                 ok: false,
-                message: 'sector no existe',
-                err
+                message: 'No tiene permisos'
             })
         }
-        Specialist.findOne({ _id: req.params.id}, function (err, specialist) {
-            if (err) {
-                return res.status(400).json({
+        Specialist.findByIdAndUpdate({username: req.body.specialist}, { $set: { sector: req.body.sector }}, (err, upSpecialist) => {
+            if (err || !upSpecialist){
+                return res.json({
                     ok: false,
-                    err
+                    message: "error"
                 })
             }
-            if (!specialist) {
-                return res.status(400).json({
-                    ok: false,
-                    message: 'especialista no existe',
-                    err
-                })
-            }
-
-            specialist.sector = sector._id
-            
-            specialist.save((err) => {
-                if (err) {
-                    return res.status(400).json({
-                        ok: false,
-                        err
-                    })
-                }
-            });
-            res.send({
+            return res.json({
                 ok: true,
-                specialist: specialist,
-            });
-        });   
-    });
+                upSpecialist
+            })
+        })
+    })
 };
 
 module.exports = {

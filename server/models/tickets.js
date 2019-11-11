@@ -52,7 +52,8 @@ let ticketSchema = new Schema({
     },
     priority: {
         type: Number,
-        enum: validPriorities
+        enum: validPriorities,
+        default: undefined
     },
     deadlineDate: {
         type: Date,

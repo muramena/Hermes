@@ -295,9 +295,50 @@ let ticket_delete_by_id = function (req, res) {
       })
     }
     const cascade = await Ticket.updateMany({parentTicket: new ObjectId(req.params.id)}, { state: false})
-    return res.json({
-      ok: true
-    })
+    if (ticket.parentTicket) {
+      Ticket.find({parentTicket: ticket.parentTicket}, (err, otherTicket) => {
+        if (err || !otherTicket){
+          return res.json({
+            ok: true,
+            message: 'No tiene ticket hermano'
+          })
+        }
+        if (otherTicket[0]._id == req.params.id){
+          otherTicket = otherTicket[1]
+        } else {
+          otherTicket = otherTicket[0]
+        }
+        if (otherTicket.status === 3 || otherTicket.status === 4 || otherTicket.state === false){
+          if (otherTicket.state) {
+            var change = {status: otherTicket.status}
+          } else {
+            var change = {state: false}
+          }
+          Ticket.findByIdAndUpdate(ticket.parentTicket, {$set:change}, (err, parent) => {
+            if (err || !parent){
+              return res.json({
+                ok: false,
+                message: 'Error con el padre'
+              })
+            }
+            return res.json({
+              ok: true,
+              message: 'Tambien se actualizo el padre'
+            })
+          })
+        } else {
+          return res.json({
+            ok: true,
+            message: 'El hermano ya estaba resuelto'
+          })
+        }
+      })
+    } else {
+      return res.json({
+        ok: true,
+        message: 'No tenia ticket padre'
+      })
+    }
   });
 };
 
@@ -393,7 +434,6 @@ let ticket_cancel_by_id = async function (req, res) {
       })
     }
     Ticket.findByIdAndUpdate(req.params.id, { $set: { status: 4 } }, async function (err, ticket) {
-      console.log(req.params.id)
       if (err) {
         return res.status(400).json({
           ok: false,
@@ -408,10 +448,50 @@ let ticket_cancel_by_id = async function (req, res) {
       }
       // CANCELA LOS SUBTICKETS
       const cascade = await Ticket.updateMany({parentTicket: new ObjectId(req.params.id)}, { status: 4 })
-      return res.json({
-        ok: true,
-        ticket
-      })
+      if (ticket.parentTicket) {
+        Ticket.find({parentTicket: ticket.parentTicket}, (err, otherTicket) => {
+          if (err || !otherTicket){
+            return res.json({
+              ok: true,
+              message: 'No tiene ticket hermano'
+            })
+          }
+          if (otherTicket[0]._id == req.params.id){
+            otherTicket = otherTicket[1]
+          } else {
+            otherTicket = otherTicket[0]
+          }
+          if (otherTicket.status === 3 || otherTicket.status === 4 || otherTicket.state === false){
+            if (otherTicket.state) {
+              var newStatus = otherTicket.status
+            } else {
+              var newStatus = 4
+            }
+            Ticket.findByIdAndUpdate(ticket.parentTicket, {$set:{status: newStatus}}, (err, parent) => {
+              if (err || !parent){
+                return res.json({
+                  ok: false,
+                  message: 'Error con el padre'
+                })
+              }
+              return res.json({
+                ok: true,
+                message: 'Tambien se actualizo el padre'
+              })
+            })
+          } else {
+            return res.json({
+              ok: true,
+              message: 'El hermano ya estaba resuelto'
+            })
+          }
+        })
+      } else {
+        return res.json({
+          ok: true,
+          message: 'No tenia ticket padre'
+        })
+      }
     });
   });
 };
@@ -556,6 +636,60 @@ let ticket_divide = function (req, res) {
   })
 };
 
+let ticket_resolve = function (req, res) {
+  Ticket.findByIdAndUpdate(req.params.id, { $set: { status: 3 } }, async function (err, ticket) {
+    if (err || !ticket) {
+      return res.json({
+        ok: false,
+        message: 'Error al resolver ticket'
+      })
+    }
+    if (ticket.parentTicket) {
+      Ticket.find({parentTicket: ticket.parentTicket}, (err, otherTicket) => {
+        if (err || !otherTicket){
+          return res.json({
+            ok: true,
+            message: 'No tiene ticket hermano'
+          })
+        }
+        console.log(otherTicket[0]._id)
+        console.log(req.params.id)
+        if (otherTicket[0]._id == req.params.id){
+          otherTicket = otherTicket[1]
+        } else {
+          otherTicket = otherTicket[0]
+        }
+        console.log(otherTicket)
+        if (otherTicket.status === 3 || otherTicket.status === 4 || otherTicket.state === false){
+          Ticket.findByIdAndUpdate(ticket.parentTicket, {$set:{status:3}}, (err, parent) => {
+            if (err || !parent){
+              return res.json({
+                ok: false,
+                message: 'Error con el padre'
+              })
+            }
+            console.log('Actualizando padre')
+            return res.json({
+              ok: true,
+              message: 'Tambien se actualizo el padre'
+            })
+          })
+        } else {
+          return res.json({
+            ok: true,
+            message: 'El hermano ya estaba resuelto'
+          })
+        }
+      })
+    } else {
+      return res.json({
+        ok: true,
+        message: 'No tenia ticket padre'
+      })
+    }
+  })
+}
+
 module.exports = {
   ticket_all: ticket_all,
   ticket_my_tickets: ticket_my_tickets,
@@ -568,4 +702,5 @@ module.exports = {
   ticket_update_by_id: ticket_update_by_id,
   ticket_assign_to_specialist: ticket_assign_to_specialist,
   ticket_cancel_by_id: ticket_cancel_by_id,
+  ticket_resolve: ticket_resolve
 }
