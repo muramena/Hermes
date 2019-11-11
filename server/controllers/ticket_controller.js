@@ -1,6 +1,6 @@
-const Ticket = require('../models/tickets');
-const Specialist = require('../models/specialists');
-const User = require('../models/users');
+const Ticket = require('../models/tickets')
+const Specialist = require('../models/specialists')
+const User = require('../models/users')
 const path = require('path')
 const { check, validationResult } = require('express-validator')
 

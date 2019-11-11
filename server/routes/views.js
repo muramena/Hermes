@@ -1,6 +1,7 @@
 const express = require('express')
 const path = require('path')
 const ticket_controller = require('../controllers/ticket_controller')
+const specialist_controller = require('../controllers/specialist_controller')
 
 var router = express.Router()
 
@@ -93,5 +94,11 @@ router.get('/asignados', ticket_controller.ticket_my_assigned_tickets)
  */
 
 router.get('/seguimiento', ticket_controller.ticket_all)
+
+/**
+ * GESTION DE ESPECIALISTAS
+ */
+
+router.get('/especialistas', specialist_controller.specialist_all)
 
 module.exports = router;
