@@ -52,6 +52,23 @@ header {
     margin-top: 1rem;
     padding: 1rem 0; }
 
+.specialists {
+  padding: 1rem; }
+  .specialists__list {
+    list-style: none;
+    margin: 0;
+    padding: 0; }
+  .specialists__item {
+    display: flex;
+    align-items: center;
+    padding: 1rem; }
+    .specialists__item + li {
+      border-top: 1px solid #737373; }
+    .specialists__item span {
+      width: 150px; }
+    .specialists__item select {
+      margin: 0 2rem; }
+
 .tickets {
   display: flex; }
   .tickets__list {

@@ -47,6 +47,6 @@ app.put('/specialist/update/:id', specialist_controller.specialist_update_by_id)
  * @param {Object} id - req.params.id specialist id
  * @return {Object} - Status, specialists.
  */
-app.put('/specialist/updatesector/:id', specialist_controller.specialist_assign_to_sector_by_id);
+app.put('/specialist/updatesector', specialist_controller.specialist_assign_to_sector_by_id);
 
 module.exports = app;

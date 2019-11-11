@@ -2,11 +2,22 @@ $(function () {
   var $switchPrioDate = $('input[type=radio][name=switchPrioDate]'),
     $switchPrio = $('#switch-prio'),
     $switchDate = $('#switch-date'),
-    $rangePrio = $('#range-prio')
+    $rangePrio = $('#range-prio'),
+    $sectorSelector = $('.sectorSelector')
 
   if (!!$switchDate) {
     $switchDate.hide()
   }
+
+  $sectorSelector.change(function () {
+    var $button = $(this).siblings('button')
+
+    if (this.value != $(this).data('value')) {
+      $button.prop('disabled', false);
+    } else {
+      $button.prop('disabled', true);
+    }
+  })
 
   $switchPrioDate.change(function () {
     switch (this.value) {
@@ -277,6 +288,22 @@ function divideTicket(button) {
     data: data,
     success: function () {
       $('#divideModal').modal('hide')
+      location.reload()
+    }
+  })
+}
+
+function actualizaSector(button) {
+  var data = {
+    sector: $(button).siblings('select').val(),
+    specialist: $(button).data('username')
+  }
+
+  $.ajax({
+    type: 'PUT',
+    url: '/specialist/updatesector',
+    data: data,
+    success: function () {
       location.reload()
     }
   })

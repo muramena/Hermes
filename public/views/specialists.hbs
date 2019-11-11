@@ -2,7 +2,15 @@
   {{#if specialists }}
   <ul class="specialists__list">
     {{#each specialists }}
-    <li></li>
+    <li class="specialists__item">
+      <span>{{ this.username }}</span>
+      <select name="sector" class="sectorSelector" data-value="{{ this.sector }}">
+        <option value="0" {{#ifEquals this.sector 0}}selected{{/ifEquals}}>Desarrollo</option>
+        <option value="1" {{#ifEquals this.sector 1}}selected{{/ifEquals}}>Comunicaciones</option>
+        <option value="2" {{#ifEquals this.sector 2}}selected{{/ifEquals}}>Soporte</option>
+      </select>
+      <button type="button" class="btn btn-sm btn-primary" onclick="actualizaSector(this)" data-username="{{ this.username }}" disabled>Actualizar</button>
+    </li>
     {{/each}}
   </ul>
   {{/if}}
