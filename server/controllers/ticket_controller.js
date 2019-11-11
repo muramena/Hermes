@@ -4,6 +4,8 @@ const User = require('../models/users');
 const path = require('path')
 const { check, validationResult } = require('express-validator')
 
+var ObjectId = require('mongoose').Types.ObjectId; 
+
 /**
  * ticket_all: Gets all tickets from the DB
  * ticket_my_tickets
@@ -280,7 +282,7 @@ let ticket_delete_by_id = function (req, res) {
     })
     return req.session.errors = null;
   }
-  Ticket.findByIdAndUpdate(req.params.id, { $set: { state: false } }, function (err, ticket) {
+  Ticket.findByIdAndUpdate(req.params.id, { $set: { state: false } }, async function (err, ticket) {
     if (err) {
       return res.status(400).json({
         ok: false,
@@ -292,6 +294,7 @@ let ticket_delete_by_id = function (req, res) {
         ok: false
       })
     }
+    const cascade = await Ticket.updateMany({parentTicket: new ObjectId(req.params.id)}, { state: false})
     return res.json({
       ok: true
     })
@@ -359,7 +362,7 @@ let ticket_update_by_id = function (req, res) {
  * @param {Object} req.body
  * @return {Object} - Status, ticket.
  */
-let ticket_cancel_by_id = function (req, res) {
+let ticket_cancel_by_id = async function (req, res) {
   if (!req.session.success) {
     // REDIRECCIONA A LOGIN POR NO ESTAR LOGUEADO
     res.render(path.resolve(__dirname, '../../public/views/login'), {
@@ -389,7 +392,8 @@ let ticket_cancel_by_id = function (req, res) {
         message: 'el ticket no fue creado por este usuario'
       })
     }
-    Ticket.findByIdAndUpdate(req.params.id, { $set: { status: 4 } }, function (err, ticket) {
+    Ticket.findByIdAndUpdate(req.params.id, { $set: { status: 4 } }, async function (err, ticket) {
+      console.log(req.params.id)
       if (err) {
         return res.status(400).json({
           ok: false,
@@ -402,6 +406,8 @@ let ticket_cancel_by_id = function (req, res) {
           message: 'El ticket no existe'
         })
       }
+      // CANCELA LOS SUBTICKETS
+      const cascade = await Ticket.updateMany({parentTicket: new ObjectId(req.params.id)}, { status: 4 })
       return res.json({
         ok: true,
         ticket
@@ -454,7 +460,7 @@ let ticket_setStatus_inProgress_by_id = function (req, res) {
  * @return {Object} - Status, ticket.
  */
 let ticket_assign_to_specialist = function (req, res) {
-  Specialist.findOne({ username: req.body.username }, (err, specialist) => {
+  Specialist.findOne({ username: req.body.specialist }, (err, specialist) => {
     if (err || !specialist) {
       return res.status(400).json({
         ok: false,
@@ -462,11 +468,11 @@ let ticket_assign_to_specialist = function (req, res) {
         err
       })
     }
-    Ticket.findByIdAndUpdate(req.params.id, { $set: { assignedSpecialist: req.body.username } }, (err, ticket) => {
+    Ticket.findByIdAndUpdate(req.params.id, { $set: { assignedSpecialist: req.body.specialist, status: 1 } }, (err, ticket) => {
       if (err || !ticket) {
         return res.status(400).json({
           ok: false,
-          message: 'ticket no existe',
+          message: 'Error',
           err
         })
       }

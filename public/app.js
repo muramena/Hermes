@@ -133,7 +133,8 @@ function showDetail(el) {
     $deleteButton = $('#deleteModal .idButton'),
     $cancelButton = $('#cancelModal .idButton'),
     $resolveButton = $('#resolveModal .idButton'),
-    $divideButton = $('#divideModal .idButton')
+    $divideButton = $('#divideModal .idButton'),
+    $assignButton = $('#assignModal .idButton')
 
   $el.siblings('.active').removeClass('active');
   $el.addClass('active');
@@ -160,6 +161,7 @@ function showDetail(el) {
       $cancelButton.data('id', ticket._id)
       $resolveButton.data('id', ticket._id)
       $divideButton.data('id', ticket._id)
+      $assignButton.data('id', ticket._id)
     }
   })
 }

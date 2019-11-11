@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
+var ObjectId = require('mongoose').Types.ObjectId; 
 
 const validCategories = {
     values: [0, 1, 2, 3, 4, 5, 6, 7],
@@ -138,22 +139,26 @@ ticketSchema.method.getStatus = function () {
 
 }
 
-ticketSchema.pre('findOneAndUpdate', async function() {
+/* ticketSchema.pre('findOneAndUpdate', async function() {
 
     console.log('CANCELANDO/ELIMINANDO')
-    if (this._update.state === false){
+    if (this._update.$set.state === false){
         console.log('1')
-        const cascade = await Ticket.updateMany({parentTicket: this._conditions._id}, { $set: { state: false } });
-        console.log('Tickets eliminados: ' + cascade.nModified);
+        const cascade = await this.updateMany({parentTicket: this._conditions._id}, { $set: { state: false } });
+        console.log(res);
     } else {
-        if (this._update.status === 4){
+        if (this._update.$set.status === 4){
             console.log('2')
-            const cascade = await Room.updateMany({parentTicket: this._conditions._id}, { $set: { status: 4 } });
-            console.log('Tickets cancelados: ' + cascade.nModified);
+            console.log(this._conditions._id)
+            const res = await this.updateMany({parentTicket: new ObjectId(this._conditions._id)}, { status: 4 } )
+            console.log(res)
+            console.log(res.n)
+            console.log(res.nModified)
         }
     }
     console.log('FIN')
-});
+    return
+}); */
 
 ticketSchema.plugin(uniqueValidator, { message: '{PATH} debe de ser único' });
 
