@@ -141,6 +141,7 @@ function showDetail(el) {
     $id = $ticketDetail.find('#ticketId'),
     $status = $ticketDetail.find('#ticketStatus'),
     $user = $ticketDetail.find('#ticketUser'),
+    $specialist = $ticketDetail.find('#ticketAssignedSpecialist'),
     $category = $ticketDetail.find('#ticketCategory'),
     $priority = $ticketDetail.find('#ticketPriority'),
     $date = $ticketDetail.find('#ticketDate'),
@@ -164,12 +165,12 @@ function showDetail(el) {
       var ticket = data.ticket
       
       $ticketDetail.addClass('active')
+      // header
       $id.html(ticket._id)
       $status.html(getStatus(ticket.status).text)
       $status.attr('class', getStatus(ticket.status).class + ' status');
-      $user.children('span').html(ticket.user)
+      // details
       $category.children('span').html(getCategory(ticket.category))
-
       if (typeof ticket.priority !== 'undefined') {
         $date.hide();
         $priority.children('span').html(getPriority(ticket.priority))
@@ -177,13 +178,20 @@ function showDetail(el) {
       }
       if (!!ticket.deadlineDate) {
         var formattedDate = new Date(ticket.deadlineDate).toISOString().slice(0, 10);
-
+        
         $priority.hide();
         $date.children('span').html(formattedDate)
         $date.show();
       }
-
+      if (!!ticket.assignedSpecialist) {
+        $specialist.find('span').html(ticket.assignedSpecialist)
+        $specialist.show();
+      } else {
+        $specialist.hide();
+      }
       $sector.children('span').html(getSector(ticket.category))
+      $user.children('span').html(ticket.user)
+      // description
       $title.html(ticket.title)
       $description.html(ticket.description)
 

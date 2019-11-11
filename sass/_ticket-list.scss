@@ -12,7 +12,7 @@
     padding: 0;
     overflow-y: auto;
 
-    > li {
+    > .ticket {
       min-height: 150px;
       display: flex;
       flex-direction: column;
@@ -28,6 +28,11 @@
 
       &.active {
         background: $light;
+        pointer-events: none;
+      }
+
+      &.sub {
+        border-left: 20px solid $gray;
       }
 
       > h1 {
@@ -35,23 +40,23 @@
         text-transform: uppercase;
         margin: 0;
       }
-
-      > span {
-        margin-top: auto;
-      }
-
+      
       .ids {
         display: flex;
         flex-direction: column;
         text-transform: uppercase;
-
+        
         > span {
           font-size: 15px;
         }
-
+        
         > small {
           font-size: 12px;
         }
+      }
+
+      .stat {
+        margin-top: auto;
       }
     }
   }
@@ -115,6 +120,9 @@
   }
 
   .status {
+    font-weight: 500;
+    text-transform: capitalize;
+
     &.sin-asignar {
       color: #A675CD;
     }

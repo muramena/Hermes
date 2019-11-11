@@ -2,7 +2,7 @@
   {{#if tickets }}
   <ul class="tickets__list">
     {{#each tickets }}
-    <li onclick="showDetail(this)" data-id="{{ this._id }}">
+    <li onclick="showDetail(this)" data-id="{{ this._id }}" class="ticket{{#if this.parentTicket}} sub{{/if}}">
       <h1>{{ this.title }}</h1>
       <div class="ids">
         <span>[{{ this._id }}]</span>
@@ -10,14 +10,19 @@
           <small>Padre: {{ this.parentTicket }}</small>
         {{/if}}
       </div>
-      {{#switch this.status}}
-        {{#case '0'}}<span class="status sin-asignar">Sin asignar</span>{{/case}}
-        {{#case '1'}}<span class="status por-realizar">Por realizar</span>{{/case}}
-        {{#case '2'}}<span class="status en-proceso">En proceso</span>{{/case}}
-        {{#case '3'}}<span class="status finalizado">Finalizado</span>{{/case}}
-        {{#case '4'}}<span class="status cancelado">Cancelado</span>{{/case}}
-        {{#case '5'}}<span class="status en-espera">En espera</span>{{/case}}
-      {{/switch}}
+      <div class="stat">
+        {{#switch this.status}}
+          {{#case '0'}}<span class="status sin-asignar">Sin asignar</span>{{/case}}
+          {{#case '1'}}<span class="status por-realizar">Por realizar</span>{{/case}}
+          {{#case '2'}}<span class="status en-proceso">En proceso</span>{{/case}}
+          {{#case '3'}}<span class="status finalizado">Finalizado</span>{{/case}}
+          {{#case '4'}}<span class="status cancelado">Cancelado</span>{{/case}}
+          {{#case '5'}}<span class="status en-espera">En espera</span>{{/case}}
+        {{/switch}}
+        {{#if this.assignedSpecialist}}
+          <span>({{this.assignedSpecialist}})</span>
+        {{/if}}
+      </div>
     </li>
     {{/each}}
   </ul>
@@ -42,11 +47,14 @@
           <div>
             <p id="ticketUser"><label>Solicitante:</label><span></span></p>
           </div>
+          <div>
+            <p id="ticketAssignedSpecialist"><label>Responsable:</label><b><span></span></b></p>
+          </div>
         </div>
       </section>
       <section>
         <h1 id="ticketTitle">Titulo Ticket</h1>
-        <textarea name="description" class="form-control" id="ticketDescription" cols="30" rows="10"></textarea>
+        <p name="description" class="form-control" id="ticketDescription" cols="30" rows="10"></p>
         <div>
           {{#if active.seguimiento}}
             <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">Eliminar</button>
