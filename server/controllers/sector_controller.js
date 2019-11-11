@@ -3,6 +3,7 @@ const express = require('express');
 const Sector = require('../models/sectors');
 const Specialist = require('../models/specialists');
 const Ticket = require('../models/tickets');
+const path = require('path')
 
 let app = express();
 
@@ -85,11 +86,23 @@ let sector_update_by_id = function (req, res) {
     }); 
 };
 
-/** IMPLEMENTAR */
 let factorCarga = function (req, res) {
+    if (!req.session.success || req.session.user.type != 2) {
+        res.render(path.resolve(__dirname, '../../public/views/login'), {
+            errors: [{
+              msg: 'Debe estar logeado como Jefe de Area para entrar a los reportes'
+            }]
+        })
+        return req.session.errors = null;
+    }
     Ticket.find({state: true, status: 1}, (err, ticketsActivos) => {
         if (err) {
-            res.render('/')
+            res.render(path.resolve(__dirname, '../../public/views/login'), {
+                errors: [{
+                  msg: 'Error al conectar con Base de Datos'
+                }]
+            })
+            return req.session.errors = null;
         }
         Specialist.find({state: true, rol: 0}, (err, specialistsDB) => {
             var specialistsDesarrollo = specialistsDB.filter(e => e.sector === 0).length
@@ -100,20 +113,29 @@ let factorCarga = function (req, res) {
             var ticketsComunicaciones = ticketsActivos.filter(e => e.category > 2 && e.category < 6).length
             var ticketsSoporte = ticketsActivos.filter(e => e.category > 5).length
 
-            console.log('specialistsDesarrollo:' + specialistsDesarrollo)
-            console.log('specialistsComunicaciones:' + specialistsComunicaciones)
-            console.log('specialistsSoporte:' + specialistsSoporte)
-            console.log('ticketsDesarrollo:' + ticketsDesarrollo)
-            console.log('ticketsComunicaciones:' + ticketsComunicaciones)
-            console.log('ticketsSoporte:' + ticketsSoporte)
-            return res.json({
-                specialistsDesarrollo,
-                specialistsComunicaciones,
-                specialistsSoporte,
-                ticketsDesarrollo,
-                ticketsComunicaciones,
-                ticketsSoporte
-            })
+            return res.render(path.resolve(__dirname, '../../public/views/reports'), {
+                session: req.session.success,
+                user: req.session.user,
+                title: 'Reportes',
+                desarrollo: {
+                    specialists: specialistsDesarrollo,
+                    tickets: ticketsDesarrollo,
+                    factor: Math.round(ticketsDesarrollo/specialistsDesarrollo * 100) / 100
+                },
+                soporte: {
+                    specialists: specialistsSoporte,
+                    tickets: ticketsSoporte,
+                    factor: Math.round(ticketsSoporte/specialistsSoporte * 100) / 100
+                },
+                comunicaciones: {
+                    specialists: specialistsComunicaciones,
+                    tickets: ticketsComunicaciones,
+                    factor: Math.round(ticketsComunicaciones/specialistsComunicaciones * 100) / 100
+                },
+                active: {
+                  reportes: true
+                }
+              })
         }) 
     })
 }
