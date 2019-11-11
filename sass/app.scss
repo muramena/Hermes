@@ -18,13 +18,27 @@ main {
 
   .container {
     margin-top: calc(#{$headerHeight} + 1rem);
+    
+    &.login,
+    &.home {
+      margin-top: -2rem;
+    }
   }
+}
+
+.login {
+  min-height: calc(100vh - #{$headerHeight});
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: $headerHeight;
 }
 
 .home {
   min-height: calc(100vh - #{$headerHeight});
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column;
 
   > h1 {

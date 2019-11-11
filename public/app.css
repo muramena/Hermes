@@ -170,11 +170,21 @@ main {
   margin: 56px 0 0; }
   main .container {
     margin-top: calc(56px + 1rem); }
+    main .container.login, main .container.home {
+      margin-top: -2rem; }
+
+.login {
+  min-height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 56px; }
 
 .home {
   min-height: calc(100vh - 56px);
   display: flex;
   align-items: center;
+  justify-content: center;
   flex-direction: column; }
   .home > h1 {
     margin: 2rem 0 1rem; }
