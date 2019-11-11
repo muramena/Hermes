@@ -102,6 +102,10 @@ router.get('/seguimiento', ticket_controller.ticket_all)
 
 router.get('/especialistas', specialist_controller.specialist_all)
 
+/**
+ * GESTION DE ESPECIALISTAS
+ */
+
 router.get('/reportes', sector_controller.factorCarga)
 
 module.exports = router;
