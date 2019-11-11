@@ -13,8 +13,10 @@
     overflow-y: auto;
 
     > li {
+      min-height: 150px;
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
       background: $grayLight;
       border-bottom: 1px solid $gray;
       padding: .5rem;
@@ -29,16 +31,28 @@
       }
 
       > h1 {
-        font-size: 18px;
+        font-size: 19px;
         text-transform: uppercase;
         margin: 0;
       }
 
-      > small {
-        margin: 5px 0 20px;
+      > span {
+        margin-top: auto;
       }
 
-      > span {}
+      .ids {
+        display: flex;
+        flex-direction: column;
+        text-transform: uppercase;
+
+        > span {
+          font-size: 15px;
+        }
+
+        > small {
+          font-size: 12px;
+        }
+      }
     }
   }
   
@@ -62,6 +76,67 @@
       .wrapper {
         display: flex;
       }
+    }
+  }
+
+  .detail {
+    &__header {
+      h1 {
+        display: inline-block;
+        font-size: 26px;
+        line-height: 28px;
+        text-transform: uppercase;
+        margin-right: 2px;
+      }
+
+      span {
+        line-height: 28px;
+        margin-left: 10px;
+      }
+    }
+
+    &__info {
+      > div {
+        display: flex;
+
+        > p {
+          margin: 0 10px 0 0;
+
+          > label {
+            margin-right: 4px;
+          }
+          
+          > span {
+            margin-right: 14px;
+          }
+        }
+      }
+    }
+  }
+
+  .status {
+    &.sin-asignar {
+      color: #A675CD;
+    }
+
+    &.por-realizar {
+      color: #D9A404;
+    }
+
+    &.en-proceso {
+      color: #448FF2;
+    }
+
+    &.finalizado {
+      color: #1BBF91;
+    }
+
+    &.cancelado {
+      color: #FF2D00;
+    }
+
+    &.en-espera {
+      color: #dd6000;
     }
   }
 }

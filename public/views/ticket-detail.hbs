@@ -4,14 +4,19 @@
     {{#each tickets }}
     <li onclick="showDetail(this)" data-id="{{ this._id }}">
       <h1>{{ this.title }}</h1>
-      <small>ID: {{ this._id }}</small>
+      <div class="ids">
+        <span>[{{ this._id }}]</span>
+        {{#if this.parentTicket}}
+          <small>Padre: {{ this.parentTicket }}</small>
+        {{/if}}
+      </div>
       {{#switch this.status}}
-        {{#case '0'}}<span class="">Sin asignar</span>{{/case}}
-        {{#case '1'}}<span class="">Por realizar</span>{{/case}}
-        {{#case '2'}}<span class="">En proceso</span>{{/case}}
-        {{#case '3'}}<span class="">Finalizado</span>{{/case}}
-        {{#case '4'}}<span class="">Cancelado</span>{{/case}}
-        {{#case '5'}}<span class="">En espera</span>{{/case}}
+        {{#case '0'}}<span class="status sin-asignar">Sin asignar</span>{{/case}}
+        {{#case '1'}}<span class="status por-realizar">Por realizar</span>{{/case}}
+        {{#case '2'}}<span class="status en-proceso">En proceso</span>{{/case}}
+        {{#case '3'}}<span class="status finalizado">Finalizado</span>{{/case}}
+        {{#case '4'}}<span class="status cancelado">Cancelado</span>{{/case}}
+        {{#case '5'}}<span class="status en-espera">En espera</span>{{/case}}
       {{/switch}}
     </li>
     {{/each}}
@@ -20,16 +25,23 @@
   <div id="ticket-detail" class="tickets__detail">
     <div class="wrapper">
       <section>
-        <div>
+        <div class="detail__header">
+          <h1>ID:</h1>
           <h1 id="ticketId"></h1>
-          <span id="ticketStatus"></span>
+          <span id="ticketStatus" class="status"></span>
         </div>
-        <div>
-          <label>Solicitante:</label><span id="ticketUser"></span>
-          <label>Categoria:</label><span id="ticketCategory"></span>
-          <label>Prioridad:</label><span id="ticketPriority"></span>
-          <label>Fecha:</label><span id="ticketDate"></span>
-          <label>Sector:</label><span id="ticketSector"></span>
+        <div class="detail__info">
+          <div>
+            <p id="ticketCategory"><label>Categoria:</label><span></span></p>
+            <p id="ticketPriority"><label>Prioridad:</label><span></span></p>
+            <p id="ticketDate"><label>Fecha:</label><span></span></p>
+            {{#ifEquals user.type 2}}
+              <p id="ticketSector"><label>Sector:</label><span></span></p>
+            {{/ifEquals}}
+          </div>
+          <div>
+            <p id="ticketUser"><label>Solicitante:</label><span></span></p>
+          </div>
         </div>
       </section>
       <section>

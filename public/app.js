@@ -102,17 +102,35 @@ function getCategory(category) {
 function getStatus(status) {
   switch (status) {
     case 0:
-      return 'Sin asignar'
+      return {
+        text: 'Sin Asignar',
+        class: 'sin-asignar'
+      }
     case 1:
-      return 'Por realizar'
+      return {
+        text: 'Por Realizar',
+        class: 'por-realizar'
+      }
     case 2:
-      return 'En proceso'
+      return {
+        text: 'En Proceso',
+        class: 'en-proceso'
+      }
     case 3:
-      return 'Finalizado'
+      return {
+        text: 'Finalizado',
+        class: 'finalizado'
+      }
     case 4:
-      return 'Cancelado'
+      return {
+        text: 'Cancelado',
+        class: 'cancelado'
+      }
     case 5:
-      return 'En espera'
+      return {
+        text: 'En Espera',
+        class: 'en-espera'
+      }
   }
 }
 
@@ -147,12 +165,25 @@ function showDetail(el) {
       
       $ticketDetail.addClass('active')
       $id.html(ticket._id)
-      $status.html(getStatus(ticket.status))
-      $user.html(ticket.user)
-      $category.html(getCategory(ticket.category))
-      $priority.html(getPriority(ticket.priority))
-      $date.html(ticket.date)
-      $sector.html(getSector(ticket.category))
+      $status.html(getStatus(ticket.status).text)
+      $status.attr('class', getStatus(ticket.status).class + ' status');
+      $user.children('span').html(ticket.user)
+      $category.children('span').html(getCategory(ticket.category))
+
+      if (typeof ticket.priority !== 'undefined') {
+        $date.hide();
+        $priority.children('span').html(getPriority(ticket.priority))
+        $priority.show();
+      }
+      if (!!ticket.deadlineDate) {
+        var formattedDate = new Date(ticket.deadlineDate).toISOString().slice(0, 10);
+
+        $priority.hide();
+        $date.children('span').html(formattedDate)
+        $date.show();
+      }
+
+      $sector.children('span').html(getSector(ticket.category))
       $title.html(ticket.title)
       $description.html(ticket.description)
 

@@ -65,8 +65,10 @@ header {
     padding: 0;
     overflow-y: auto; }
     .tickets__list > li {
+      min-height: 150px;
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
       background: #D4D4D4;
       border-bottom: 1px solid #737373;
       padding: .5rem;
@@ -76,11 +78,19 @@ header {
       .tickets__list > li.active {
         background: #F2F2F2; }
       .tickets__list > li > h1 {
-        font-size: 18px;
+        font-size: 19px;
         text-transform: uppercase;
         margin: 0; }
-      .tickets__list > li > small {
-        margin: 5px 0 20px; }
+      .tickets__list > li > span {
+        margin-top: auto; }
+      .tickets__list > li .ids {
+        display: flex;
+        flex-direction: column;
+        text-transform: uppercase; }
+        .tickets__list > li .ids > span {
+          font-size: 15px; }
+        .tickets__list > li .ids > small {
+          font-size: 12px; }
   .tickets__detail {
     flex: 1; }
     .tickets__detail .wrapper {
@@ -92,6 +102,35 @@ header {
           border-top: 1px solid #737373; }
     .tickets__detail.active .wrapper {
       display: flex; }
+  .tickets .detail__header h1 {
+    display: inline-block;
+    font-size: 26px;
+    line-height: 28px;
+    text-transform: uppercase;
+    margin-right: 2px; }
+  .tickets .detail__header span {
+    line-height: 28px;
+    margin-left: 10px; }
+  .tickets .detail__info > div {
+    display: flex; }
+    .tickets .detail__info > div > p {
+      margin: 0 10px 0 0; }
+      .tickets .detail__info > div > p > label {
+        margin-right: 4px; }
+      .tickets .detail__info > div > p > span {
+        margin-right: 14px; }
+  .tickets .status.sin-asignar {
+    color: #A675CD; }
+  .tickets .status.por-realizar {
+    color: #D9A404; }
+  .tickets .status.en-proceso {
+    color: #448FF2; }
+  .tickets .status.finalizado {
+    color: #1BBF91; }
+  .tickets .status.cancelado {
+    color: #FF2D00; }
+  .tickets .status.en-espera {
+    color: #dd6000; }
 
 form .range-value {
   display: block;
