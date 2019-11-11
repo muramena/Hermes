@@ -159,6 +159,7 @@ function showDetail(el) {
     $sector = $ticketDetail.find('#ticketSector'),
     $title = $ticketDetail.find('#ticketTitle'),
     $description = $ticketDetail.find('#ticketDescription'),
+    $divideTicketButton = $('#divideTicketButton'),
     // Botones Modal
     $actions = $('.detail__actions'),
     $deleteButton = $('#deleteModal .idButton'),
@@ -206,6 +207,13 @@ function showDetail(el) {
       // description
       $title.html(ticket.title)
       $description.html(ticket.description)
+
+      // Dividir Ticket
+      if (ticket.status === 5 || !!ticket.parentTicket) {
+        $divideTicketButton.hide()
+      } else {
+        $divideTicketButton.show()
+      }
 
       // Botones Modal
       if (ticket.status === 3 || ticket.status === 4) {
