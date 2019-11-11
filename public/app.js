@@ -3,7 +3,9 @@ $(function () {
     $switchPrio = $('#switch-prio'),
     $switchDate = $('#switch-date'),
     $rangePrio = $('#range-prio'),
-    $sectorSelector = $('.sectorSelector')
+    $sectorSelector = $('.sectorSelector'),
+    now = new Date,
+    minDate = now.toISOString().substring(0, 10)
 
   if (!!$switchDate) {
     $switchDate.hide()
@@ -26,6 +28,7 @@ $(function () {
         $switchPrio.show()
         break
       case 'date':
+        $('#deadline').prop('min', minDate);
         $switchPrio.hide()
         $switchDate.show()
         break
