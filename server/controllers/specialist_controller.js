@@ -1,6 +1,7 @@
 const Specialist = require('../models/specialists')
 const Sector = require('../models/sectors')
 const path = require('path')
+const Ticket = require('../models/tickets')
 
 /**
  * Gets all specialist from the DB.
@@ -11,6 +12,15 @@ const path = require('path')
  * @return {Object} - Status, specialist.
  */
 let specialist_all = function (req, res) {
+  if (!req.session.success) {
+    // REDIRECCIONA A LOGIN POR NO ESTAR LOGUEADO
+    res.render(path.resolve(__dirname, '../../public/views/login'), {
+      errors: [{
+        msg: 'Debe estar logueado para asignar especialistas'
+      }]
+    })
+    return req.session.errors = null;
+  }
   Specialist.find({ state: true, rol: 0 }, (err, specialists) => {
     if (err) {
       return res.redirect('/')
@@ -97,20 +107,32 @@ let specialist_update_by_id = function (req, res) {
  * @return {Object} - Status, specialists.
  */
 let specialist_assign_to_sector_by_id = function (req, res) {
-  if (req.body.sector > 2 || req.body.sector < 0) {
+  if (!req.session.success) {
+    // REDIRECCIONA A LOGIN POR NO ESTAR LOGUEADO
+    res.render(path.resolve(__dirname, '../../public/views/login'), {
+      errors: [{
+        msg: 'Debe estar logueado para asignar especialistas'
+      }]
+    })
+    return req.session.errors = null;
+  }
+  let reqSector = req.body.sector
+  let reqSpecialist = req.body.specialist
+  if (reqSector > 2 || reqSector < 0) {
     return res.json({
       ok: false,
       message: 'Sector no valido'
     })
   }
-  Specialist.findById({ username: req.session.user.username }, (err, activeUser) => {
+  Specialist.find({ username: req.session.user.username }, (err, activeUser) => {
+    activeUser = activeUser[0]
     if (err || !activeUser || activeUser.rol != 2) {
       return res.json({
         ok: false,
         message: 'No tiene permisos'
       })
     }
-    Specialist.findByIdAndUpdate({ username: req.body.specialist }, { $set: { sector: req.body.sector } }, (err, upSpecialist) => {
+    Specialist.findOneAndUpdate({ username: reqSpecialist }, { $set: { sector: reqSector } }, async function(err, upSpecialist) {
       if (err || !upSpecialist) {
         return res.json({
           ok: false,
@@ -118,6 +140,9 @@ let specialist_assign_to_sector_by_id = function (req, res) {
         })
       }
       // desasignar tickets
+      console.log(upSpecialist.username)
+      const ticketsDesAsignados = await Ticket.updateMany({assignedSpecialist: upSpecialist.username, status: {$in: [0,1,2,5]}, state: true}, {$set:{assignedSpecialist: undefined, status:0}})
+      console.log('Terminando')
       return res.json({
         ok: true,
         upSpecialist

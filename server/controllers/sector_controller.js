@@ -87,21 +87,34 @@ let sector_update_by_id = function (req, res) {
 
 /** IMPLEMENTAR */
 let factorCarga = function (req, res) {
-    //todos los especialistas del sector
-    Specialist.find({ sector: req.params.id }, (err, specialists) => {
+    Ticket.find({state: true, status: 1}, (err, ticketsActivos) => {
         if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
-            })
+            res.render('/')
         }
-    }).then((spec, err) => {
-        if (err) {
-            return res.status(400).json({
-                ok: false,
-                err
+        Specialist.find({state: true, rol: 0}, (err, specialistsDB) => {
+            var specialistsDesarrollo = specialistsDB.filter(e => e.sector === 0).length
+            var specialistsComunicaciones = specialistsDB.filter(e => e.sector === 1).length
+            var specialistsSoporte = specialistsDB.filter(e => e.sector === 2).length
+
+            var ticketsDesarrollo = ticketsActivos.filter(e => e.category < 3).length
+            var ticketsComunicaciones = ticketsActivos.filter(e => e.category > 2 && e.category < 6).length
+            var ticketsSoporte = ticketsActivos.filter(e => e.category > 5).length
+
+            console.log('specialistsDesarrollo:' + specialistsDesarrollo)
+            console.log('specialistsComunicaciones:' + specialistsComunicaciones)
+            console.log('specialistsSoporte:' + specialistsSoporte)
+            console.log('ticketsDesarrollo:' + ticketsDesarrollo)
+            console.log('ticketsComunicaciones:' + ticketsComunicaciones)
+            console.log('ticketsSoporte:' + ticketsSoporte)
+            return res.json({
+                specialistsDesarrollo,
+                specialistsComunicaciones,
+                specialistsSoporte,
+                ticketsDesarrollo,
+                ticketsComunicaciones,
+                ticketsSoporte
             })
-        }
+        }) 
     })
 }
 

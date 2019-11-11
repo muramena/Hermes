@@ -2,6 +2,7 @@ const express = require('express')
 const path = require('path')
 const ticket_controller = require('../controllers/ticket_controller')
 const specialist_controller = require('../controllers/specialist_controller')
+const sector_controller = require('../controllers/sector_controller')
 
 var router = express.Router()
 
@@ -100,5 +101,7 @@ router.get('/seguimiento', ticket_controller.ticket_all)
  */
 
 router.get('/especialistas', specialist_controller.specialist_all)
+
+router.get('/reportes', sector_controller.factorCarga)
 
 module.exports = router;
