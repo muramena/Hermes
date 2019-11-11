@@ -159,8 +159,9 @@ function showDetail(el) {
     $sector = $ticketDetail.find('#ticketSector'),
     $title = $ticketDetail.find('#ticketTitle'),
     $description = $ticketDetail.find('#ticketDescription'),
+    // Botones
     $divideTicketButton = $('#divideTicketButton'),
-    // Botones Modal
+    $resolveTicketButton = $('#resolveTicketButton'),
     $actions = $('.detail__actions'),
     $deleteButton = $('#deleteModal .idButton'),
     $cancelButton = $('#cancelModal .idButton'),
@@ -213,6 +214,12 @@ function showDetail(el) {
         $divideTicketButton.hide()
       } else {
         $divideTicketButton.show()
+      }
+
+      if (ticket.status === 5) {
+        $resolveTicketButton.hide()
+      } else {
+        $resolveTicketButton.show()
       }
 
       // Botones Modal
