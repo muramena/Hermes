@@ -102,7 +102,7 @@ let specialist_assign_to_sector_by_id = function (req, res) {
         })
     }
     Specialist.findById({username: req.session.user.username}, (err, activeUser) => {
-        if (err || !activeUser || activeUser.rol != 1){
+        if (err || !activeUser || activeUser.rol != 2){
             return res.json({
                 ok: false,
                 message: 'No tiene permisos'
@@ -115,6 +115,7 @@ let specialist_assign_to_sector_by_id = function (req, res) {
                     message: "error"
                 })
             }
+            // desasignar tickets
             return res.json({
                 ok: true,
                 upSpecialist

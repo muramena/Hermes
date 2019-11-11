@@ -155,7 +155,7 @@ let ticket_my_assigned_tickets = function (req, res) {
     return req.session.errors = null;
   }
 
-  Ticket.find({ assignedSpecialist: req.session.user.username }, (err, ticketsDB) => {
+  Ticket.find({ assignedSpecialist: req.session.user.username, state: true }, (err, ticketsDB) => {
     if (err) {
       // NO CONECTA CON DB
       req.session.success = false;
@@ -578,6 +578,12 @@ let ticket_assign_to_specialist = function (req, res) {
  * @return {Object} - Status, ticket.
  */
 let ticket_divide = function (req, res) {
+  if (!req.params.id || !req.body.title1 || !req.body.title2 || !req.body.description1 || !req.body.description2 || !req.body.category2) {
+    return res.json({
+      ok: false,
+      message: 'Campos incompletos'
+    })
+  }
   Ticket.findByIdAndUpdate(req.params.id, { $set: { status: 5 } }, function (err, ticket) {
     if (err) {
       return res.status(400).json({
