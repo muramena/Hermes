@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/muramena/Hermes-Backend#readme",
   "dependencies": {
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "express": "^4.17.1",
     "express-handlebars": "^3.1.0",
     "express-session": "^1.17.0",
